@@ -5,6 +5,15 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 @import './styles/material-theme';
 
+//The names of the following classes should be included on theme.model.ts
 .dark {
+  @include angular-material-theme($dark-theme);
+}
+
+.default {
+  @include angular-material-theme($dark-theme);
+}
+
+.mandaditos{
   @include angular-material-theme($dark-theme);
 }

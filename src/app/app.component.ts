@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { ThemeService } from './core/theme.service';
 import { Observable } from 'rxjs';
+import { ThemeModel } from './core/models/theme.model';
 
 @Component({
   selector: 'app-root',
@@ -10,7 +11,7 @@ import { Observable } from 'rxjs';
 export class AppComponent {
   title = 'meraki-delivery-app';
 
-  isDarkTheme$: Observable<boolean>;
+  isDarkTheme$: Observable<ThemeModel>;
 
   constructor(private themeService: ThemeService){}
 
