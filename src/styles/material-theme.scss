@@ -40,4 +40,6 @@ $dark-primary: mat-palette($mat-deep-purple);
 $dark-accent:  mat-palette($mat-green, A200, A100, A400);
 $dark-theme: mat-dark-theme($dark-primary, $dark-accent, $warn);
 
-@include angular-material-theme($mandaditos-theme);
+//@include angular-material-theme($mandaditos-theme);
+$primary: $mandaditos-primary;
+$accent: $mandaditos-accent

@@ -17,14 +17,11 @@ import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatSliderModule} from '@angular/material/slider';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import {MatCardModule} from '@angular/material/card';
-
-
-//Prueba
-import { 
-  MatButtonModule, 
-} from '@angular/material/button';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatSelectModule} from '@angular/material/select';
+import { MatButtonModule } from '@angular/material/button';
   
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 @NgModule({
   declarations: [
     AppComponent
@@ -36,12 +33,15 @@ import { FormsModule } from '@angular/forms';
     AngularFirestoreModule,
     AngularFireAuthModule, 
     AngularFireStorageModule,
+    FormsModule,
+    ReactiveFormsModule,
     MatSliderModule,
     MatToolbarModule,
     MatButtonModule,
     MatSlideToggleModule,
     MatCardModule,
-    FormsModule
+    MatFormFieldModule,
+    MatSelectModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
