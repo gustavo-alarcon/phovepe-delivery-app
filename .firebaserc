@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "meraki-delivery-app": {
+      "hosting": {
+        "meraki-delivery-app": [
+          "meraki-delivery-app"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "meraki-delivery-app"
+  }
+}

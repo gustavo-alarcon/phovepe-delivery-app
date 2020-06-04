@@ -1,0 +1,43 @@
+// Import library functions for theme creation.
+@import '~@angular/material/theming';
+
+// Include non-theme styles for core.
+@include mat-core();
+
+//Mandaditos palette
+$mandaditos-palette: (
+  50: #2ec4b6,      //primary
+  100: #6ff7e8,     //lighter
+  200: #009386,     //darker
+  300:#ffa01c,
+  400:#ffd154,
+  500:#c67100,
+  
+  contrast: (
+    50: white,
+    100: white,
+    200: white,
+    300:white,
+    400:white,
+    500:white,
+  )
+);
+
+//Default theme
+$primary: mat-palette($mat-indigo);
+$accent: mat-palette($mat-pink, A200, A100, A400);
+$warn: mat-palette($mat-red);
+$theme: mat-light-theme($primary, $accent, $warn);
+
+//Mandaditos theme
+$mandaditos-primary: mat-palette($mandaditos-palette, 50, 100, 200);
+$mandaditos-accent: mat-palette($mandaditos-palette, 300, 400, 500);
+$mandaditos-theme: mat-light-theme($mandaditos-primary, $mandaditos-accent, $warn);
+
+//Custom Theme////////////////////////////////
+// Define the application's dark theme
+$dark-primary: mat-palette($mat-deep-purple);
+$dark-accent:  mat-palette($mat-green, A200, A100, A400);
+$dark-theme: mat-dark-theme($dark-primary, $dark-accent, $warn);
+
+@include angular-material-theme($mandaditos-theme);
