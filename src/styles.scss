@@ -3,9 +3,25 @@
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
-@import './styles/material-theme';
-
-
-
-
-
+//@import './styles/material-theme';
+@import './styles/mandaditosThemes';
+@import './styles/mandaditosAccentThemes';
+@import './styles/warnThemes';
+@import './styles/pinkThemes';
+@import './styles/purpleThemes';
+@import './styles/deepPurpleThemes';
+@import './styles/indigoThemes';
+@import './styles/blueThemes';
+@import './styles/lightBlueThemes';
+@import './styles/cyanThemes';
+@import './styles/tealThemes';
+@import './styles/greenThemes';
+@import './styles/lightGreenThemes';
+@import './styles/limeThemes';
+@import './styles/yellowThemes';
+@import './styles/amberThemes';
+@import './styles/orangeThemes';
+@import './styles/deepOrangeThemes';
+@import './styles/brownThemes';
+@import './styles/greyThemes';
+@import './styles/blueGreyThemes';
