@@ -13,7 +13,7 @@ import { tap, startWith, map } from 'rxjs/operators'
 export class AppComponent {
   title = 'meraki-delivery-app';
 
-  theme$: Observable<string[]>;
+  theme$: Observable<string>;
 
   themeModelSelect = Object.keys(ThemeModelSelect);
 
@@ -27,21 +27,22 @@ export class AppComponent {
 
   ngOnInit(){
     this.themeFormGroup = this.fb.group({
-      primary: [ThemeModelSelect.mandaditos],
-      accent: [ThemeModelSelect.mandaditos]
+      primary: [ThemeModelSelect.mandaditosPalette],
+      accent: [ThemeModelSelect.mandaditosAccentPalette]
     })
 
     this.themeFormGroup$ = combineLatest(
-      this.themeFormGroup.get('primary').valueChanges.pipe(startWith('mandaditos')),
-      this.themeFormGroup.get('accent').valueChanges.pipe(startWith('mandaditos'))
+      this.themeFormGroup.get('primary').valueChanges.pipe(startWith(this.themeFormGroup.get('primary').value)),
+      this.themeFormGroup.get('accent').valueChanges.pipe(startWith(this.themeFormGroup.get('accent').value))
     ).pipe(
       tap((res: [ThemeModel, ThemeModel]) => {
         this.themeService.setTheme(res)
       })
     )
-    this.theme$ = this.themeService.theme$.pipe(tap(res => {
-      console.log([res[0]+'-primary', res[1]+'-accent']);
-      return [res[0], res[1]+'-accent']
+
+    this.theme$ = this.themeService.theme$.pipe(map(res => {
+      console.log(res[0]+'-'+res[1]);
+      return res[0]+'-'+res[1]
     }));
   }
 

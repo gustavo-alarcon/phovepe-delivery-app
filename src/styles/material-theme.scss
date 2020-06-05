@@ -23,23 +23,39 @@ $mandaditos-palette: (
   )
 );
 
-//Default theme
-$default-primary: mat-palette($mat-indigo);
-$default-accent: mat-palette($mat-pink, A200, A100, A400);
-$warn: mat-palette($mat-red);
-$default-theme: mat-light-theme($default-primary, $default-accent, $warn);
+//The keys of the following classes should be included on theme.model.ts
+//Defining palettes
+$colors: (
+  deepPurplePalette: mat-palette($mat-deep-purple),
+  warnPalette: mat-palette($mat-red),
+  pinkPalette: mat-palette($mat-pink),
+  purplePalette: mat-palette($mat-purple),
+  indigoPalette: mat-palette($mat-indigo),
+  bluePalette: mat-palette($mat-blue),
+  lightPalette-blue: mat-palette($mat-light-blue),
+  cyanPalette: mat-palette($mat-cyan),
+  tealPalette: mat-palette($mat-teal),
+  greenPalette: mat-palette($mat-green),
+  lightGreenPalette: mat-palette($mat-light-green),
+  limePalette: mat-palette($mat-lime),
+  yellowPalette: mat-palette($mat-yellow),
+  amberPalette: mat-palette($mat-amber),
+  orangePalette: mat-palette($mat-orange),
+  deepOrangePalette: mat-palette($mat-deep-orange),
+  mandaditosPalette: mat-palette($mandaditos-palette, 50, 100, 200),
+  mandaditosAccentPalette: mat-palette($mandaditos-palette, 300, 400, 500),
+);
 
-//Mandaditos theme
-$mandaditos-primary: mat-palette($mandaditos-palette, 50, 100, 200);
-$mandaditos-accent: mat-palette($mandaditos-palette, 300, 400, 500);
-$mandaditos-theme: mat-light-theme($mandaditos-primary, $mandaditos-accent, $warn);
+@mixin theme($primary, $accent) {
+  $theme: mat-light-theme($primary, $accent, mat-palette($mat-red));
+  @include angular-material-theme($theme)
+}
 
-//Custom Theme////////////////////////////////
-// Define the application's dark theme
-$dark-primary: mat-palette($mat-deep-purple);
-$dark-accent:  mat-palette($mat-green, A200, A100, A400);
-$dark-theme: mat-dark-theme($dark-primary, $dark-accent, $warn);
 
-//@include angular-material-theme($mandaditos-theme);
-$primary: $mandaditos-primary;
-$accent: $mandaditos-accent
+@each $namePrimary, $valPrimary in $colors {
+  @each $nameAccent, $valAccent in $colors {
+    .#{$namePrimary}-#{$nameAccent} {
+      @include theme($valPrimary, $valAccent)
+    }
+  }
+}

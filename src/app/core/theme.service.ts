@@ -6,7 +6,7 @@ import { ThemeModel } from './models/theme.model';
   providedIn: 'root'
 })
 export class ThemeService {
-  private themeSubject = new BehaviorSubject<[ThemeModel, ThemeModel]>(['mandaditos', 'mandaditos'])
+  private themeSubject = new BehaviorSubject<[ThemeModel, ThemeModel]>(['mandaditosPalette', 'mandaditosAccentPalette'])
   theme$ = this.themeSubject.asObservable()
 
   setTheme(themeGroup: [ThemeModel, ThemeModel]): void{
