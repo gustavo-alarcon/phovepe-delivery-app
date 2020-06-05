@@ -1,10 +1,10 @@
 export type ThemeModel = keyof typeof ThemeModelSelect
 
 export const ThemeModelSelect = {
-  deepPurplePalette: 'deepPurplePalette',
   warnPalette: 'warnPalette',
   pinkPalette: 'pinkPalette',
   purplePalette: 'purplePalette',
+  deepPurplePalette: 'deepPurplePalette',
   indigoPalette: 'indigoPalette',
   bluePalette: 'bluePalette',
   lightBluePalette: 'lightBluePalette',
@@ -17,6 +17,9 @@ export const ThemeModelSelect = {
   amberPalette: 'amberPalette',
   orangePalette: 'orangePalette',
   deepOrangePalette: 'deepOrangePalette',
+  brownPalette: 'brownPalette',
+  greyPalette: 'greyPalette',
+  blueGreyPalette: 'blueGreyPalette',
   mandaditosPalette: 'mandaditosPalette',
   mandaditosAccentPalette: 'mandaditosAccentPalette',
 }

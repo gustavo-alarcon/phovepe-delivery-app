@@ -44,6 +44,11 @@ export class AppComponent {
       console.log(res[0]+'-'+res[1]);
       return res[0]+'-'+res[1]
     }));
+
+    for (var i=0; i<document.styleSheets.length; i++) {
+      var sheet = document.styleSheets[i];
+      console.log(sheet)
+    }
   }
 
 }
