@@ -67,8 +67,8 @@ $colors: (
 // }
 @each $nameAccent, $valAccent in $colors {
   //@debug "#{$namePrimary}-#{$nameAccent}\a";
-  @debug map.get($colors, indigoPalette);
-  .indigoPalette-#{$nameAccent} {
-    @include theme(map.get($colors, indigoPalette), $valAccent)
+  @debug map.get($colors, deepPurplePalette);
+  .deepPurplePalette-#{$nameAccent} {
+    @include theme(map.get($colors, deepPurplePalette), $valAccent)
   }
 }

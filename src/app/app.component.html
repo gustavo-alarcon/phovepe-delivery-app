@@ -1,4 +1,7 @@
-<div *ngIf="theme$ |async as theme" class="mat-app-background" [ngClass]="theme">
+<div *ngIf="theme$ |async as theme" 
+  class="mat-app-background" 
+  [ngClass]="theme" #bigDaddyContainer>
+  
   <div>
     <mat-toolbar color="primary">
         <div id="navbar-brand" >
