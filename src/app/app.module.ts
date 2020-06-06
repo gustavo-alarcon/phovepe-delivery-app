@@ -20,8 +20,16 @@ import {MatCardModule} from '@angular/material/card';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatSelectModule} from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
+import {MatInputModule} from '@angular/material/input';
+
   
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+
+//module
+import {MaterialCssVarsModule} from 'angular-material-css-vars';
+import { ColorPickerModule } from 'ngx-color-picker';
+
+
 @NgModule({
   declarations: [
     AppComponent
@@ -42,6 +50,15 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     MatCardModule,
     MatFormFieldModule,
     MatSelectModule,
+    MatInputModule,
+    ColorPickerModule,
+    MaterialCssVarsModule.forRoot({
+      // all optional
+      isAutoContrast: true,
+      darkThemeClass: 'isDarkTheme',
+      lightThemeClass: 'isLightTheme',
+      // ...
+    }),
   ],
   providers: [],
   bootstrap: [AppComponent]

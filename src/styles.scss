@@ -3,6 +3,19 @@
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
+@import '~angular-material-css-vars/main';
+ 
+// optional 
+$mat-css-dark-theme-selector: '.isDarkTheme';
+$mat-css-light-theme-selector: '.isLightTheme';
+ 
+// init theme 
+@include init-material-css-vars();
+
+@include mat-css-set-palette-defaults($mat-light-blue, 'primary');
+@include mat-css-set-palette-defaults($mat-pink, 'accent');
+@include mat-css-set-palette-defaults($mat-red, 'warn');
+
 //@import '@angular/material/theming';
 //@include mat-core();
 

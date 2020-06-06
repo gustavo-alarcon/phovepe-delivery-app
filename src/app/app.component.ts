@@ -2,10 +2,10 @@ import { Component, Renderer2, ViewChild, ElementRef } from '@angular/core';
 import { ThemeService } from './core/theme.service';
 import { Observable, combineLatest } from 'rxjs';
 import { ThemeModel, ThemeModelSelect } from './core/models/theme.model';
-import { FormControl, FormGroup, FormBuilder } from '@angular/forms';
+import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { tap, startWith, map, pairwise } from 'rxjs/operators'
-import { DomSanitizer } from '@angular/platform-browser';
-
+import {MaterialCssVarsService} from 'angular-material-css-vars';
+ 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -28,7 +28,13 @@ export class AppComponent {
     private themeService: ThemeService,
     private fb: FormBuilder,
     private renderer: Renderer2,
-    ){}
+    public materialCssVarsService: MaterialCssVarsService
+    ){
+      const hex = 'green';
+      this.materialCssVarsService.setDarkTheme(false);
+      this.materialCssVarsService.setPrimaryColor(hex);
+      this.materialCssVarsService.setAccentColor('red');
+    }
 
   cssUrl: string;
 
@@ -36,7 +42,9 @@ export class AppComponent {
 
     this.themeFormGroup = this.fb.group({
       primary: [ThemeModelSelect.mandaditosPalette],
-      accent: [ThemeModelSelect.mandaditosAccentPalette]
+      accent: [ThemeModelSelect.mandaditosAccentPalette],
+      primaryCode: [""],
+      accentCode: [""]
     })
 
     this.themeFormGroup$ = combineLatest(
@@ -55,4 +63,14 @@ export class AppComponent {
     }));
   }
 
+  onSubmit(){
+    this.materialCssVarsService.setPrimaryColor(
+      this.themeFormGroup.get('primaryCode').value
+    );
+    this.materialCssVarsService.setAccentColor(
+      this.themeFormGroup.get('accentCode').value
+    );
+  }
+  
 }
+
