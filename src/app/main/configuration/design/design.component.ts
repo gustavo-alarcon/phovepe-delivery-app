@@ -1,11 +1,13 @@
-import { take, switchMap, takeLast, tap } from 'rxjs/operators';
-import { Observable, BehaviorSubject, of, concat } from 'rxjs';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { SeoService } from './../../../core/seo.service';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { take, switchMap, takeLast, tap, map } from 'rxjs/operators';
+import { Observable, BehaviorSubject, of, concat, combineLatest } from 'rxjs';
 import { AngularFireStorage } from '@angular/fire/storage';
 import { AngularFirestore, DocumentReference } from '@angular/fire/firestore';
 import { Ng2ImgMaxService } from 'ng2-img-max';
 import { DatabaseService } from './../../../core/database.service';
 import { Component, OnInit } from '@angular/core';
-import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-design',
@@ -13,7 +15,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   styleUrls: ['./design.component.css']
 })
 export class DesignComponent implements OnInit {
-  noImage = '../../../../assets/images/no-image.png';
+  noImage = '../../../assets/images/no-image.png';
   logo: any = null
   logomovil: any = null
   default: any = null
@@ -22,33 +24,42 @@ export class DesignComponent implements OnInit {
   loading$ = this.loading.asObservable()
 
   init$: Observable<any>
+  editForm$: Observable<boolean>
+
+  pageForm: FormGroup
 
   photos: {
     resizing$: {
       logoURL: Observable<boolean>,
       logomovilURL: Observable<boolean>,
-      defaultURL: Observable<boolean>
+      defaultURL: Observable<boolean>,
+      photoURL: Observable<boolean>
     },
     data: {
       logoURL: File,
       logomovilURL: File,
       defaultURL: File,
+      photoURL: File
     }
   } = {
       resizing$: {
         logoURL: new BehaviorSubject<boolean>(false),
         logomovilURL: new BehaviorSubject<boolean>(false),
         defaultURL: new BehaviorSubject<boolean>(false),
+        photoURL: new BehaviorSubject<boolean>(false)
       },
       data: {
         logoURL: null,
         logomovilURL: null,
-        defaultURL: null
+        defaultURL: null,
+        photoURL: null
       }
     }
 
   constructor(
+    private fb: FormBuilder,
     private dbs: DatabaseService,
+    private seo: SeoService,
     private snackBar: MatSnackBar,
     private ng2ImgMax: Ng2ImgMaxService,
     private afs: AngularFirestore,
@@ -56,12 +67,39 @@ export class DesignComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+
+    this.pageForm = this.fb.group({
+      title: [null, Validators.required],
+      description: [null, Validators.required],
+      url: [null, Validators.required],
+      photoURL: [null, Validators.required]
+    })
+
     this.init$ = this.dbs.getConfi().pipe(
       tap(res => {
         this.loading.next(5)
         this.logo = res['logoURL'] ? res['logoURL'] : null
         this.logomovil = res['logomovilURL'] ? res['logomovilURL'] : null
         this.default = res['defaultURL']
+        if (res['meta']) {
+          this.pageForm.setValue(res['meta'])
+        }
+      })
+    )
+
+    this.editForm$ = combineLatest(
+      this.pageForm.valueChanges,
+      this.init$
+    ).pipe(
+      map(([form, values]) => {
+        let change = []
+        for (let i in form) {
+          change.push(form[i] === values['meta'][i])
+        }
+        console.log(!change.reduce((a, b) => a && b, true));
+
+        return change.reduce((a, b) => a && b, true)
+
       })
     )
   }
@@ -122,6 +160,9 @@ export class DesignComponent implements OnInit {
             case 'defaultURL':
               this.default = reader.result
               break;
+            case 'photoURL':
+              this.pageForm.get('photoURL').setValue(reader.result)
+              break;
             default:
               break;
           }
@@ -158,5 +199,42 @@ export class DesignComponent implements OnInit {
         this.loading.next(5)
       })
     })
+  }
+
+  saveMeta(name, inx) {
+
+    this.loading.next(inx)
+    this.pageForm.markAsPending()
+    let data: object = this.pageForm.value
+    let batch = this.afs.firestore.batch();
+    let ref: DocumentReference = this.afs.firestore.collection(`/db`).doc('mandaditos');
+    this.seo.updateDescription(this.pageForm.get('description').value)
+    this.seo.updateTitle(this.pageForm.get('title').value)
+    this.seo.updateOgTitle(this.pageForm.get('title').value)
+    this.seo.updateOgUrl(this.pageForm.get('url').value)
+    if (this.photos.data[name]) {
+      this.uploadPhoto(name, this.photos.data[name]).pipe(
+        takeLast(1),
+      ).subscribe((res: string) => {
+        data[name] = res
+        batch.update(ref, {
+          meta: data
+        });
+
+        batch.commit().then(() => {
+          this.loading.next(5)
+        })
+      })
+    } else {
+      batch.update(ref, {
+        meta: data
+      });
+
+      batch.commit().then(() => {
+        this.loading.next(5)
+      })
+    }
+
+
   }
 }
