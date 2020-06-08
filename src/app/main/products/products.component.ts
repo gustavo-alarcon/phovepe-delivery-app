@@ -139,7 +139,7 @@ export class ProductsComponent implements OnInit {
       this.route.fragment
     ).pipe(
       map(([categories, promo, ofers, products, image, route]) => {
-        this.defaultImage = image
+        this.defaultImage = image?image:null
 
         this.onlycategories = [...categories.filter(el => el.subCategories.length == 1 && el.subCategories[0].toLowerCase() == el.category.toLowerCase()).map(el => {
           return { name: el.category, type: 'all', products: el.subCategories, category: el.category, value: el.category }

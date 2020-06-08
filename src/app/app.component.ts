@@ -1,8 +1,7 @@
-import { Component, Renderer2, ViewChild, ElementRef } from '@angular/core';
-import { Observable, combineLatest } from 'rxjs';
-import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { tap, startWith, map, pairwise } from 'rxjs/operators'
-import { MaterialCssVarsService } from 'angular-material-css-vars';
+import { DatabaseService } from 'src/app/core/database.service';
+import { Component, Inject } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
+
  
 @Component({
   selector: 'app-root',
@@ -12,12 +11,12 @@ import { MaterialCssVarsService } from 'angular-material-css-vars';
 export class AppComponent {
 
   title = 'meraki-delivery-app';
-
-  constructor()
-  { }
-
-
-  ngOnInit(){
+  constructor(
+    @Inject(DOCUMENT) private _document: HTMLDocument,
+    private dbs: DatabaseService,
+  ) {
+    this.dbs.document = this._document
+    
 
   }
 

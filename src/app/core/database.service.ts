@@ -17,19 +17,19 @@ import { Banner } from './models/banners.model';
   providedIn: 'root'
 })
 export class DatabaseService {
-  public document:any = null
+  public document: any = null
   public darkTheme = {
     'primary-color': '#455363',
     'secundary-color': '#1f2935',
     'third-color': '#2d2d2d',
-    'forth-color':'#fff'
+    'forth-color': '#fff'
   };
-  
+
   public lightTheme = {
     'primary-color': '#2EC4B6',
     'secundary-color': '#FF9F1C',
     'third-color': '#CBF3F0',
-    'forth-color':'#FFBF69'
+    'forth-color': '#FFBF69'
   };
 
   public order: {
@@ -37,8 +37,8 @@ export class DatabaseService {
     quantity: number
   }[] = []
 
-  public logoURL: string
-  public logomovilURL: string
+  public logoURL: string = ''
+  public logomovilURL: string = ''
   public defaultImage$: Observable<any>
 
   constructor(
@@ -46,7 +46,6 @@ export class DatabaseService {
     private storage: AngularFireStorage,
     private auth: AuthService
   ) {
-    this.getDefault()
   }
 
   toggleDark() {
@@ -697,9 +696,13 @@ export class DatabaseService {
     return this.afs.collection(`/db`).doc('mandaditos').valueChanges().pipe(
       shareReplay(1),
       tap(res => {
-        this.document.getElementById('appFavicon').setAttribute('href', res.logoURL)
-        this.logoURL = res['logoURL'] ? res['logoURL'] : null
-        this.logomovilURL = res['logomovilURL'] ? res['logomovilURL'] : null
+        if (res['logoURL']) {
+          this.document.getElementById('appFavicon').setAttribute('href', res.logoURL)
+          this.logoURL = res['logoURL'] ? res['logoURL'] : null
+          this.logomovilURL = res['logomovilURL'] ? res['logomovilURL'] : null
+        }
+
+
       })
     );
   }
@@ -708,7 +711,7 @@ export class DatabaseService {
 
     this.defaultImage$ = this.afs.collection(`/db`).doc('mandaditos').valueChanges().pipe(
       shareReplay(1),
-      map(res => res['defaultURL'])
+      map(res => res['defaultURL']?res['defaultURL']:null)
     );
     return this.defaultImage$
   }

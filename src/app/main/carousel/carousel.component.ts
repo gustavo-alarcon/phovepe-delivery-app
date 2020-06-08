@@ -36,7 +36,7 @@ export class CarouselComponent implements OnInit {
       this.dbs.defaultImage$
     ).pipe(
       map(([items, image]) => {
-        this.defaultImage = image
+        this.defaultImage = image?image:null
         return items.sort((a, b) => a['position'] - b['position'])
       }),
       tap(res => {
