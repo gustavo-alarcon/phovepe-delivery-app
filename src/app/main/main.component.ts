@@ -2,15 +2,17 @@ import { ContactDialogComponent } from './contact-dialog/contact-dialog.componen
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../core/auth.service';
-import { Observable, of } from 'rxjs';
+import { Observable, of, combineLatest } from 'rxjs';
 import { User } from '../core/models/user.model';
-import { switchMap, shareReplay, tap } from 'rxjs/operators';
+import { switchMap, shareReplay, tap, startWith } from 'rxjs/operators';
 import { DatabaseService } from '../core/database.service';
 import { RateDialogComponent } from './rate-dialog/rate-dialog.component';
 import { Sale } from '../core/models/sale.model';
 import { LoginDialogComponent } from './login-dialog/login-dialog.component';
 import * as AOS from 'aos';
 import { MatDialog } from '@angular/material/dialog';
+import { defaultThemes, Theme } from '../core/models/theme.model';
+import { FormGroup, FormBuilder } from '@angular/forms';
 
 
 @Component({
@@ -26,13 +28,18 @@ export class MainComponent implements OnInit {
   logo: string
   defaultImage = '../../../../assets/images/no-image.png'
 
-  
+  themeFormGroup: FormGroup;
+  themeFormGroup$: Observable<any>
+
+  defaultThemes = new defaultThemes()
+  themesSelection: Theme[] = [];
 
   constructor(
     public router: Router,
     public auth: AuthService,
     public dbs: DatabaseService,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private fb: FormBuilder
 
   ) {
   }
@@ -40,6 +47,7 @@ export class MainComponent implements OnInit {
   ngOnInit() {
     AOS.init();
     
+    this.initThemes();
 
     this.init$ = this.dbs.getConfi()
 
@@ -72,6 +80,28 @@ export class MainComponent implements OnInit {
       shareReplay(1)
     )
 
+  }
+
+  initThemes(){
+    this.themesSelection = Object.values(this.defaultThemes);
+
+    this.themeFormGroup = this.fb.group({
+      primary: [this.defaultThemes.blueGray],
+      accent: [this.defaultThemes.gray]
+    })
+
+    this.themeFormGroup$ = combineLatest(
+      <Observable<Theme>>this.themeFormGroup.get('primary').valueChanges.pipe(
+        startWith<Theme>(this.defaultThemes.blueGray)
+      ),
+      <Observable<Theme>>this.themeFormGroup.get('accent').valueChanges.pipe(
+        startWith<Theme>(this.defaultThemes.gray)
+      )
+    ).pipe(
+      tap(([primary, accent])=> {
+        this.dbs.setTheme(primary, accent)
+      })
+    )
   }
 
 

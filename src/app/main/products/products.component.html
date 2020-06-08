@@ -22,7 +22,7 @@
                                     {{giveProductPrice(item)|number: '.2'}}
                                 </div>
                                 <div style="width: 10%;" *ngIf="!confirmView">
-                                    <button mat-icon-button color="SECOND" style="font-size: 1.8em;" (click)="delete(ind, item)">
+                                    <button mat-icon-button color="accent" style="font-size: 1.8em;" (click)="delete(ind, item)">
                                         <mat-icon style="font-size: 1em;">remove_circle</mat-icon>
                                     </button>
                                 </div>
@@ -75,11 +75,11 @@
                     </div>
                 </div>
                 <div class="button-container" *ngIf="!confirmView">
-                    <button mat-raised-button color="SECONDARY" class="button-man"
+                    <button mat-raised-button color="accent" class="button-man"
                         *ngIf="(info$|async); else otherButton" (click)="maps()" [disabled]="!dbs.order.length">Hacer
                         pedido!</button>
                     <ng-template #otherButton>
-                        <button mat-raised-button color="SECONDARY" class="button-man" (click)="login()"
+                        <button mat-raised-button color="accent" class="button-man" (click)="login()"
                             [disabled]="!dbs.order.length">Hacer
                             pedido!</button>
                     </ng-template>
@@ -113,7 +113,7 @@
                             <mat-icon matPrefix>search</mat-icon>
                         </mat-form-field>
 
-                        <button mat-raised-button color="PRIMARY" class="filter-button w3-margin-left w3-hide-small" type="button"
+                        <button mat-raised-button color="primary" class="filter-button w3-margin-left w3-hide-small" type="button"
                             (click)="clean()">
                             LIMPIAR FILTRO
                         </button>
@@ -180,7 +180,7 @@
                                 <div class="add">
 
                                     <div style="display: flex; flex-wrap: wrap; align-items: center;">
-                                        <button mat-icon-button color="FIRST" style="font-size: 1.8em; margin-right: 7px;"
+                                        <button mat-icon-button color="primary" style="font-size: 1.8em; margin-right: 7px;"
                                                 (click)="increse(item)">
                                                 <mat-icon style="font-size: 1em;">add_circle</mat-icon>
                                             </button>
@@ -188,7 +188,7 @@
                                                 <input matInput type="number" autocomplete="off" min="0"
                                                     [(ngModel)]="item['quantity']" (change)="view(item) ">
                                             </mat-form-field>
-                                            <button mat-icon-button color="SECOND" style="font-size: 1.8em;" (click)="decrease(item)">
+                                            <button mat-icon-button color="accent" style="font-size: 1.8em;" (click)="decrease(item)">
                                                 <mat-icon style="font-size: 1em;">remove_circle
                                                 </mat-icon>
                                             </button>
@@ -231,7 +231,7 @@
                                         </div>
 
                                         <div style="display: flex; flex-wrap: wrap; align-items: center;">
-                                            <button mat-icon-button color="FIRST" style="font-size: 1.8em; margin-right: 7px;"
+                                            <button mat-icon-button color="primary" style="font-size: 1.8em; margin-right: 7px;"
                                                 (click)="increse(item)">
                                                 <mat-icon style="font-size: 1em;">add_circle</mat-icon>
                                             </button>
@@ -239,7 +239,7 @@
                                                 <input matInput type="number" autocomplete="off" min="0"
                                                     [(ngModel)]="item['quantity']" (change)="view(item) ">
                                             </mat-form-field>
-                                            <button mat-icon-button color="SECOND" style="font-size: 1.8em;" (click)="decrease(item)">
+                                            <button mat-icon-button color="accent" style="font-size: 1.8em;" (click)="decrease(item)">
                                                 <mat-icon style="font-size: 1em;">remove_circle
                                                 </mat-icon>
                                             </button>
@@ -275,7 +275,7 @@
             </div>
             <div class="products-div" *ngIf="confirmView">
                 <div style="display: flex; flex-wrap: wrap; align-items: center;">
-                    <button mat-icon-button color="SECOND" (click)="listview=true; confirmView=false">
+                    <button mat-icon-button color="accent" (click)="listview=true; confirmView=false">
                         <mat-icon>arrow_back</mat-icon>
                     </button>
                     <span>Tu pedido casi listo</span>
@@ -353,7 +353,7 @@
                 <div *ngIf="mapsView" style="max-width: 450px; margin-bottom: 15px;">
                     <div style="display: flex; flex-wrap: wrap;justify-content: space-between;">
                         <div style="width: 80%;">Especifica tu dirección en el mapa (Opcional)</div>
-                        <button mat-icon-button color="SECONDARY" (click)="findMe()">
+                        <button mat-icon-button color="accent" (click)="findMe()">
                             <mat-icon>gps_fixed</mat-icon>
                         </button>
                     </div>
@@ -364,7 +364,7 @@
                     </agm-map>
                 </div>
                 <div style="display: flex;justify-content: flex-end;">
-                    <button mat-raised-button color="SECONDARY" class="button-man" (click)="save()"
+                    <button mat-raised-button color="accent" class="button-man" (click)="save()"
                         [disabled]="!formGroup.valid">Finalizar</button>
                 </div>
             </div>
@@ -372,7 +372,7 @@
         </div>
         <div *ngIf="!listview && !confirmView" style="height: 86vh;">
             <div style="display: flex; flex-wrap: wrap; align-items: center;">
-                <button mat-icon-button color="SECOND" (click)="listview=true; confirmView=false">
+                <button mat-icon-button color="accent" (click)="listview=true; confirmView=false">
                     <mat-icon>arrow_back</mat-icon>
                 </button>
                 <h2 class="title w3-margin-left">TU PEDIDO</h2>
@@ -393,7 +393,7 @@
                             {{giveProductPrice(item)|number: '.2'}}
                         </div>
                         <div style="width: 10%;" *ngIf="!confirmView">
-                            <button mat-icon-button style="font-size: 1.8em;" color="SECOND" (click)="delete(ind, item)">
+                            <button mat-icon-button style="font-size: 1.8em;" color="accent" (click)="delete(ind, item)">
                                 <mat-icon style="font-size: 1em;">remove_circle</mat-icon>
                             </button>
                         </div>
@@ -445,11 +445,11 @@
             </div>
             <div class="button-container">
 
-                <button mat-raised-button color="SECONDARY" class="button-man" *ngIf="(info$|async); else otherButton2"
+                <button mat-raised-button color="accent" class="button-man" *ngIf="(info$|async); else otherButton2"
                     (click)="confirmView=true; listview=true;mapsView=true" [disabled]="!dbs.order.length">Hacer
                     pedido!</button>
                 <ng-template #otherButton2>
-                    <button mat-raised-button color="SECONDARY" class="button-man" (click)="login()" [disabled]="!dbs.order.length">Hacer
+                    <button mat-raised-button color="accent" class="button-man" (click)="login()" [disabled]="!dbs.order.length">Hacer
                         pedido!</button>
                 </ng-template>
             </div>
