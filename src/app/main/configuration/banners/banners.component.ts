@@ -47,8 +47,7 @@ export class BannersComponent implements OnInit {
 
   ngOnInit() {
 
-    const galleryRef: GalleryRef = this.gallery.ref('mini');
-    const gallerymovilRef: GalleryRef = this.gallery.ref('movil');
+
 
     this.carousel$ = combineLatest(
       this.dbs.getBanners('carousel'),
@@ -63,6 +62,8 @@ export class BannersComponent implements OnInit {
       tap(res => {
         this.carousel = [...res]
         this.indCarousel = res.length + 1
+        const galleryRef: GalleryRef = this.gallery.ref('mini');
+        const gallerymovilRef: GalleryRef = this.gallery.ref('movil');
         galleryRef.reset()
         gallerymovilRef.reset()
         res.forEach(el => {

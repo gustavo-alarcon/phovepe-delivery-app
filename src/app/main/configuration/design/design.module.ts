@@ -1,3 +1,4 @@
+import { MatExpansionModule } from '@angular/material/expansion';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
@@ -30,6 +31,7 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
     MatSnackBarModule,
     MatSelectModule,
     MatProgressBarModule,
+    MatExpansionModule,
     ReactiveFormsModule,
     FormsModule,
     Ng2ImgMaxModule,
