@@ -37,6 +37,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { AuthService } from './core/auth.service';
 import { DatabaseService } from './core/database.service';
 import { LoginComponent } from './login/login.component';
+import { ServiceWorkerModule } from '@angular/service-worker';
 
 
 
@@ -77,6 +78,7 @@ import { LoginComponent } from './login/login.component';
     LazyLoadImageModule.forRoot({
       preset: intersectionObserverPreset
     }),
+    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
   ],
   providers: [
     AuthService,
