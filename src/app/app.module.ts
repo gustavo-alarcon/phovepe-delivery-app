@@ -39,8 +39,6 @@ import { DatabaseService } from './core/database.service';
 import { LoginComponent } from './login/login.component';
 import { ServiceWorkerModule } from '@angular/service-worker';
 
-
-
 @NgModule({
   declarations: [
     AppComponent,

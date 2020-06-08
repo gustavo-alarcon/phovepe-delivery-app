@@ -16,31 +16,385 @@ $mat-css-light-theme-selector: '.isLightTheme';
 @include mat-css-set-palette-defaults($mat-pink, 'accent');
 @include mat-css-set-palette-defaults($mat-red, 'warn');
 
-//@import '@angular/material/theming';
-//@include mat-core();
+//app
+/* You can add global styles to this file, and also import other style files */
 
-//@import './styles/material-theme';
+@import './assets/css/animate.css';
+@import "@angular/material/prebuilt-themes/deeppurple-amber.css";
+@import './assets/css/w3.css';
+:root {
+  --primary-color: #2EC4B6;
+  --secundary-color: #FF9F1C;
+  --third-color: #CBF3F0;
+  --forth-color: #FFBF69;
+}
 
-// @import './styles/warnThemes';
-// @import './styles/pinkThemes';
-// @import './styles/purpleThemes';
-// @import './styles/deepPurpleThemes';
-// @import './styles/indigoThemes';
-// @import './styles/blueThemes';
-// @import './styles/lightBlueThemes';
-// @import './styles/cyanThemes';
-// @import './styles/tealThemes';
-// @import './styles/greenThemes';
-// @import './styles/lightGreenThemes';
-// @import './styles/limeThemes';
-// @import './styles/yellowThemes';
-// @import './styles/amberThemes';
-// @import './styles/orangeThemes';
-// @import './styles/deepOrangeThemes';
-// @import './styles/brownThemes';
-// @import './styles/greyThemes';
-// @import './styles/blueGreyThemes';
-// @import './styles/mandaditosThemes';
-// @import './styles/mandaditosAccentThemes';
+html, body {
+  height: 100%;
+}
 
+body {
+  margin: 0;
+  font-family: Montserrat, sans-serif;
+}
 
+a {
+  text-decoration: none;
+}
+
+/*display flex*/
+
+.ms-flex {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.ms-flex--center {
+  align-items: center;
+}
+
+.ms-fill {
+  flex: 1 1 auto;
+}
+
+/*general*/
+
+.background--primary {
+  color: rgb(255, 255, 255);
+  background: var(--primary-color);
+}
+
+.background--secondary {
+  color: rgb(255, 255, 255);
+  background: var(--secundary-color);
+}
+
+.background--third {
+  background-color: var(--third-color);
+  color: #656565;
+}
+
+.background--fourth {
+  background-color: var(--forth-color);
+  color: white;
+}
+
+.font--primary {
+  color: var(--primary-color);
+}
+
+.font--secondary {
+  color: var(--secundary-color);
+}
+
+.border--primary {
+  border-color: var(--primary-color);
+}
+
+.border--secondary {
+  border-color: var(--secundary-color);
+}
+
+.border--third {
+  border-color: var(--third-color);
+}
+
+.border--fourth {
+  border-color: var(--forth-color);
+}
+
+/*Title*/
+
+.title {
+  font-family: Montserrat, sans-serif;
+  font-weight: 800;
+  font-size: 2.2em;
+  letter-spacing: 0.05em;
+  color: var(--primary-color);
+  width: fit-content;
+  border-bottom: 5px solid var(--secundary-color);
+}
+
+@media(max-width: 600px) {
+  .title {
+    font-size: 1.5em;
+  }
+}
+
+.title-dialog {
+  font-size: 0.8em;
+  letter-spacing: 0.05em;
+  font-weight: 900;
+  text-transform: uppercase;
+  font-family: 'Montserrat', sans-serif;
+  color: #828282;
+}
+
+/*Inputs*/
+
+.mat-form-field-appearance-outline .mat-form-field-label, .mat-form-field-appearance-outline.mat-focused .mat-form-field-label {
+  font-family: 'Montserrat', sans-serif;
+}
+
+.mat-form-field-appearance-outline .mat-form-field-outline {
+  color: var(--primary-color)!important;
+}
+
+.mat-form-field-appearance-outline.mat-focused .mat-form-field-outline-thick {
+  color: var(--primary-color)!important;
+}
+
+.mat-form-field .mat-input-element {
+  font-family: Montserrat;
+}
+
+.mat-form-field-label {
+  font-family: Montserrat;
+}
+
+.mat-form-field-underline {
+  font-family: Montserrat;
+}
+
+.mat-form-field-ripple {
+  font-family: Montserrat;
+}
+
+.mat-form-field-required-marker {
+  font-family: Montserrat;
+}
+
+img.ng-lazyloaded {
+  animation: fadein .5s;
+}
+
+@keyframes fadein {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* PRIMARY */
+
+.mat-button, .mat-raised-button, .mat-stroked-button {
+  font-family: 'Montserrat', sans-serif;
+}
+
+.mat-button.mat-raised-button.mat-PRIMARY, .mat-stroked-button.mat-raised-button.mat-PRIMARY, .mat-icon-button.mat-raised-button.mat-PRIMARY {
+  color: var(--primary-color);
+}
+
+.mat-button.mat-raised-button.mat-PRIMARY:hover, .mat-stroked-button.mat-raised-button.mat-PRIMARY:hover {
+  background-color: #FFFFFF;
+}
+
+.mat-raised-button.mat-raised-button.mat-PRIMARY, .mat-flat-button.mat-raised-button.mat-PRIMARY, .mat-fab.mat-raised-button.mat-PRIMARY, .mat-mini-fab.mat-raised-button.mat-PRIMARY {
+  color: #FFFFFF;
+  background-color: var(--primary-color);
+}
+
+.mat-icon-button.mat-icon-button.mat-PRIMARY, .mat-flat-button.mat-icon-button.mat-PRIMARY, .mat-fab.mat-icon-button.mat-PRIMARY, .mat-mini-fab.mat-icon-button.mat-PRIMARY {
+  color: #FFFFFF;
+  background-color: var(--primary-color);
+}
+
+.mat-raised-button[disabled]:not([class*="mat-elevation-z"]) {
+  background-color: rgba(0, 0, 0, .12);
+  color: rgba(0, 0, 0, .26);
+  box-shadow: rgba(0, 0, 0, 0.2) 0px 0px 0px 0px, rgba(0, 0, 0, 0.14) 0px 0px 0px 0px, rgba(0, 0, 0, 0.12) 0px 0px 0px 0px;
+}
+
+.mat-button[disabled][disabled] {
+  color: rgba(0, 0, 0, .26);
+  background-color: rgba(0, 0, 0, .12) !important;
+}
+
+.mat-icon-button[disabled][disabled]:not([class*="mat-paginator"]) {
+  background-color: rgba(0, 0, 0, .12);
+  color: rgba(0, 0, 0, .26);
+  box-shadow: rgba(0, 0, 0, 0.2) 0px 0px 0px 0px, rgba(0, 0, 0, 0.14) 0px 0px 0px 0px, rgba(0, 0, 0, 0.12) 0px 0px 0px 0px;
+}
+
+/* SECONDARY */
+
+.mat-button.mat-raised-button.mat-SECONDARY, .mat-stroked-button.mat-raised-button.mat-SECONDARY, .mat-icon-button.mat-raised-button.mat-SECONDARY {
+  color: var(--secundary-color);
+}
+
+.mat-button.mat-raised-button.mat-SECONDARY:hover, .mat-stroked-button.mat-raised-button.mat-SECONDARY:hover {
+  background-color: #FFFFFF;
+}
+
+.mat-raised-button.mat-raised-button.mat-SECONDARY, .mat-flat-button.mat-raised-button.mat-SECONDARY, .mat-fab.mat-raised-button.mat-SECONDARY, .mat-mini-fab.mat-raised-button.mat-SECONDARY {
+  color: #FFFFFF;
+  background-color: var(--secundary-color);
+}
+
+.mat-icon-button.mat-icon-button.mat-SECONDARY, .mat-flat-button.mat-icon-button.mat-SECONDARY, .mat-fab.mat-icon-button.mat-SECONDARY, .mat-mini-fab.mat-icon-button.mat-SECONDARY {
+  color: #FFFFFF;
+  background-color: var(--secundary-color);
+}
+
+.mat-raised-button[disabled]:not([class*="mat-elevation-z"]) {
+  background-color: rgba(0, 0, 0, .12);
+  color: rgba(0, 0, 0, .26);
+  box-shadow: rgba(0, 0, 0, 0.2) 0px 0px 0px 0px, rgba(0, 0, 0, 0.14) 0px 0px 0px 0px, rgba(0, 0, 0, 0.12) 0px 0px 0px 0px;
+}
+
+/*icons*/
+
+.mat-icon-button.mat-icon-button.mat-FIRST, .mat-flat-button.mat-icon-button.mat-FIRST, .mat-fab.mat-icon-button.mat-FIRST, .mat-mini-fab.mat-icon-button.mat-FIRST {
+  color: var(--primary-color);
+}
+
+.mat-icon-button.mat-icon-button.mat-SECOND, .mat-flat-button.mat-icon-button.mat-SECOND, .mat-fab.mat-icon-button.mat-SECOND, .mat-mini-fab.mat-icon-button.mat-SECOND {
+  color: var(--secundary-color);
+}
+
+/*ticket*/
+
+.ticket {
+  background: #FFFFFF;
+  box-sizing: border-box;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  padding: 20px;
+  position: relative;
+}
+
+.ticket--big {
+  width: 100%;
+  max-width: 700px;
+}
+
+.ticket--small {
+  width: 30%;
+  max-width: 400px;
+  min-width: 300px;
+  height: fit-content;
+  min-height: 75vh;
+}
+
+.ticket__subtitle {
+  font-size: 1em;
+  font-family: Montserrat;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: #828282;
+  font-weight: 900;
+}
+
+.ticket__divTotal {
+  display: flex;
+  flex-direction: row-reverse;
+  margin-top: 20px;
+}
+
+.ticket__total {
+  background: var(--primary-color);
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  border-radius: 5px;
+  font-size: 1.5em;
+  text-align: center;
+  letter-spacing: 0.05em;
+  color: white;
+  width: fit-content;
+  padding: 7px 17px;
+  font-weight: 900;
+  margin-bottom: 7px;
+}
+
+.ticket__separate {
+  border-top: 2px solid #4F4F4F;
+  height: 3px;
+  width: 100%;
+  margin: 10px 0;
+}
+
+.ticket__delivery {
+  width: 75%;
+  text-align: right;
+  padding: 0 20px;
+}
+
+/*paginator*/
+
+.ngx-pagination .current {
+  background: var(--primary-color) !important;
+}
+
+.ngx-pagination li {
+  border-radius: 3px !important;
+  font-weight: 500;
+}
+
+/*tabs*/
+
+.mat-tab-label {
+  background-color: transparent;
+  font-family: Montserrat;
+  font-weight: 700;
+}
+
+.mat-tab-group.mat-primary .mat-ink-bar, .mat-tab-nav-bar.mat-primary .mat-ink-bar {
+  background-color: var(--primary-color)!important;
+}
+
+/*tables*/
+
+.ms-table {
+  width: 100%;
+  background: transparent;
+}
+
+.ms-table__th {
+  color: #828282;
+  font-weight: 500;
+}
+
+.ms-table__th, .ms-table__td {
+  font-family: 'Montserrat', sans-serif;
+  letter-spacing: 0.05em;
+}
+
+.ms-table__td {
+  color: #2b2b2b;
+  font-weight: 900;
+}
+
+.ms-table__td.mat-cell {
+  padding: 0.5em 0 0.5em 1em;
+}
+
+.ms-table__td.mat-cell:first-of-type {
+  padding-left: 0 !important;
+}
+
+.ms-table__td.mat-cell:last-of-type {
+  padding-right: 0 !important
+}
+
+.ms-table__td.mat-cell {
+  border-bottom: none !important;
+}
+
+.ms-paginator {
+  background: transparent;
+}
+
+/*sales*/
+
+.subtotal {
+  background: var(--primary-color);
+  border-radius: 5px;
+  font-weight: 900;
+  padding: 3px 10px;
+  letter-spacing: 0.05em;
+  color: #FFFFFF;
+}
+
+.subtotal--big {
+  font-size: 1.3em;
+}
