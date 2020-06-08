@@ -17,10 +17,10 @@
             Inicia sesión para brindarte una mejor experiencia
         </mat-hint>
         <div class="w3-margin-top">
-            <button mat-raised-button class="w3-block w3-margin-bottom social" (click)="auth.signIn('google')">
+            <button mat-raised-button class="w3-block w3-margin-bottom social social--google" (click)="auth.signIn('google')">
                 Ingresa con <strong>Google</strong>
             </button>
-            <button mat-raised-button class="w3-block w3-margin-bottom social" (click)="auth.signIn('facebook')">
+            <button mat-raised-button class="w3-block w3-margin-bottom social social--facebook" (click)="auth.signIn('facebook')">
                 Ingresa con <strong>Facebook</strong>
             </button>
             <p *ngIf="auth$ | async">Ingreso</p>
