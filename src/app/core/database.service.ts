@@ -695,7 +695,7 @@ export class DatabaseService {
   getConfi(): Observable<any> {
     return this.afs.collection(`/db`).doc('mandaditos').valueChanges().pipe(
       shareReplay(1),
-      tap(res => {
+     /* tap(res => {
         if (res['logoURL']) {
           this.document.getElementById('appFavicon').setAttribute('href', res.logoURL)
           this.logoURL = res['logoURL'] ? res['logoURL'] : null
@@ -703,7 +703,7 @@ export class DatabaseService {
         }
 
 
-      })
+      })*/
     );
   }
 

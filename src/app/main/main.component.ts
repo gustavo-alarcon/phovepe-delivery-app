@@ -71,6 +71,7 @@ export class MainComponent implements OnInit {
       ),
       shareReplay(1)
     )
+
   }
 
 

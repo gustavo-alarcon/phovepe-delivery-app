@@ -1,4 +1,4 @@
-<div *ngIf="dbs.defaultImage$ | async as default">
+<div >
     <span class="w3-small w3-text-gray">
         <mat-icon role="img" style="vertical-align: middle;" aria-hidden="true">info</mat-icon> Recuerde que utilizar
         imágenes de alta resolución, reducen la velocidad de carga de la página. (recomiendo HD)
@@ -14,7 +14,7 @@
 
                 <div class="w3-margin-top row-category w3-margin-bottom">
                     <div *ngFor="let image of carousel" class="banner__category border--primary">
-                        <img [defaultImage]="default" [lazyLoad]="image.photoURL" [offset]="100" class="banner__image">
+                        <img [defaultImage]="defaultImage" [lazyLoad]="image.photoURL" [offset]="100" class="banner__image">
                         <p><strong>{{image.category}}</strong></p>
                         <div class="row-category w3-margin-top"
                             style="justify-content: space-between; align-items: center;">
@@ -71,7 +71,7 @@
         <div *ngIf="promo$ |async as images">
             <div class="w3-margin-top row-category w3-margin-bottom">
                 <div *ngFor="let image of promo" class="banner__category border--primary">
-                    <img [defaultImage]="default" [lazyLoad]="image.photoURL" [offset]="100" class="banner__image">
+                    <img [defaultImage]="defaultImage" [lazyLoad]="image.photoURL" [offset]="100" class="banner__image">
                     <p><strong>{{image.category}}</strong></p>
                     <div class="row-category w3-margin-top"
                         style="justify-content: space-between; align-items: center;">
@@ -114,7 +114,7 @@
         <div *ngIf="categories$ |async as images">
             <div class="w3-margin-top row-category">
                 <div *ngFor="let image of categories" class="banner__category border--primary">
-                    <img [defaultImage]="default" [lazyLoad]="image.photoURL" [offset]="100" class="banner__image">
+                    <img [defaultImage]="defaultImage" [lazyLoad]="image.photoURL" [offset]="100" class="banner__image">
                     <div class="row-category w3-margin-top"
                         style="justify-content: space-between; align-items: center;">
                         <p></p>
