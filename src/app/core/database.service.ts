@@ -3,7 +3,7 @@ import { AngularFirestoreCollection, AngularFirestore, DocumentReference } from 
 import * as firebase from 'firebase/app';
 import { Observable, of, concat, interval, from } from 'rxjs';
 import { Product } from './models/product.model';
-import { map, tap, finalize, switchMap, take, takeLast, shareReplay, mapTo } from 'rxjs/operators';
+import { map, tap, finalize, switchMap, take, takeLast, shareReplay, mapTo, startWith } from 'rxjs/operators';
 import { AngularFireStorage } from '@angular/fire/storage';
 import { Sale } from './models/sale.model';
 import { AuthService } from './auth.service';
@@ -714,21 +714,35 @@ export class DatabaseService {
 
   getConfi(): Observable<any> {
     return this.afs.collection(`/db`).doc('mandaditos').valueChanges().pipe(
-      shareReplay(1),
+      startWith({
+        logoURL: localStorage.getItem('logoURL') ? localStorage.getItem('logoURL'): null,
+        logomovilURL: localStorage.getItem('logomovilURL') ? localStorage.getItem('logomovilURL') :null
+      }),
       tap(res => {
         if (res['logoURL']) {
-          this.document.getElementById('appFavicon').setAttribute('href', res.logoURL)
-          this.logoURL = res['logoURL'] ? res['logoURL'] : null
+          this.document.getElementById('appFavicon').setAttribute('href', res['logoURL'])
+          this.logoURL = res['logoURL']
           this.logomovilURL = res['logomovilURL'] ? res['logomovilURL'] : null
+          localStorage.setItem('logoURL', res['logoURL'])
+          localStorage.setItem('logomovilURL', res['logomovilURL'])
         }
-      })
+      }),
+      shareReplay(1)
     );
   }
 
   getDefault(): Observable<any> {
     this.defaultImage$ = this.afs.collection(`/db`).doc('mandaditos').valueChanges().pipe(
-      shareReplay(1),
-      map(res => res['defaultURL'])
+      startWith({
+        logoURL: localStorage.getItem('defaultURL') ? localStorage.getItem('defaultURL'):null,
+      }),
+      map(res => {
+        if(res['defaultURL']){
+          localStorage.setItem('defaultURL', res['defaultURL'])
+        }
+        return res['defaultURL']
+      }),
+      shareReplay(1)
     );
     return this.defaultImage$
   }
