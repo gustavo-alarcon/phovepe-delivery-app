@@ -17,7 +17,7 @@
         </mat-form-field>
         <ng-container *ngIf="salesFiltered$ | async as salesFiltered">
             <button (click)="downloadXlsUsers(salesFiltered)" mat-raised-button [disabled]="!salesFiltered.length"
-                color="PRIMARY" type="button">
+                color="primary" type="button">
                 <mat-icon style="vertical-align: middle;">cloud_download</mat-icon>
                 Descargar
             </button>
@@ -33,7 +33,7 @@
             type="button">Pedidos: {{getNumber(sales, 'Solicitado')}}</button>
         <button (click)="filterSaleData('Confirmado')" mat-raised-button class="filter-button background--fourth"
             type="button">Confirmados: {{getNumber(sales, 'Confirmado')}}</button>
-        <button (click)="filterSaleData('En reparto')" color="SECONDARY" mat-raised-button class="filter-button"
+        <button (click)="filterSaleData('En reparto')" color="accent" mat-raised-button class="filter-button"
             type="button">Despachados: {{getNumber(sales, 'En reparto')}}</button>
         <button (click)="filterSaleData('Total')" class="filter-button" mat-raised-button type="button">Todos:
             {{sales.length}}</button>
@@ -65,7 +65,7 @@
                     <div class="date element2">{{el.createdAt['seconds']*1000 | date:'dd/MM/yyyy HH:mm'}}</div>
                     <div class="date element3">{{el.deliveryDate['seconds']*1000 | date:'dd/MM/yyyy HH:mm'}}</div>
                     <div class="element4">
-                        <button (click)="onCheckDirection(el, $event)" color="SECOND" mat-icon-button type="button">
+                        <button (click)="onCheckDirection(el, $event)" color="accent" mat-icon-button type="button">
                             <mat-icon>place</mat-icon>
                         </button>
                     </div>

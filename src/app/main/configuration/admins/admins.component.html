@@ -20,12 +20,12 @@
                     </mat-autocomplete>
                 </mat-form-field>
 
-                <button mat-raised-button color="PRIMARY" class="w3-block w3-hide-large w3-hide-medium"
+                <button mat-raised-button color="primary" class="w3-block w3-hide-large w3-hide-medium"
                     (click)="addAdmin()" [disabled]="!userForm.value.uid">
                     <mat-icon>add</mat-icon>
                 </button>
 
-                <button mat-icon-button color="PRIMARY" class="w3-hide-small " (click)="addAdmin()"
+                <button mat-icon-button color="primary" class="w3-hide-small " (click)="addAdmin()"
                     [disabled]="!userForm.value.uid">
                     <mat-icon>add</mat-icon>
                 </button>
@@ -121,12 +121,12 @@
                 </mat-form-field>
 
 
-                <button mat-raised-button color="PRIMARY" class="w3-block w3-hide-large w3-hide-medium"
+                <button mat-raised-button color="primary" class="w3-block w3-hide-large w3-hide-medium"
                     (click)="addDriver()" [disabled]="!driverForm.value['uid']">
                     <mat-icon>add</mat-icon>
                 </button>
 
-                <button mat-icon-button color="PRIMARY" class="w3-hide-small " (click)="addDriver()"
+                <button mat-icon-button color="primary" class="w3-hide-small " (click)="addDriver()"
                     [disabled]="!driverForm.value['uid']">
                     <mat-icon>add</mat-icon>
                 </button>
@@ -223,12 +223,12 @@
                     </mat-form-field>
 
 
-                    <button mat-raised-button color="PRIMARY" class="w3-block w3-hide-large w3-hide-medium"
+                    <button mat-raised-button color="primary" class="w3-block w3-hide-large w3-hide-medium"
                         (click)="addDistrict()" [disabled]="(repeat$ | async) || !districtForm.valid">
                         <mat-icon>add</mat-icon>
                     </button>
 
-                    <button mat-icon-button color="PRIMARY" class="w3-hide-small " (click)="addDistrict()"
+                    <button mat-icon-button color="primary" class="w3-hide-small " (click)="addDistrict()"
                         [disabled]="(repeat$ | async) || !districtForm.valid">
                         <mat-icon>add</mat-icon>
                     </button>
@@ -330,12 +330,12 @@
                 <span matPrefix style="vertical-align: super; margin-right: 10px;">@</span>
             </mat-form-field>
 
-            <button mat-raised-button color="PRIMARY" class="w3-block w3-hide-large w3-hide-medium"
+            <button mat-raised-button color="primary" class="w3-block w3-hide-large w3-hide-medium"
                 [disabled]="!contactForm.valid" (click)="saveContact()">
                 <mat-icon>save</mat-icon>
             </button>
 
-            <button mat-icon-button color="PRIMARY" class="w3-hide-small " [disabled]="!contactForm.valid"
+            <button mat-icon-button color="primary" class="w3-hide-small " [disabled]="!contactForm.valid"
                 (click)="saveContact()">
                 <mat-icon>save</mat-icon>
             </button>

@@ -11,23 +11,34 @@ import { User } from './models/user.model';
 import * as jsPDF from 'jspdf';
 import { saveAs } from 'file-saver';
 import { Banner } from './models/banners.model';
+import { MaterialCssVarsService } from 'angular-material-css-vars';
+import { Theme } from './models/theme.model';
 
+interface theme {
+  'primary-color': string, 
+  'secundary-color': string, 
+  'third-color': string, 
+  'forth-color': string
+}
 
 @Injectable({
   providedIn: 'root'
 })
+
 export class DatabaseService {
   public document: any = null
-  public darkTheme = {
+
+  
+  public darkTheme: theme = {
     'primary-color': '#455363',
     'secundary-color': '#1f2935',
     'third-color': '#2d2d2d',
     'forth-color': '#fff'
   };
 
-  public lightTheme = {
-    'primary-color': '#2EC4B6',
-    'secundary-color': '#FF9F1C',
+  public lightTheme: theme = {
+    'primary-color': '#009688',
+    'secundary-color': '#FFC107',
     'third-color': '#CBF3F0',
     'forth-color': '#FFBF69'
   };
@@ -44,23 +55,31 @@ export class DatabaseService {
   constructor(
     private afs: AngularFirestore,
     private storage: AngularFireStorage,
-    private auth: AuthService
+    private auth: AuthService,
+    private materialCssVarsService: MaterialCssVarsService
   ) {
-    this.getDefault()
+    this.getDefault();
+    this.materialCssVarsService.setAutoContrastEnabled(true);
   }
 
   toggleDark() {
-    this.setTheme(this.darkTheme);
+    this.materialCssVarsService.setDarkTheme(true)
   }
 
   toggleLight() {
-    this.setTheme(this.lightTheme);
+    this.materialCssVarsService.setDarkTheme(false)
   }
 
-  private setTheme(theme: {}) {
-    Object.keys(theme).forEach(k =>
-      document.documentElement.style.setProperty(`--${k}`, theme[k])
-    );
+  setTheme(primaryTheme: Theme, accentTheme: Theme) {
+    this.materialCssVarsService.setPrimaryColor(primaryTheme.color);
+    this.materialCssVarsService.setAccentColor(accentTheme.color);
+
+    document.documentElement.style.setProperty(`--primary-color`, primaryTheme.color);
+    document.documentElement.style.setProperty(`--secundary-color`, accentTheme.color);
+    document.documentElement.style.setProperty(`--third-color`, 
+      this.materialCssVarsService.getPaletteForColor(primaryTheme.color)[2].color.str);
+    document.documentElement.style.setProperty(`--forth-color`, 
+      this.materialCssVarsService.getPaletteForColor(accentTheme.color)[3].color.str);
   }
 
   getCategories(): Observable<string[]> {

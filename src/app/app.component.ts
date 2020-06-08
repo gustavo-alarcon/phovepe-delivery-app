@@ -17,13 +17,8 @@ export class AppComponent {
   constructor(
     @Inject(DOCUMENT) private _document: HTMLDocument,
     private dbs: DatabaseService,
-    public materialCssVarsService: MaterialCssVarsService
   ) {
     this.dbs.document = this._document
-    const hex = 'green';
-    this.materialCssVarsService.setDarkTheme(false);
-    this.materialCssVarsService.setPrimaryColor(hex);
-    this.materialCssVarsService.setAccentColor('red');
   }
 }
 

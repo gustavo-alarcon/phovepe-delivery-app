@@ -150,15 +150,15 @@
 <mat-dialog-actions align="end">
     <button mat-stroked-button class="w3-margin-right" mat-dialog-close>Cancelar</button>
     <div *ngIf="data.edit">
-        <button mat-raised-button color="PRIMARY" *ngIf="data.type=='category'" (click)="editSubmit()" type="button"
+        <button mat-raised-button color="primary" *ngIf="data.type=='category'" (click)="editSubmit()" type="button"
         [disabled]="createForm.status != 'VALID' || !subcategories.length || (imageSize$ | async)">Editar</button>
-        <button mat-raised-button color="PRIMARY" *ngIf="data.type != 'category'" (click)="editSubmit()" type="button"
+        <button mat-raised-button color="primary" *ngIf="data.type != 'category'" (click)="editSubmit()" type="button"
         [disabled]="createForm.status != 'VALID' || !products.length || (validImage$ | async) ">Editar</button>
     </div>
     <div *ngIf="!data.edit">
-        <button mat-raised-button color="PRIMARY" *ngIf="data.type=='category'" (click)="onSubmitForm()" type="button"
+        <button mat-raised-button color="primary" *ngIf="data.type=='category'" (click)="onSubmitForm()" type="button"
         [disabled]="createForm.status != 'VALID' || !subcategories.length || (imageSize$ | async)">Guardar</button>
-        <button mat-raised-button color="PRIMARY" *ngIf="data.type != 'category'" (click)="onSubmitForm()" type="button"
+        <button mat-raised-button color="primary" *ngIf="data.type != 'category'" (click)="onSubmitForm()" type="button"
         [disabled]="createForm.status != 'VALID' || !products.length || (validImage$ | async)">Guardar</button>
     </div>
     
