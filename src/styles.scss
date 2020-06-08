@@ -1,8 +1,5 @@
 /* You can add global styles to this file, and also import other style files */
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
-
 @import '~angular-material-css-vars/main';
 @import './assets/css/w3.css';
 // optional 
@@ -106,13 +103,13 @@ a {
 /*Title*/
 
 .title {
-  font-family: Montserrat, sans-serif;
-  font-weight: 800;
-  font-size: 2.2em;
-  letter-spacing: 0.05em;
-  color: var(--primary-color);
-  width: fit-content;
-  border-bottom: 5px solid var(--secundary-color);
+  font-family: Montserrat, sans-serif !important;
+  font-weight: 800 !important;
+  font-size: 2.2em !important;
+  letter-spacing: 0.05em !important;
+  color: var(--primary-color) !important;
+  width: fit-content !important;
+  border-bottom: 5px solid var(--secundary-color) !important;
 }
 
 @media(max-width: 600px) {
