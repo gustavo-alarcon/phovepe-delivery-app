@@ -1,0 +1,39 @@
+.admin__container {
+    max-width: 800px;
+    padding: 25px;
+}
+
+.admin__input{
+    width: 100%;
+    max-width: 300px;
+    margin-right: 16px;
+    font-family: 'Montserrat', sans-serif
+}
+
+.admin__title {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1.2em;
+    font-weight: 900;
+    letter-spacing: 0.05em;
+}
+
+.admin__list{
+    padding-inline-start: 0px;
+}
+
+.admin__item{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    font-family: Montserrat;
+    margin: 10px 0;
+}
+
+
+@media(max-width: 600px) {
+    .admin__container {
+        padding: 0px;
+    }
+}
+

@@ -1,0 +1,19 @@
+<div style="max-width: 320px;">
+    <div mat-dialog-title>
+        <h2 class="title-dialog">
+            Borrar
+        </h2>
+        <mat-divider></mat-divider>
+        <mat-progress-bar *ngIf="(loading$ | async) === 2" mode="indeterminate"></mat-progress-bar>
+    </div>
+
+    <div mat-dialog-content>
+        <p>¿Desea continuar?</p>
+    </div>
+
+    <div class="contain">
+        <button mat-button mat-dialog-close style="color: #FFFFFF;background: #2EC4B6;">Cerrar</button>
+        <button class="w3-margin-left" mat-button style="color: #FFFFFF;background: #FF9F1C;"
+            [disabled]="(loading$ | async) === 2" (click)="save()">Borrar</button>
+    </div>
+</div>

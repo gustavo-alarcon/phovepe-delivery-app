@@ -1,0 +1,61 @@
+
+<div class="w3-section w3-margin-left w3-margin-right" *ngIf="carousel$ | async; else wait">
+    <div class="w3-row">
+        <div class="w3-col s0 m2 l2 w3-hide-small">
+            <p></p>
+        </div>
+        <div class="w3-col s12 m8 l8 container">
+            <div class="w3-margin-bottom">
+                <!-- Slideshow container -->
+                <div class="w3-hide-small ">
+                    <gallery id="mini" style="height: 17vw;" imageSize='cover' [loadingStrategy]="'lazy'"
+                        [counter]="false" [dots]="true" [thumb]="false" [playerInterval]="8000" [autoPlay]="true"
+                        [loop]="true" (itemClick)="routerLink(this.$event)"></gallery>
+                </div>
+                <div class="w3-hide-large w3-hide-medium">
+                    <gallery id="movil" fluid style="height: 70vw;" imageSize='cover' [loadingStrategy]="'lazy'"
+                        [counter]="false" [dots]="true" [playerInterval]="8000" [thumb]="false"
+                        (itemClick)="routerLink(this.$event)"></gallery>
+                </div>
+            </div>
+            <div *ngIf="promo$ | async as images">
+                <div class="w3-hide-small " data-aos="fade-left">
+                    <div *ngFor="let image of images" class="frame" style="border-radius: 10px;"
+                        (click)="navigate(image.category)">
+                        <img [defaultImage]="defaultImage" [lazyLoad]="image.photoURL" [offset]="100"
+                            class="frame__img">
+                    </div>
+                </div>
+                <div class="w3-hide-large w3-hide-medium">
+                    <div *ngFor="let image of images" class="frame" (click)="navigate(image.category)">
+                        <img [src]="image.photomovilURL" alt="" style="width: 100%;">
+                    </div>
+                </div>
+            </div>
+            <div *ngIf="categories$ |async as images">
+                <div class="w3-row w3-margin-top">
+                    <div *ngFor="let image of images; let i=index"
+                        [className]="i%2?'w3-col l6 m6 s12 frame--left':'w3-col l6 m6 s12 frame--right'">
+                        <div class="frame" (click)="navigate(image.category)">
+                            <img [defaultImage]="defaultImage" [lazyLoad]="image.photoURL" [offset]="100"
+                                class="frame__img">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="w3-col s0 m2 l2">
+            <p></p>
+        </div>
+    </div>
+</div>
+
+<ng-template #wait>
+    <div class="w3-display-container" style="height: 80vh;">
+        <div class="w3-display-middle">
+            <div class="lds-dual-ring"></div>
+        </div>
+
+    </div>
+</ng-template>

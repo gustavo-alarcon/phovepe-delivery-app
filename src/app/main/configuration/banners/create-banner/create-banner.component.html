@@ -1,0 +1,165 @@
+<div mat-dialog-title>
+    <h2 *ngIf="!data.edit" style="font-size:1.2em; font-family: Montserrat; font-weight: 900;">
+        <mat-icon style="vertical-align:middle">add_circle</mat-icon>
+        Agregar Banner
+    </h2>
+    <h2 *ngIf="data.edit" style="font-size:1.2em; font-family: Montserrat; font-weight: 900;">
+        <mat-icon style="vertical-align:middle">edit</mat-icon>
+        Editar Banner
+    </h2>
+    <mat-divider></mat-divider>
+    <mat-progress-bar mode='indeterminate' *ngIf="loading$ | async"></mat-progress-bar>
+</div>
+<mat-dialog-content style="max-width: 400px;">
+    <form [formGroup]="createForm" style="display:flex; flex-direction: column;">
+        <!-- description  -->
+
+        <mat-form-field style="margin-bottom: 8px; width: 100%;" appearance="outline">
+            <mat-label>Nombre</mat-label>
+            <input #input autocomplete="off" maxlength="40" formControlName="description" type="text" matInput
+                placeholder="Nombre">
+            <mat-error>
+                <span *ngIf="createForm.get('description').errors?.required">Campo requerido</span>
+                <span *ngIf="createForm.get('description').errors?.descriptionRepeatedValidator">Este contenido ya
+                    se
+                    encuentra repetido.</span>
+            </mat-error>
+        </mat-form-field>
+
+        <div *ngIf="data.type=='category'">
+           
+            <mat-form-field *ngIf="category$ | async as categories" style="margin-bottom: 8px; display:block"
+                appearance="outline">
+                <mat-label>SubCategorías</mat-label>
+                <mat-chip-list #chipList aria-label="Email selection">
+                    <div *ngFor="let user of subcategories; let i = index">
+                        <mat-chip [selectable]="true" [removable]="true" (removed)="remove(i)" *ngIf="user">
+                            {{user}}
+                            <mat-icon matChipRemove>cancel</mat-icon>
+                        </mat-chip>
+                    </div>
+
+                    <input #fruitInput [matAutocomplete]="auto" [matChipInputFor]="chipList"
+                        [matChipInputSeparatorKeyCodes]="separatorKeysCodes" [matChipInputAddOnBlur]="true"
+                        (matChipInputTokenEnd)="add($event)" formControlName="category">
+                </mat-chip-list>
+                <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" (optionSelected)="selected($event)">
+                    <mat-option *ngFor="let category of categories" [value]="category">
+                        {{category}}
+                    </mat-option>
+                </mat-autocomplete>
+            </mat-form-field>
+        </div>
+
+        <p *ngIf="data.type!='category'">
+            Imagen para Desktop
+        </p>
+        <mat-hint style="font-size: 0.8em;">
+            <span *ngIf="!(imageSize$ | async)">La imagen debe de tener una dimensión adecuada</span>
+            <span style="color: red;" *ngIf="(imageSize$ | async)">La imagen no tiene una dimensión adecuada</span>
+        </mat-hint>
+        <mat-hint style="font-size: 0.8em;">
+            <span *ngIf="this.data.type=='carousel'">Dimensión : 1545px x 426px</span>
+            <span *ngIf="this.data.type=='category'">Dimensión : 934px x 398px</span>
+            <span *ngIf="this.data.type=='promo'">Dimensión : 1431px x 300px</span>
+        </mat-hint>
+        <!-- Photo  -->
+        <div style="margin: 16px 0;text-align: center; ">
+            <img class="w3-card-4" (click)="photoURL.click()" *ngIf="createForm.get('photoURL').value!=null"
+                style="max-width:100%;max-height: 200px; object-fit: contain;" [src]="createForm.get('photoURL').value"
+                alt="fotografía">
+            <img class="w3-card-4" (click)="photoURL.click()" *ngIf="createForm.get('photoURL').value==null"
+                style="max-width:100%;max-height: 200px; object-fit: contain;" [src]="noImage" alt="sin fotografía">
+
+            <mat-progress-bar *ngIf="photos?.resizing$.photoURL | async" style="width:100%" mode="indeterminate">
+            </mat-progress-bar>
+            <span *ngIf="photos.resizing$.photoURL | async" class="w3-small ms-color-11 ms-font-montserrat"
+                style="width:100%">*comprimiendo</span>
+            <input style="display: none" #photoURL type="file" accept='image/*'
+                (change)="addNewPhoto('photoURL', photoURL.files)" />
+        </div>
+
+        <p *ngIf="data.type!='category'">Imagen para Móvil</p>
+        <mat-hint *ngIf="data.type!='category'" style="font-size: 0.8em;">
+            <span *ngIf="!(imagemovilSize$ | async)">La imagen debe de tener una dimensión adecuada</span>
+            <span style="color: red;" *ngIf="(imagemovilSize$ | async)">La imagen no tiene una dimensión adecuada</span>
+        </mat-hint>
+        <mat-hint style="font-size: 0.8em;">
+            <span *ngIf="this.data.type=='carousel'">Dimensión : 607px x 426px</span>
+            <span *ngIf="this.data.type=='promo'">Dimensión : 607px x 325px</span>
+        </mat-hint>
+        <!-- Photo  -->
+        <div style="margin: 16px 0; text-align: center;" *ngIf="data.type!='category'">
+            <img class="w3-card-4" (click)="photomovilURL.click()" *ngIf="createForm.get('photomovilURL').value!=null"
+                style=" max-width:100%;max-height: 200px; object-fit: contain;"
+                [src]="createForm.get('photomovilURL').value" alt="fotografía">
+            <img class="w3-card-4" (click)="photomovilURL.click()" *ngIf="createForm.get('photomovilURL').value==null"
+                style="max-width:100%;max-height: 200px; object-fit: contain;" [src]="noImage" alt="sin fotografía">
+
+            <mat-progress-bar *ngIf="photos?.resizing$.photomovilURL | async" style="width:100%" mode="indeterminate">
+            </mat-progress-bar>
+            <span *ngIf="photos.resizing$.photomovilURL | async" class="w3-small ms-color-11 ms-font-montserrat"
+                style="width:100%">*comprimiendo</span>
+            <input style="display: none" #photomovilURL type="file" accept='image/*'
+                (change)="addNewPhoto('photomovilURL', photomovilURL.files)" />
+        </div>
+
+        <div *ngIf="data.type!='category'">
+            <h2 style="font-size:1em; font-weight:600">
+                <mat-icon style="vertical-align:middle">format_list_bulleted</mat-icon> Lista de Productos
+            </h2>
+            <mat-divider></mat-divider>
+            <mat-form-field *ngIf="products$ | async as categories" style="margin-bottom: 8px; display:block"
+                appearance="outline">
+                <mat-label>Productos</mat-label>
+                <input autocomplete="off" formControlName="product" [matAutocomplete]="productAutocomplete" type="text"
+                    (keyup.enter)="addProduct()" matInput>
+                <mat-autocomplete autoActiveFirstOption #productAutocomplete="matAutocomplete"
+                    [displayWith]="showSelected">
+                    <mat-option *ngFor="let product of categories" [value]="product" (click)="addProduct()"
+                        (keyup.enter)="addProduct()">
+                        {{product['description']}}
+                    </mat-option>
+                </mat-autocomplete>
+                <mat-hint>
+                    Presione ENTER para agregar
+                </mat-hint>
+            </mat-form-field>
+
+
+            <div class="w3-section">
+                <ng-container *ngFor="let item of products">
+                    <div class="w3-border-bottom w3-border-lightgray w3-padding"
+                        style="display:flex; align-items: center">
+                        <span>{{item['description']}}</span>
+                        <button mat-icon-button (click)="removeProduct(item)" type="button">
+                            <mat-icon>delete</mat-icon>
+                        </button>
+                    </div>
+                </ng-container>
+            </div>
+            <div *ngIf="!products.length" class="w3-center">
+                <p style="font-size:14px">Agregue un producto a la lista</p>
+            </div>
+        </div>
+
+    </form>
+    <mat-divider></mat-divider>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+    <button mat-stroked-button class="w3-margin-right" mat-dialog-close>Cancelar</button>
+    <div *ngIf="data.edit">
+        <button mat-raised-button color="PRIMARY" *ngIf="data.type=='category'" (click)="editSubmit()" type="button"
+        [disabled]="createForm.status != 'VALID' || !subcategories.length || (imageSize$ | async)">Editar</button>
+        <button mat-raised-button color="PRIMARY" *ngIf="data.type != 'category'" (click)="editSubmit()" type="button"
+        [disabled]="createForm.status != 'VALID' || !products.length || (validImage$ | async) ">Editar</button>
+    </div>
+    <div *ngIf="!data.edit">
+        <button mat-raised-button color="PRIMARY" *ngIf="data.type=='category'" (click)="onSubmitForm()" type="button"
+        [disabled]="createForm.status != 'VALID' || !subcategories.length || (imageSize$ | async)">Guardar</button>
+        <button mat-raised-button color="PRIMARY" *ngIf="data.type != 'category'" (click)="onSubmitForm()" type="button"
+        [disabled]="createForm.status != 'VALID' || !products.length || (validImage$ | async)">Guardar</button>
+    </div>
+    
+</mat-dialog-actions>

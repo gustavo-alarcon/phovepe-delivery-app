@@ -1,0 +1,212 @@
+.actionsContainer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline
+}
+
+.actionsContainer .content {
+  margin: 16px;
+  line-height: 17px;
+  display: block !important;
+}
+
+.reveal {
+  display: inline-block;
+}
+
+.triangleTopLeft {
+  width: auto;
+  height: 120px;
+  position: relative;
+  border: solid;
+  border-color: #FF9F1C !important;
+}
+
+.triangleTopLeft::after {
+  content: " ";
+  position: absolute;
+  top: 0;
+  left: 0;
+  border-style: solid;
+  border-width: 35px 35px 35px 35px;
+  border-color: #FF9F1C transparent transparent #FF9F1C;
+}
+
+.triangleTopLeft::before {
+  content: "OFERTA";
+  font-weight: 900;
+  font-size: 17px;
+  color: white;
+  transform: rotate(-45deg);
+  z-index: 10;
+  position: absolute;
+  top: 15px;
+  left: 0;
+}
+
+/* Melanie */
+
+.slogan {
+  top: 0;
+  left: 0;
+  width: 80px;
+  height: 80px;
+  z-index: 2;
+  position: absolute;
+  top: 0;
+  clip-path: polygon(0 0, 0% 100%, 100% 0);
+}
+
+.promo {
+  position: absolute;
+  top: 20px;
+  left: 0px;
+  color: white;
+  transform: rotate(-45deg);
+  font-size: 0.9em;
+}
+
+.box-mobile {
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  width: 100%;
+  margin-bottom: 25px;
+}
+
+.box-mobile .box {
+  height: 53vw;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  min-height: 165px;
+  display: flex;
+  width: 100%;
+  max-height: 200px;
+  margin-bottom: 3px;
+}
+
+.box-mobile p {
+  margin-top: 0 !important;
+  margin-bottom: 0.3em !important;
+}
+
+.box-mobile .descrip {
+  padding: 0.5em 1em;
+  min-height: 60%;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  letter-spacing: 0.05em;
+  position: relative;
+}
+
+.box-mobile img {
+  object-fit: cover;
+  width: 42vw;
+  height: 100%;
+  max-width: 250px;
+}
+
+.box-mobile .simbol {
+  position: absolute;
+  right: 0.5em;
+  top: 0.5em;
+}
+
+.box-promo {
+  padding: 5px 10px;
+  font-size: 0.8em;
+  font-weight: 500;
+}
+
+.box-mobile img {
+  object-fit: cover;
+  width: 42vw;
+  height: 100%;
+}
+
+.box-mobile .simbol {
+  position: absolute;
+  right: 0.5em;
+  top: 0.5em;
+}
+
+.box-promo {
+  color: #FFFFFF;
+  padding: 5px 10px;
+  font-size: 0.8em;
+  font-weight: 500;
+}
+
+.fly-button {
+  position: fixed;
+  bottom: 15px;
+  left: 2vw;
+}
+
+.shopping-button {
+  color: #FFFFFF;
+  background: #FF9F1C;
+  width: 75px;
+  height: 75px;
+}
+
+.shopping-button .mat-icon {
+  font-size: 40px;
+  width: 40px;
+}
+
+::ng-deep .ngx-pagination .current {
+  background: #2EC4B6 !important;
+}
+
+::ng-deep .ngx-pagination li {
+  border-radius: 3px !important;
+}
+
+::ng-deep .ngx-pagination {
+  padding-inline-start: 0 !important;
+}
+
+.detail-form {
+  padding: 20px;
+}
+
+.detail-div {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.label {
+  font-weight: 500;
+  width: 30%;
+  max-width: 150px;
+  margin-top: 10px;
+}
+
+.detail-form .destiny {
+  width: 50%;
+}
+
+@media(max-width: 600px) {
+  .actionsContainer {
+    flex-direction: column;
+  }
+  .actionsContainer .content {
+    width: 100%;
+    margin-left: 0;
+  }
+  .detail-form .detail-input {
+    width: 100%;
+    margin: 0;
+  }
+  .detail-form .destiny {
+    width: 100%;
+  }
+  .label {
+    width: 100%;
+    max-width: 650px;
+    margin-top: 0;
+  }
+  .box-mobile .descrip {
+    font-size: 0.85em;
+    height: 68%;
+  }
+}
