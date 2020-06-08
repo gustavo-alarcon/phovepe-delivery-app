@@ -46,6 +46,7 @@ export class DatabaseService {
     private storage: AngularFireStorage,
     private auth: AuthService
   ) {
+    this.getDefault()
   }
 
   toggleDark() {
@@ -695,7 +696,7 @@ export class DatabaseService {
   getConfi(): Observable<any> {
     return this.afs.collection(`/db`).doc('mandaditos').valueChanges().pipe(
       shareReplay(1),
-     /* tap(res => {
+      tap(res => {
         if (res['logoURL']) {
           this.document.getElementById('appFavicon').setAttribute('href', res.logoURL)
           this.logoURL = res['logoURL'] ? res['logoURL'] : null
@@ -703,7 +704,7 @@ export class DatabaseService {
         }
 
 
-      })*/
+      })
     );
   }
 
@@ -711,7 +712,7 @@ export class DatabaseService {
 
     this.defaultImage$ = this.afs.collection(`/db`).doc('mandaditos').valueChanges().pipe(
       shareReplay(1),
-      map(res => res['defaultURL']?res['defaultURL']:null)
+      map(res => res['defaultURL'])
     );
     return this.defaultImage$
   }
