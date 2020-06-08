@@ -721,14 +721,11 @@ export class DatabaseService {
           this.logoURL = res['logoURL'] ? res['logoURL'] : null
           this.logomovilURL = res['logomovilURL'] ? res['logomovilURL'] : null
         }
-
-
       })
     );
   }
 
   getDefault(): Observable<any> {
-
     this.defaultImage$ = this.afs.collection(`/db`).doc('mandaditos').valueChanges().pipe(
       shareReplay(1),
       map(res => res['defaultURL'])
