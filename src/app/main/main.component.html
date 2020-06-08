@@ -55,6 +55,26 @@
                     <mat-icon class="menu__icon">phone</mat-icon>
                     <span>Contacto</span>
                 </button>
+                <form [formGroup]="themeFormGroup" *ngIf="themeFormGroup$ | async"
+                    style="display: flex; flex-direction: column; justify-content: center;
+                            padding: 16px">
+                    <mat-form-field  color="primary" appearance="outline">
+                      <mat-label>Color Primario</mat-label>
+                      <mat-select formControlName="primary">
+                        <mat-option *ngFor="let food of themesSelection" [value]="food">
+                          {{food.name |titlecase}}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                    <mat-form-field  color="accent" appearance="outline">
+                      <mat-label>Color Secundario</mat-label>
+                      <mat-select formControlName="accent">
+                        <mat-option *ngFor="let food of themesSelection" [value]="food">
+                          {{food.name |titlecase}}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                </form>
                 <p class="w3-margin-bottom"></p>
                 <div class="w3-center">
                     <button mat-raised-button color="primary" (click)="auth.logout()">

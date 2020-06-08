@@ -12,6 +12,7 @@ import * as jsPDF from 'jspdf';
 import { saveAs } from 'file-saver';
 import { Banner } from './models/banners.model';
 import { MaterialCssVarsService } from 'angular-material-css-vars';
+import { Theme } from './models/theme.model';
 
 interface theme {
   'primary-color': string, 
@@ -59,7 +60,6 @@ export class DatabaseService {
   ) {
     this.getDefault();
     this.materialCssVarsService.setAutoContrastEnabled(true);
-    this.setTheme(this.lightTheme);
   }
 
   toggleDark() {
@@ -70,16 +70,16 @@ export class DatabaseService {
     this.materialCssVarsService.setDarkTheme(false)
   }
 
-  setTheme(theme: theme) {
-    this.materialCssVarsService.setPrimaryColor(theme["primary-color"]);
-    this.materialCssVarsService.setAccentColor(theme["secundary-color"]);
+  setTheme(primaryTheme: Theme, accentTheme: Theme) {
+    this.materialCssVarsService.setPrimaryColor(primaryTheme.color);
+    this.materialCssVarsService.setAccentColor(accentTheme.color);
 
-    document.documentElement.style.setProperty(`--primary-color`, theme["primary-color"]);
-    document.documentElement.style.setProperty(`--secundary-color`, theme["secundary-color"]);
+    document.documentElement.style.setProperty(`--primary-color`, primaryTheme.color);
+    document.documentElement.style.setProperty(`--secundary-color`, accentTheme.color);
     document.documentElement.style.setProperty(`--third-color`, 
-      this.materialCssVarsService.getPaletteForColor(theme["primary-color"])[2].color.str);
+      this.materialCssVarsService.getPaletteForColor(primaryTheme.color)[2].color.str);
     document.documentElement.style.setProperty(`--forth-color`, 
-      this.materialCssVarsService.getPaletteForColor(theme["secundary-color"])[3].color.str);
+      this.materialCssVarsService.getPaletteForColor(accentTheme.color)[3].color.str);
   }
 
   getCategories(): Observable<string[]> {

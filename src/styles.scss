@@ -12,8 +12,8 @@ $mat-css-light-theme-selector: '.isLightTheme';
 // init theme 
 @include init-material-css-vars();
 
-@include mat-css-set-palette-defaults($mat-light-blue, 'primary');
-@include mat-css-set-palette-defaults($mat-pink, 'accent');
+@include mat-css-set-palette-defaults($mat-blue-gray, 'primary');
+@include mat-css-set-palette-defaults($mat-gray, 'accent');
 @include mat-css-set-palette-defaults($mat-red, 'warn');
 
 //app
