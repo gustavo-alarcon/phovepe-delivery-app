@@ -1,0 +1,68 @@
+<mat-progress-bar mode='indeterminate' *ngIf="(loading$ | async)==1"></mat-progress-bar>
+<div class="row-category" *ngIf="init$ | async">
+    <mat-progress-bar mode='indeterminate' *ngIf="(loading$ | async)==2"></mat-progress-bar>
+    <div class="box">
+        <div class="row-category" style="justify-content: space-between; padding: 10px 0;">
+            <span style="font-weight: 700;">Logo</span>
+            <button mat-raised-button color="PRIMARY" (click)="save('logoURL',2)" [disabled]="(loading$ | async)==2">
+                <span style="font-family: Montserrat;">Guardar</span>
+            </button>
+        </div>
+        <div style="margin: 16px 0; text-align: center;">
+            <img class="w3-card-4" (click)="logoURL.click()"
+                style="max-width:100%;max-height: 200px; object-fit: contain;" [src]="logo?logo:noImage"
+                alt="fotografía">
+
+            <mat-progress-bar *ngIf="photos?.resizing$.logoURL | async" style="width:100%" mode="indeterminate">
+            </mat-progress-bar>
+            <span *ngIf="photos.resizing$.logoURL | async" class="w3-small ms-color-11 ms-font-montserrat"
+                style="width:100%">*comprimiendo</span>
+            <input style="display: none" #logoURL type="file" accept='image/*'
+                (change)="addNewPhoto('logoURL', logoURL.files)" />
+        </div>
+    </div>
+    <div class="box">
+        <mat-progress-bar mode='indeterminate' *ngIf="(loading$ | async)==3"></mat-progress-bar>
+        <div class="row-category" style="justify-content: space-between; padding: 10px 0;">
+            <span style="font-weight: 700;">Logo Móvil</span>
+            <button mat-raised-button color="PRIMARY" (click)="save('logomovilURL',3)"
+                [disabled]="(loading$ | async)==3">
+                <span style="font-family: Montserrat;">Guardar</span>
+            </button>
+        </div>
+        <div style="margin: 16px 0;text-align: center;">
+            <img class="w3-card-4" (click)="logomovilURL.click()"
+                style="max-width:100%;max-height: 200px; object-fit: contain;" [src]="logomovil?logomovil:noImage"
+                alt="fotografía">
+
+            <mat-progress-bar *ngIf="photos?.resizing$.logomovilURL | async" style="width:100%" mode="indeterminate">
+            </mat-progress-bar>
+            <span *ngIf="photos.resizing$.logomovilURL | async" class="w3-small ms-color-11 ms-font-montserrat"
+                style="width:100%">*comprimiendo</span>
+            <input style="display: none" #logomovilURL type="file" accept='image/*'
+                (change)="addNewPhoto('logomovilURL', logomovilURL.files)" />
+        </div>
+    </div>
+    <div class="box">
+        <mat-progress-bar mode='indeterminate' *ngIf="(loading$ | async)==4"></mat-progress-bar>
+        <div class="row-category" style="justify-content: space-between; padding: 10px 0;">
+            <span style="font-weight: 700;">Imagen Default</span>
+            <button mat-raised-button color="PRIMARY" (click)="save('defaultURL',4)" [disabled]="(loading$ | async)==4">
+                <span style="font-family: Montserrat;">Guardar</span>
+            </button>
+        </div>
+        <div style="margin: 16px 0;text-align: center;">
+            <img class="w3-card-4" (click)="defaultURL.click()"
+                style="max-width:100%;max-height: 200px; object-fit: contain;" [src]="default?default:noImage"
+                alt="fotografía">
+
+            <mat-progress-bar *ngIf="photos?.resizing$.defaultURL | async" style="width:100%" mode="indeterminate">
+            </mat-progress-bar>
+            <span *ngIf="photos.resizing$.defaultURL | async" class="w3-small ms-color-11 ms-font-montserrat"
+                style="width:100%">*comprimiendo</span>
+            <input style="display: none" #defaultURL type="file" accept='image/*'
+                (change)="addNewPhoto('defaultURL', defaultURL.files)" />
+        </div>
+    </div>
+
+</div>

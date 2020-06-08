@@ -28,13 +28,25 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 //module
 import {MaterialCssVarsModule} from 'angular-material-css-vars';
 import { ColorPickerModule } from 'ngx-color-picker';
+import { AppRoutingModule } from './app-routing.module';
+import { LazyLoadImageModule, 
+          intersectionObserverPreset } from 'ng-lazyload-image';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatIconModule } from '@angular/material/icon';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { AuthService } from './core/auth.service';
+import { DatabaseService } from './core/database.service';
+import { LoginComponent } from './login/login.component';
+
 
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    LoginComponent,
   ],
   imports: [
+    AppRoutingModule,
     BrowserModule,
     BrowserAnimationsModule,
     AngularFireModule.initializeApp(environment.firebaseConfig, "meraki-delivery-app"),
@@ -52,6 +64,9 @@ import { ColorPickerModule } from 'ngx-color-picker';
     MatSelectModule,
     MatInputModule,
     ColorPickerModule,
+    MatSnackBarModule,
+    MatIconModule,
+    MatCheckboxModule,
     MaterialCssVarsModule.forRoot({
       // all optional
       isAutoContrast: true,
@@ -59,8 +74,14 @@ import { ColorPickerModule } from 'ngx-color-picker';
       lightThemeClass: 'isLightTheme',
       // ...
     }),
+    LazyLoadImageModule.forRoot({
+      preset: intersectionObserverPreset
+    }),
   ],
-  providers: [],
+  providers: [
+    AuthService,
+    DatabaseService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

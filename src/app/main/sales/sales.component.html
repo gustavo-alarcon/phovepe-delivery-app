@@ -1,0 +1,345 @@
+<div class="w3-section w3-margin-left w3-margin-right animated fadeInUp delay-2" style="height: 100%">
+    <div style="padding: 0 3vw;" *ngIf="sales$|async">
+        <div *ngIf="listview">
+            <h2 class="title">MIS MANDADITOS</h2>
+            <div style="display: flex; margin-top: 2em;">
+
+                <div class="sales-div">
+                    <mat-form-field appearance="outline" class="search-input">
+                        <input matInput placeholder="FECHA / PERIODO" [formControl]="date" [satDatepicker]="picker">
+                        <sat-datepicker #picker [rangeMode]="true"></sat-datepicker>
+                        <sat-datepicker-toggle matSuffix [for]="picker"></sat-datepicker-toggle>
+                    </mat-form-field>
+                    <mat-tab-group>
+                        <mat-tab label="En curso">
+                            <div class="buttonContainer">
+                                <button (click)="filterSaleData('Solicitado')" mat-raised-button
+                                    class="filter-button background--third" type="button">Pedidos:
+                                    {{getNumber(progress, 'Solicitado')}}</button>
+                                <button (click)="filterSaleData('Confirmado')" mat-raised-button
+                                    class="filter-button background--fourth" type="button">Confirmados:
+                                    {{getNumber(progress, 'Confirmado')}}</button>
+                                <button (click)="filterSaleData('En reparto')" mat-raised-button
+                                    class="filter-button background--secondary" type="button">En ruta:
+                                    {{getNumber(progress, 'En reparto')}}</button>
+                                <button (click)="filterSaleData('Todos')" class="filter-button"
+                                    style="background-color: #FFFFFF;color: #2B2B2B;" mat-raised-button
+                                    type="button">Todos: {{allSales}}</button>
+                            </div>
+                            <div class="w3-hide-small w3-hide-medium w3-margin-top">
+                                <div *ngIf="progress.length; else empty">
+                                    <div style="min-height: 37vh;">
+                                        <div class="list-container" [ngStyle]="{borderLeft: getBorderColor(item)}"
+                                            (click)="currentSale(item)"
+                                            *ngFor="let item of progress| paginate: { itemsPerPage: 6, currentPage: p2 }">
+                                            <div class="correlative">#{{("0000"+item['correlative']).slice(-5) }}</div>
+                                            <div class="date">
+                                                {{item['createdAt'].toMillis() | date: 'dd/MM/yyyy HH:mm'}}
+                                            </div>
+                                            <div class="date">
+                                                {{item['status']}}
+                                            </div>
+                                            <button mat-icon-button color="SECOND" (click)="openMap(item)">
+                                                <mat-icon>place</mat-icon>
+                                            </button>
+
+                                            <div class="subtotal" *ngIf="!item['totalConfirmedPrice']">S/.
+                                                {{item['total'] + item['deliveryPrice'] | number: '.2'}}
+                                            </div>
+                                            <div class="subtotal" *ngIf="item['totalConfirmedPrice']">S/.
+                                                {{item['totalConfirmedPrice'] + item['deliveryConfirmedPrice'] | number: '.2'}}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div style="display: flex; width: 100%; justify-content: flex-end;"
+                                        *ngIf="progress.length">
+                                        <pagination-controls (pageChange)="p2 = $event" previousLabel="" nextLabel=""
+                                            maxSize="6">
+                                        </pagination-controls>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="w3-hide-large w3-margin-top">
+                                <div *ngIf="progress.length; else empty">
+                                    <div style="min-height: 37vh;">
+                                        <div [className]="getBorderColor(item)"
+                                            (click)="listview=false;currentSale(item)"
+                                            *ngFor="let item of progress| paginate: { itemsPerPage: 6, currentPage: p3 }">
+                                            <div style="text-align: center;">
+                                                <div class="correlative">#{{("0000"+item['correlative']).slice(-5) }}
+                                                </div>
+                                                <button mat-icon-button color="SECOND" (click)="openMap(item)">
+                                                    <mat-icon>place</mat-icon>
+                                                </button>
+                                            </div>
+                                            <div>
+                                                <div class="date">
+                                                    {{item['createdAt'].toMillis() | date: 'dd/MM/yyyy HH:mm'}}
+                                                </div>
+                                                <div class="date">
+                                                    {{item['status']}}
+                                                </div>
+                                            </div>
+                                            <div class="subtotal" *ngIf="!item['totalConfirmedPrice']">S/.
+                                                {{item['total'] + item['deliveryPrice'] | number: '.2'}}
+                                            </div>
+                                            <div class="subtotal" *ngIf="item['totalConfirmedPrice']">S/.
+                                                {{item['totalConfirmedPrice'] + item['deliveryConfirmedPrice'] | number: '.2'}}
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <div style="display: flex; width: 100%; justify-content: flex-end;"
+                                        *ngIf="progress.length">
+                                        <pagination-controls (pageChange)="p3 = $event" previousLabel="" nextLabel=""
+                                            maxSize="6">
+                                        </pagination-controls>
+                                    </div>
+                                </div>
+                                <ng-template #empty>
+                                    <div class="empty"> <i>Sin resultados</i></div>
+                                </ng-template>
+                            </div>
+                        </mat-tab>
+                        <mat-tab label="Entregado">
+                            <div class="w3-hide-small w3-hide-medium w3-margin-top">
+                                <div *ngIf="entry.length; else empty">
+                                    <div style="min-height: 47vh;">
+                                        <div class="list-container" (click)="currentSale(item)"
+                                            *ngFor="let item of entry| paginate: { itemsPerPage: 6, currentPage: p1 }">
+                                            <div class="correlative">#{{("0000"+item['correlative']).slice(-5) }}</div>
+                                            <div class="date">
+                                                {{item['createdAt'].toMillis() | date: 'dd/MM/yyyy HH:mm'}}
+                                            </div>
+                                            <div class="date">
+                                                {{item['deliveryDate'].toMillis() | date: 'dd/MM/yyyy HH:mm'}}
+                                            </div>
+                                            <button mat-icon-button color="SECOND" (click)="openMap(item)">
+                                                <mat-icon>place</mat-icon>
+                                            </button>
+                                            <div class="subtotal">S/.
+                                                {{item['totalConfirmedPrice'] + item['deliveryConfirmedPrice'] | number: '.2'}}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div style="display: flex; width: 100%; justify-content: flex-end;"
+                                        *ngIf="entry.length">
+                                        <pagination-controls (pageChange)="p1 = $event" previousLabel="" nextLabel=""
+                                            maxSize="6">
+                                        </pagination-controls>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="w3-hide-large w3-margin-top">
+                                <div *ngIf="entry.length; else empty">
+                                    <div style="min-height: 47vh;">
+                                        <div class="list-container" (click)="listview=false;currentSale(item)"
+                                            *ngFor="let item of entry| paginate: { itemsPerPage: 6, currentPage: p }">
+                                            <div style="text-align: center;">
+                                                <div class="correlative">#{{("0000"+item['correlative']).slice(-5) }}
+                                                </div>
+                                                <button mat-icon-button color="SECOND" (click)="openMap(item)">
+                                                    <mat-icon>place</mat-icon>
+                                                </button>
+                                            </div>
+                                            <div>
+                                                <div class="date">
+                                                    {{item['createdAt'].toMillis() | date: 'dd/MM/yyyy HH:mm'}}
+                                                </div>
+                                                <div class="date">
+                                                    {{item['deliveryDate'].toMillis() | date: 'dd/MM/yyyy HH:mm'}}
+                                                </div>
+                                            </div>
+                                            <div class="subtotal">S/.
+                                                {{item['totalConfirmedPrice'] + item['deliveryConfirmedPrice'] | number: '.2'}}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div style="display: flex; width: 100%; justify-content: flex-end;"
+                                        *ngIf="entry.length">
+                                        <pagination-controls (pageChange)="p = $event" previousLabel="" nextLabel=""
+                                            maxSize="6">
+                                        </pagination-controls>
+                                    </div>
+                                </div>
+                                <ng-template #empty>
+                                    <div class="empty"> <i>Sin resultados</i></div>
+                                </ng-template>
+                            </div>
+                        </mat-tab>
+
+                    </mat-tab-group>
+
+
+                </div>
+                <div class="ticket ticket--small w3-hide-small w3-hide-medium" *ngIf="choose.length">
+                    <h3 class="ticket__subtitle"
+                        style="display: flex; flex-wrap: wrap; justify-content: space-between;align-items: center;">
+                        CARRITO DE COMPRAS
+                        <button mat-icon-button (click)="choose = []">
+                            <mat-icon>close</mat-icon>
+                        </button>
+                    </h3>
+                    <mat-divider></mat-divider>
+                    <div style="margin-top: 20px;">
+                        <div style="display: flex; flex-wrap: wrap; margin-bottom: 16px;">
+                            <div style="width: 20%;">Cant.</div>
+                            <div style="width: 55%;">Descripción</div>
+                            <div style="width: 25%;">Precio</div>
+                        </div>
+                        <div *ngFor="let item of choose">
+                            <div style="display: flex; flex-wrap: wrap; align-items: center;">
+                                <div style="width: 20%;">{{item['quantity']}}
+                                    ({{item['product']['ref']?item['product']['refUnit']:item['product']['unit']}})
+                                </div>
+                                <div style="width: 55%;">{{item['product']['description']}}</div>
+                                <div style="width: 25%;" *ngIf="!item['noRefQuantity']">S/.
+                                    {{giveProductPrice(item)|number: '.2'}}
+                                </div>
+                                <div style="width: 25%;" *ngIf="item['noRefQuantity']">S/.
+                                    {{item['price']|number: '.2'}}
+                                </div>
+                            </div>
+                            <div *ngIf="item['product']['promo'] && item['quantity']>=item['product']['promoData']['quantity']"
+                                style="display: flex; flex-wrap: wrap; align-items: center;">
+                                <div style="width: 20%;"></div>
+                                <div style="width: 55%;">
+                                    <mat-hint>
+                                        {{roundNumber(item['quantity']/item['product']['promoData']['quantity']) }}
+                                        ({{item['product']['promoData']['quantity']}} {{item['product']['unit']}} x
+                                        S/.{{item['product']['promoData']['promoPrice'] | number: '.2'}} )
+                                    </mat-hint>
+                                </div>
+                            </div>
+                            <div *ngIf="item['product']['ref'] && !confirm"
+                                style="display: flex; flex-wrap: wrap; align-items: center;">
+                                <div style="width: 20%;"></div>
+                                <div style="width: 45%;">
+                                    <mat-hint>1({{item['product']['refUnit']}})
+                                        <mat-icon style="vertical-align: middle;">arrow_right_alt</mat-icon>
+                                        aprox. {{round(item['product']['refPrice']/item['product']['price'])}}
+                                        {{item['product']['unit']}}
+                                    </mat-hint>
+                                </div>
+                            </div>
+                            <div *ngIf="item['noRefQuantity']"
+                                style="display: flex; flex-wrap: wrap; align-items: center;">
+                                <div style="width: 20%;"></div>
+                                <div style="width: 55%;">
+                                    <mat-hint>({{item['noRefQuantity']}} {{item['product']['unit']}} x
+                                        S/.{{item['product']['price'] | number: '.2'}}/{{item['product']['unit']}} )
+                                    </mat-hint>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="ticket__separate"></div>
+                        <div>
+                            <div style="display: flex; flex-wrap: wrap; ">
+                                <div style="width: 75%; text-align: right;padding: 0 20px;">Total</div>
+                                <div style="width: 25%;">S/. {{total | number: '.2'}}</div>
+                            </div>
+                        </div>
+                        <div class="ticket__separate"></div>
+                        <div style="display: flex; flex-wrap: wrap; ">
+                            <div style="width: 75%; text-align: right;padding: 0 20px;">Delivery</div>
+                            <div style="width: 25%;">S/. {{delivery | number: '.2'}}</div>
+                        </div>
+                    </div>
+                    <div style="display: flex; flex-direction: row-reverse; margin-top: 20px;">
+                        <div>
+                            <div class="ticket__total">
+                                S/.{{delivery + total | number: '.2'}}
+                            </div>
+                            <mat-hint *ngIf="!confirm">*Precio estimado</mat-hint>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div *ngIf="!listview">
+            <div style="display: flex; flex-wrap: wrap; align-items: center;">
+                <button mat-icon-button color="SECOND" (click)="listview=true">
+                    <mat-icon>arrow_back</mat-icon>
+                </button>
+                <h2 class="title w3-margin-left">MANDADITO #{{("0000"+correlative).slice(-5) }}</h2>
+            </div>
+            <div>
+                <div style="margin-top: 20px;">
+                    <div style="display: flex; flex-wrap: wrap; margin-bottom: 16px;">
+                        <div style="width: 25%;">Cant.</div>
+                        <div style="width: 50%;">Descripción</div>
+                        <div style="width: 25%;">Precio</div>
+                    </div>
+                    <div *ngFor="let item of choose">
+                        <div style="display: flex; flex-wrap: wrap; align-items: center;">
+                            <div style="width: 25%;">{{item['quantity']}}
+                                ({{item['product']['ref']?item['product']['refUnit']:item['product']['unit']}})
+                            </div>
+                            <div style="width: 50%;">{{item['product']['description']}}</div>
+                            <div style="width: 25%;" *ngIf="!item['noRefQuantity']">S/.
+                                {{giveProductPrice(item)|number: '.2'}}
+                            </div>
+                            <div style="width: 25%;" *ngIf="item['noRefQuantity']">S/.
+                                {{item['price']|number: '.2'}}
+                            </div>
+                        </div>
+                        <div *ngIf="item['product']['promo'] && item['quantity']>=item['product']['promoData']['quantity']"
+                            style="display: flex; flex-wrap: wrap; align-items: center;">
+                            <div style="width: 25%;"></div>
+                            <div style="width: 50%;">
+                                <mat-hint>
+                                    {{roundNumber(item['quantity']/item['product']['promoData']['quantity']) }}
+                                    ({{item['product']['promoData']['quantity']}} {{item['product']['unit']}} x
+                                    S/.{{item['product']['promoData']['promoPrice'] | number: '.2'}} )
+                                </mat-hint>
+                            </div>
+                        </div>
+                        <div *ngIf="item['product']['ref'] && !confirm"
+                            style="display: flex; flex-wrap: wrap; align-items: center;">
+                            <div style="width: 20%;"></div>
+                            <div style="width: 45%;">
+                                <mat-hint>1({{item['product']['refUnit']}})
+                                    <mat-icon style="vertical-align: middle;">arrow_right_alt</mat-icon>
+                                    aprox. {{round(item['product']['refPrice']/item['product']['price'])}}
+                                    {{item['product']['unit']}}
+                                </mat-hint>
+                            </div>
+                        </div>
+                        <div *ngIf="item['noRefQuantity']" style="display: flex; flex-wrap: wrap; align-items: center;">
+                            <div style="width: 25%;"></div>
+                            <div style="width: 50%;">
+                                <mat-hint>({{item['noRefQuantity']}} {{item['product']['unit']}} x
+                                    S/.{{item['product']['price'] | number: '.2'}}/{{item['product']['unit']}} )
+                                </mat-hint>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="ticket__separate"></div>
+                    <div>
+                        <div style="display: flex; flex-wrap: wrap; ">
+                            <div style="width: 75%; text-align: right;padding: 0 20px;">Total</div>
+                            <div style="width: 25%;">S/. {{total | number: '.2'}}</div>
+                        </div>
+                    </div>
+                    <div class="ticket__separate"></div>
+                    <div style="display: flex; flex-wrap: wrap; ">
+                        <div style="width: 75%; text-align: right;padding: 0 20px;">Delivery</div>
+                        <div style="width: 25%;">S/. {{delivery | number: '.2'}}</div>
+                    </div>
+                </div>
+                <div style="display: flex; flex-direction: row-reverse; margin-top: 20px;">
+                    <div>
+                        <div class="ticket__total">
+                            S/.{{delivery + total | number: '.2'}}
+                        </div>
+                        <mat-hint *ngIf="!confirm">*Precio estimado</mat-hint>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

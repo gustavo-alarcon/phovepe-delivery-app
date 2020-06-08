@@ -1,0 +1,253 @@
+<div class="ticket ticket--big">
+    <h3 class="ticket__subtitle">
+      <div style="display: flex; flex-direction: row; justify-content: space-between; align-items: center;">
+        <span>CARRITO DE COMPRAS #{{sale.correlative | number:'3.0-3'}}</span>
+        <span>
+            <button *ngIf="sale.status == 'Confirmado'" (click)="onEditStatus('Solicitar')"
+                mat-raised-button color="warn" type="button">
+                Editar Pedido
+            </button>
+            <button *ngIf="sale.status == 'En reparto'" (click)="onEditStatus('Confirmar')"
+                mat-raised-button color="warn" type="button">
+                Reasignar Chofer
+            </button>
+        </span>
+      </div>
+    </h3>
+  <mat-divider></mat-divider>
+  <div style="margin-top: 20px;">
+    <table style="width:100%; border-collapse: collapse;">
+        <tr>
+            <th>Cant.</th>
+            <th>Descripción</th> 
+            <th>Precio</th>
+        </tr>
+        <tr *ngFor="let confirmedProduct of sale.confirmedProductList; let i = index">
+
+            <div style="display:contents">
+                <!-- Quantity -->
+                <td style="white-space: nowrap;">
+                    {{confirmedProduct.quantity}}
+                    {{confirmedProduct.product.ref ? confirmedProduct.product.refUnit : confirmedProduct.product.unit}}
+                </td>
+                <!-- Description -->
+                <td>
+                    <!-- span *ngIf="!item.get('ref') && !item.get('promo')" -->
+                    <span *ngIf="!confirmedProduct.product.ref && !confirmedProduct.product.promo">
+                        {{confirmedProduct.product.description}}
+                    </span>
+                    <!-- We have ref, but no promo -->
+                    <div *ngIf="confirmedProduct.product.ref && !confirmedProduct.product.promo"
+                        style="display:flex; flex-direction: column;">
+                        <p>
+                            {{confirmedProduct.product.description}}
+                        </p>
+                        <div style="display: flex; flex-direction: row; flex-wrap: wrap; justify-content: space-between;
+                                    margin-bottom: 15px; align-items: center">
+                            <div>
+                                Precio real: 
+                            </div>
+                            <div>
+                                {{confirmedProduct.product.price | currency: 'S/. '}}/{{confirmedProduct.product.unit}}
+                            </div>
+                        </div>
+                        <div style="display: flex; flex-direction: row; flex-wrap: wrap; justify-content: space-between;
+                                    margin-bottom: 15px; align-items: center">
+                            <div>
+                                Peso real: 
+                            </div>
+                            <div>
+                                {{confirmedProduct.noRefQuantity}}
+                                {{confirmedProduct.product.unit}}
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- We have promo, but no ref-->
+                    <div *ngIf="!confirmedProduct.product.ref && confirmedProduct.product.promo"
+                        style="display:flex; flex-direction: column">
+                        <p>
+                            {{confirmedProduct.product.description}}
+                        </p>
+                        <div style="display: flex; flex-direction: row; flex-wrap: wrap; justify-content: space-between;
+                                    margin-bottom: 15px; ; align-items: center">
+                            <div>
+                                OFERTA: 
+                            </div>
+                            <div>
+                                {{confirmedProduct.product.promoData.quantity}} {{(confirmedProduct.product.unit)}} X
+                                {{confirmedProduct.product.promoData.promoPrice | currency: 'S/. '}}
+                            </div>
+                        </div>
+                        <div style="display: flex; flex-direction: row; flex-wrap: wrap; justify-content: space-between;
+                                    margin-bottom: 15px; ; align-items: center">
+                            <div>
+                                Cantidad de Ofertas: 
+                            </div>
+                            <div>
+                                {{onFloor(confirmedProduct.quantity, confirmedProduct.product.promoData.quantity)}}
+                            </div>
+                        </div>
+                        <ng-container *ngIf="confirmedProduct.quantity % confirmedProduct.product.promoData.quantity">
+                            <div style="display: flex; flex-direction: row; flex-wrap: wrap; justify-content: space-between;
+                                        margin-bottom: 15px; ; align-items: center">
+                                <div>
+                                    Precio sin oferta: 
+                                </div>
+                                <div>
+                                    {{confirmedProduct.product.price | currency: 'S/. '}}/{{confirmedProduct.product.unit}}
+                                </div>
+                            </div>
+                            <div style="display: flex; flex-direction: row; flex-wrap: wrap; justify-content: space-between;
+                                        margin-bottom: 15px; ; align-items: center">
+                                <div>
+                                    Cantidad sin oferta: 
+                                </div>
+                                <div>
+                                    {{confirmedProduct.quantity % confirmedProduct.product.promoData.quantity}}
+                                    {{confirmedProduct.product.unit}}
+                                </div>
+                            </div>
+                            <div style="display: flex; flex-direction: row; flex-wrap: wrap; justify-content: space-between;
+                                        margin-bottom: 15px; ; align-items: center">
+                                <div>
+                                    Precio Adicional: 
+                                </div>
+                                <div>
+                                    {{(confirmedProduct.quantity % confirmedProduct.product.promoData.quantity)
+                                    *confirmedProduct.product.price | currency:'S/. '}}
+                                </div>
+                            </div>
+                        </ng-container>
+                        
+                    </div>
+                
+                    <!-- We have promo and ref-->
+                    <div *ngIf="confirmedProduct.product.ref && confirmedProduct.product.promo"
+                        style="display:flex; flex-direction: column">
+                        <p>
+                            {{confirmedProduct.product.description}}
+                        </p>
+                        <div style="display: flex; flex-direction: row; flex-wrap: wrap; justify-content: space-between;
+                                    margin-bottom: 15px; ; align-items: center">
+                            <div>
+                                OFERTA: 
+                            </div>
+                            <div>
+                                {{confirmedProduct.product.promoData.quantity}}{{(confirmedProduct.product.refUnit)}} X
+                                {{confirmedProduct.product.promoData.promoPrice | currency: 'S/. '}}
+                            </div>
+                        </div>
+                        <div style="display: flex; flex-direction: row; flex-wrap: wrap; justify-content: space-between;
+                                    margin-bottom: 15px; ; align-items: center">
+                            <div>
+                                Cantidad de Ofertas: 
+                            </div>
+                            <div>
+                                {{onFloor(confirmedProduct.quantity, confirmedProduct.product.promoData.quantity)}}
+                            </div>
+                        </div>
+                        <ng-container *ngIf="confirmedProduct.quantity % confirmedProduct.product.promoData.quantity">
+                            <div style="display: flex; flex-direction: row; flex-wrap: wrap; justify-content: space-between;
+                                        margin-bottom: 15px; ; align-items: center">
+                                <div>
+                                    Cantidad ref. sin oferta: 
+                                </div>
+                                <div>
+                                    {{confirmedProduct.quantity % confirmedProduct.product.promoData.quantity}}
+                                    {{confirmedProduct.product.refUnit}}
+                                </div>
+                            </div>
+                            <div style="display: flex; flex-direction: row; flex-wrap: wrap; justify-content: space-between;
+                                        margin-bottom: 15px; ; align-items: center">
+                                <div>
+                                    Peso real sin oferta: 
+                                </div>
+                                <div>
+                                    {{confirmedProduct.noRefQuantity}}
+                                    {{confirmedProduct.product.unit}}
+                                </div>
+                            </div>
+                            <div style="display: flex; flex-direction: row; flex-wrap: wrap; justify-content: space-between;
+                                        margin-bottom: 15px; ; align-items: center">
+                                <div>
+                                    Precio real sin oferta: 
+                                </div>
+                                <div>
+                                    {{confirmedProduct.product.price | currency: 'S/. '}}/{{confirmedProduct.product.unit}}
+                                </div>
+                            </div>
+                            <div style="display: flex; flex-direction: row; flex-wrap: wrap; justify-content: space-between;
+                                        margin-bottom: 15px; ; align-items: center">
+                                <div>
+                                    Precio adicional: 
+                                </div>
+                                <div>
+                                    {{(confirmedProduct.quantity % confirmedProduct.product.promoData.quantity ? 
+                                        confirmedProduct.noRefQuantity * confirmedProduct.product.price : 0) | currency: 'S/. '}}
+                                </div>
+                            </div>
+                        </ng-container>
+                        
+                    </div>
+                </td>
+                <!-- price -->
+                <td style="white-space: nowrap; text-align: right" >
+                    {{confirmedProduct.price | currency: 'S/. '}}
+                </td>
+            </div>
+        </tr>
+        <tr>
+            <td style="border-top: 2px solid #4F4F4F;"></td>
+            <td style="text-align: right; border-top: 2px solid #4F4F4F;">
+                Total
+            </td>
+            <td style="white-space: nowrap; text-align: right; border-top: 2px solid #4F4F4F;">
+                {{sale.totalConfirmedPrice | currency:'S/. '}}
+            </td>
+        </tr>
+        <tr>
+            <td style="border-bottom: 2px solid #4F4F4F; "></td>
+            <td style="border-bottom: 2px solid #4F4F4F; text-align: right">
+                Delivery
+            </td>
+            <td style="border-bottom: 2px solid #4F4F4F; white-space: nowrap; text-align: right" >
+                {{sale.deliveryConfirmedPrice | currency:'S/. '}}
+            </td>
+        </tr>
+    </table>
+  </div>
+  <div style="display: flex; flex-direction: row-reverse; margin-top: 20px;">
+      <div class="total">
+        {{sale.totalConfirmedPrice + sale.deliveryConfirmedPrice | currency:'S/. '}}
+      </div>
+  </div>
+
+  <ng-container *ngIf="sale.status == 'Confirmado'">
+    <p><b>Elija al chofer de despacho:</b></p>
+    <mat-form-field 
+      *ngIf="(driver$ | async) as drivers else loading"
+      appearance="outline"
+      style="display: block">
+      <mat-label>Chofer</mat-label>
+      <mat-select [formControl]="dispatchForm">
+        <mat-option *ngFor="let driver of drivers" [value]="driver">
+          {{driver.displayName}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <ng-template #loading>Cargando choferes...</ng-template>
+  
+    <button
+          style="display: block; width:100%"
+          mat-raised-button color="PRIMARY" (click)="onSubmitForm('Despachar')" type="button"
+          [disabled]="dispatchForm.status != 'VALID'">Despachar</button>
+    
+  </ng-container>
+
+    <button *ngIf="sale.status == 'En reparto' || sale.status == 'Entregado'"
+          style="display: block"
+          mat-raised-button color="PRIMARY" (click)="onPrintSale()" type="button">
+          Imprimir</button>
+  
+</div>

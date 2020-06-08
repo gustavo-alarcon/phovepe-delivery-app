@@ -1,0 +1,64 @@
+<div class="w3-section w3-margin-left w3-margin-right animated fadeInUp delay-2" style="height: 100%">
+  <div style="padding: 0 3vw;">
+      <h2 class="title">
+        <div class="containerMobile">
+          <button style="vertical-align: text-bottom;"
+            mat-icon-button
+            *ngIf="detail$ | async" 
+            (click)="back()">
+            <mat-icon>arrow_back</mat-icon>
+          </button>
+        </div>
+        VENTAS</h2>
+      <div style="display: flex; margin-top: 2em; justify-content: space-between;">
+
+            <div class="containerDesktop">
+              <app-sale-master style="width:100%;"
+                [detailSubject]="detailSubject">
+              </app-sale-master>
+
+              <ng-container *ngIf="detail$ | async as detail">
+                <app-sale-detail class="animated fadeIn "
+                  style="width:700px; margin-left: 32px"
+                  *ngIf="detail.status == 'Solicitado'"
+                  [sale]="detail"
+                  [detailSubject]="detailSubject">
+                </app-sale-detail>
+
+                <app-sale-confirmed-detail class="animated fadeIn "
+                  style="width:700px; margin-left: 32px"
+                  *ngIf="detail.status == 'Confirmado' || detail.status == 'En reparto' || detail.status == 'Entregado'"
+                  [sale]="detail"
+                  [detailSubject]="detailSubject">
+                </app-sale-confirmed-detail>
+              </ng-container>
+              
+            </div>
+
+            <div class="containerMobile">
+              <ng-template #master>
+                <app-sale-master style="width:100%" 
+                  [detailSubject]="detailSubject">
+                </app-sale-master>
+              </ng-template>
+
+              <ng-container *ngIf="detail$ | async as detail else master">
+                <app-sale-detail class="animated fadeIn "
+                    style="width:100%; min-width:300px"
+                    *ngIf="detail.status == 'Solicitado'"
+                    [sale]="detail"
+                    [detailSubject]="detailSubject">
+                </app-sale-detail>
+
+                <app-sale-confirmed-detail class="animated fadeIn "
+                    style="width:100%; min-width:300px"
+                    *ngIf="detail.status == 'Confirmado' || detail.status == 'En reparto' || detail.status == 'Entregado'"
+                    [sale]="detail"
+                    [detailSubject]="detailSubject">
+                </app-sale-confirmed-detail>
+              </ng-container>
+            </div>
+            
+      </div>
+  </div>
+</div>

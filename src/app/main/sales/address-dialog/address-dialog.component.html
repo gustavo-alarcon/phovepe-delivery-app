@@ -1,0 +1,32 @@
+<div mat-dialog-title>
+  <h2 style="font-size:1.2em; font-family: Montserrat; display: flex;justify-content: space-between;flex-wrap: wrap;">
+    <span>
+      <mat-icon style="vertical-align:middle">place</mat-icon>
+      Ubicación
+    </span>
+    <span>
+      <button mat-icon-button mat-dialog-close>
+        <mat-icon>close</mat-icon>
+      </button>
+    </span>
+  </h2>
+  <mat-divider></mat-divider>
+</div>
+<mat-dialog-content>
+
+  <mat-form-field style="margin-bottom: 8px; display: block;" appearance="outline">
+    <mat-label>Dirección</mat-label>
+    <input readonly autocomplete="off" [formControl]="adress" type="text" matInput>
+  </mat-form-field>
+
+  <mat-form-field style="margin-bottom: 8px; display: block;" appearance="outline">
+    <mat-label>Referencia</mat-label>
+    <input readonly autocomplete="off" [formControl]="reference" type="text" matInput>
+  </mat-form-field>
+
+
+  <agm-map style="height: 250px" [zoom]="16" [latitude]="data.location.coord.lat" [longitude]="data.location.coord.lng">
+    <agm-marker [latitude]="data.location.coord.lat" [longitude]="data.location.coord.lng"></agm-marker>
+  </agm-map>
+
+</mat-dialog-content>

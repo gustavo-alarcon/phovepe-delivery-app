@@ -1,0 +1,37 @@
+<div style="width: 300px;">
+    <div mat-dialog-title>
+        <div class="ms-flex">
+            <h2 class="title-dialog">
+                Contacto
+            </h2>
+            <span class="ms-fill"></span>
+            <button mat-icon-button mat-dialog-close>
+                <mat-icon>close</mat-icon>
+            </button>
+        </div>
+        <mat-divider></mat-divider>
+    </div>
+    <div *ngIf="contact$ | async as contact">
+        <p>¿Quieres comounicarte con un asesor?</p>
+        <div class="w3-center">
+            <a mat-button class="what-button font--primary border--primary"
+                href="https://api.whatsapp.com/send?phone=51{{contact['phone']}}&text=Hola!" target="_blank">
+                <img src="../../../assets/images/whatsapp.png" class="what-button__img" alt="whatsapp">
+                <span class="what-button__span">Escríbenos</span>
+            </a>
+        </div>
+
+        <p>También, vísitanos:</p>
+
+        <div style="text-align: center;">
+            <a href="https://www.facebook.com/{{contact['facebook']}}/" target="_blank" class="font--primary">
+                <img src="../../../assets/images/002-facebook.png" class="face__img" alt="facebook">
+                <span style="vertical-align: middle;">@{{contact['facebook']}}</span>
+            </a>
+
+        </div>
+    </div>
+
+
+
+</div>

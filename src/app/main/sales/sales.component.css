@@ -1,0 +1,86 @@
+
+.sales-div {
+    width: 70%;
+    padding: 0 25px;
+}
+
+.list-container {
+    background: #FFFFFF;
+    width: 100%;
+    max-width: 900px;
+    border-style: solid;
+    border-width: 1px 1px 1px 12px;
+    border-top-color: #c4c4c4;
+    border-right-color: #c4c4c4;
+    border-bottom-color: #c4c4c4;
+    box-sizing: border-box;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    padding: 10px 25px;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.list-container--black {
+    border-left-color: black;
+}
+
+.list-container--red {
+    border-color: red;
+}
+
+.correlative {
+    font-weight: 900;
+    letter-spacing: 0.05em;
+    color: #2B2B2B;
+}
+
+.search-form .search-input {
+    margin: 0 16px;
+}
+
+.date {
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    color: #2B2B2B;
+}
+
+/* Styles for tab labels */
+
+.buttonContainer {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin: 16px 0;
+}
+
+.buttonContainer .filter-button {
+    font-weight: 900;
+    letter-spacing: 0.05em;
+    margin: 8px 0;
+}
+
+@media(max-width:950px) {
+    .sales-div {
+        width: 100%;
+        padding: 0;
+    }
+}
+
+@media(max-width: 600px) {
+    .search-form .search-input {
+        width: 100%;
+        margin: 0;
+    }
+}
+
+@media(max-width:800px) {
+    .list-container {
+        padding: 10px;
+        font-size: small;
+    }
+}
