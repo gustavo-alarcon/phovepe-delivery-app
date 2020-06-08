@@ -1,8 +1,5 @@
 /* You can add global styles to this file, and also import other style files */
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
-
 @import '~angular-material-css-vars/main';
 @import './assets/css/w3.css';
 // optional 
@@ -175,76 +172,6 @@ img.ng-lazyloaded {
   font-family: 'Montserrat', sans-serif;
 }
 
-// .mat-button.mat-raised-button.mat-PRIMARY, .mat-stroked-button.mat-raised-button.mat-PRIMARY, .mat-icon-button.mat-raised-button.mat-PRIMARY {
-//   color: var(--primary-color);
-// }
-
-// .mat-button.mat-raised-button.mat-PRIMARY:hover, .mat-stroked-button.mat-raised-button.mat-PRIMARY:hover {
-//   background-color: #FFFFFF;
-// }
-
-// .mat-raised-button.mat-raised-button.mat-PRIMARY, .mat-flat-button.mat-raised-button.mat-PRIMARY, .mat-fab.mat-raised-button.mat-PRIMARY, .mat-mini-fab.mat-raised-button.mat-PRIMARY {
-//   color: #FFFFFF;
-//   background-color: var(--primary-color);
-// }
-
-// .mat-icon-button.mat-icon-button.mat-PRIMARY, .mat-flat-button.mat-icon-button.mat-PRIMARY, .mat-fab.mat-icon-button.mat-PRIMARY, .mat-mini-fab.mat-icon-button.mat-PRIMARY {
-//   color: #FFFFFF;
-//   background-color: var(--primary-color);
-// }
-
-// .mat-raised-button[disabled]:not([class*="mat-elevation-z"]) {
-//   background-color: rgba(0, 0, 0, .12);
-//   color: rgba(0, 0, 0, .26);
-//   box-shadow: rgba(0, 0, 0, 0.2) 0px 0px 0px 0px, rgba(0, 0, 0, 0.14) 0px 0px 0px 0px, rgba(0, 0, 0, 0.12) 0px 0px 0px 0px;
-// }
-
-// .mat-button[disabled][disabled] {
-//   color: rgba(0, 0, 0, .26);
-//   background-color: rgba(0, 0, 0, .12) !important;
-// }
-
-// .mat-icon-button[disabled][disabled]:not([class*="mat-paginator"]) {
-//   background-color: rgba(0, 0, 0, .12);
-//   color: rgba(0, 0, 0, .26);
-//   box-shadow: rgba(0, 0, 0, 0.2) 0px 0px 0px 0px, rgba(0, 0, 0, 0.14) 0px 0px 0px 0px, rgba(0, 0, 0, 0.12) 0px 0px 0px 0px;
-// }
-
-// /* SECONDARY */
-
-// .mat-button.mat-raised-button.mat-SECONDARY, .mat-stroked-button.mat-raised-button.mat-SECONDARY, .mat-icon-button.mat-raised-button.mat-SECONDARY {
-//   color: var(--secundary-color);
-// }
-
-// .mat-button.mat-raised-button.mat-SECONDARY:hover, .mat-stroked-button.mat-raised-button.mat-SECONDARY:hover {
-//   background-color: #FFFFFF;
-// }
-
-// .mat-raised-button.mat-raised-button.mat-SECONDARY, .mat-flat-button.mat-raised-button.mat-SECONDARY, .mat-fab.mat-raised-button.mat-SECONDARY, .mat-mini-fab.mat-raised-button.mat-SECONDARY {
-//   color: #FFFFFF;
-//   background-color: var(--secundary-color);
-// }
-
-// .mat-icon-button.mat-icon-button.mat-SECONDARY, .mat-flat-button.mat-icon-button.mat-SECONDARY, .mat-fab.mat-icon-button.mat-SECONDARY, .mat-mini-fab.mat-icon-button.mat-SECONDARY {
-//   color: #FFFFFF;
-//   background-color: var(--secundary-color);
-// }
-
-// .mat-raised-button[disabled]:not([class*="mat-elevation-z"]) {
-//   background-color: rgba(0, 0, 0, .12);
-//   color: rgba(0, 0, 0, .26);
-//   box-shadow: rgba(0, 0, 0, 0.2) 0px 0px 0px 0px, rgba(0, 0, 0, 0.14) 0px 0px 0px 0px, rgba(0, 0, 0, 0.12) 0px 0px 0px 0px;
-// }
-
-// /*icons*/
-
-// .mat-icon-button.mat-icon-button.mat-FIRST, .mat-flat-button.mat-icon-button.mat-FIRST, .mat-fab.mat-icon-button.mat-FIRST, .mat-mini-fab.mat-icon-button.mat-FIRST {
-//   color: var(--primary-color);
-// }
-
-// .mat-icon-button.mat-icon-button.mat-SECOND, .mat-flat-button.mat-icon-button.mat-SECOND, .mat-fab.mat-icon-button.mat-SECOND, .mat-mini-fab.mat-icon-button.mat-SECOND {
-//   color: var(--secundary-color);
-// }
 
 /*ticket*/
 
