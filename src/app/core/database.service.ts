@@ -11,23 +11,33 @@ import { User } from './models/user.model';
 import * as jsPDF from 'jspdf';
 import { saveAs } from 'file-saver';
 import { Banner } from './models/banners.model';
+import { MaterialCssVarsService } from 'angular-material-css-vars';
 
+interface theme {
+  'primary-color': string, 
+  'secundary-color': string, 
+  'third-color': string, 
+  'forth-color': string
+}
 
 @Injectable({
   providedIn: 'root'
 })
+
 export class DatabaseService {
   public document: any = null
-  public darkTheme = {
+
+  
+  public darkTheme: theme = {
     'primary-color': '#455363',
     'secundary-color': '#1f2935',
     'third-color': '#2d2d2d',
     'forth-color': '#fff'
   };
 
-  public lightTheme = {
-    'primary-color': '#2EC4B6',
-    'secundary-color': '#FF9F1C',
+  public lightTheme: theme = {
+    'primary-color': '#009688',
+    'secundary-color': '#FFC107',
     'third-color': '#CBF3F0',
     'forth-color': '#FFBF69'
   };
@@ -44,23 +54,32 @@ export class DatabaseService {
   constructor(
     private afs: AngularFirestore,
     private storage: AngularFireStorage,
-    private auth: AuthService
+    private auth: AuthService,
+    private materialCssVarsService: MaterialCssVarsService
   ) {
-    this.getDefault()
-  }
-
-  toggleDark() {
-    this.setTheme(this.darkTheme);
-  }
-
-  toggleLight() {
+    this.getDefault();
+    this.materialCssVarsService.setAutoContrastEnabled(true);
     this.setTheme(this.lightTheme);
   }
 
-  private setTheme(theme: {}) {
-    Object.keys(theme).forEach(k =>
-      document.documentElement.style.setProperty(`--${k}`, theme[k])
-    );
+  toggleDark() {
+    this.materialCssVarsService.setDarkTheme(true)
+  }
+
+  toggleLight() {
+    this.materialCssVarsService.setDarkTheme(false)
+  }
+
+  setTheme(theme: theme) {
+    this.materialCssVarsService.setPrimaryColor(theme["primary-color"]);
+    this.materialCssVarsService.setAccentColor(theme["secundary-color"]);
+
+    document.documentElement.style.setProperty(`--primary-color`, theme["primary-color"]);
+    document.documentElement.style.setProperty(`--secundary-color`, theme["secundary-color"]);
+    document.documentElement.style.setProperty(`--third-color`, 
+      this.materialCssVarsService.getPaletteForColor(theme["primary-color"])[2].color.str);
+    document.documentElement.style.setProperty(`--forth-color`, 
+      this.materialCssVarsService.getPaletteForColor(theme["secundary-color"])[3].color.str);
   }
 
   getCategories(): Observable<string[]> {

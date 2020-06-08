@@ -26,8 +26,6 @@ export class MainComponent implements OnInit {
   logo: string
   defaultImage = '../../../../assets/images/no-image.png'
 
-  
-
   constructor(
     public router: Router,
     public auth: AuthService,

@@ -240,14 +240,14 @@
   
     <button
           style="display: block; width:100%"
-          mat-raised-button color="PRIMARY" (click)="onSubmitForm('Despachar')" type="button"
+          mat-raised-button color="primary" (click)="onSubmitForm('Despachar')" type="button"
           [disabled]="dispatchForm.status != 'VALID'">Despachar</button>
     
   </ng-container>
 
     <button *ngIf="sale.status == 'En reparto' || sale.status == 'Entregado'"
           style="display: block"
-          mat-raised-button color="PRIMARY" (click)="onPrintSale()" type="button">
+          mat-raised-button color="primary" (click)="onPrintSale()" type="button">
           Imprimir</button>
   
 </div>

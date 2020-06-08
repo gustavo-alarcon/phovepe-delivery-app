@@ -57,7 +57,7 @@
                 </button>
                 <p class="w3-margin-bottom"></p>
                 <div class="w3-center">
-                    <button mat-raised-button color="PRIMARY" (click)="auth.logout()">
+                    <button mat-raised-button color="primary" (click)="auth.logout()">
                         Cerrar Sesión
                     </button>
                 </div>
@@ -74,7 +74,7 @@
         </mat-sidenav>
 
         <mat-sidenav-content cdkScrollable>
-            <mat-toolbar class="main__toolbar background--primary">
+            <mat-toolbar class="main__toolbar" color="primary"> 
 
                 <div *ngIf="user$ | async else iniciarSesion">
                     <button mat-icon-button (click)="toggleSideMenu()">
@@ -89,7 +89,7 @@
                         <img [src]="dbs.logoURL" class="main__logo" alt="logo">
                     </a>
                     <span class="w3-hide-small" style="flex: 1 1 auto;"></span>
-                    <button mat-raised-button class="w3-margin-right" color="SECONDARY" (click)="login()">
+                    <button mat-raised-button class="w3-margin-right" color="accent" (click)="login()">
                         <mat-icon style="margin-right: 5px;">account_circle</mat-icon>
                         <span class="w3-hide-small">Iniciar Sesión</span>
                     </button>
@@ -109,7 +109,7 @@
                 <router-outlet></router-outlet>
             </div>
             <div class="contact w3-hide-small">
-                <button mat-icon-button color="PRIMARY" class="contact__button" (click)="openContact()">
+                <button mat-icon-button color="primary" class="contact__button" (click)="openContact()">
                     <mat-icon class="contact__icon">phone</mat-icon>
                 </button>
             </div>

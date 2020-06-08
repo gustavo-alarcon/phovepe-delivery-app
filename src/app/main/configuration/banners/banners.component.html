@@ -6,7 +6,7 @@
     <div class="w3-margin-bottom w3-margin-top">
         <h2 class="banner__title">Promociones</h2>
         <div>
-            <button mat-raised-button color="PRIMARY" (click)="openDialog('carousel', false)">
+            <button mat-raised-button color="primary" (click)="openDialog('carousel', false)">
                 <span>Agregar</span>
                 <mat-icon style="vertical-align: middle;margin-left: 5px;">add</mat-icon>
             </button>
@@ -20,10 +20,10 @@
                             style="justify-content: space-between; align-items: center;">
                             <p></p>
                             <div>
-                                <button mat-icon-button color="PRIMARY" (click)="editDialog('carousel',true,image)">
+                                <button mat-icon-button color="primary" (click)="editDialog('carousel',true,image)">
                                     <mat-icon>edit</mat-icon>
                                 </button>
-                                <button mat-icon-button color="PRIMARY" style="margin-left: 10px;"
+                                <button mat-icon-button color="primary" style="margin-left: 10px;"
                                     (click)="deleteDialog(image.id)">
                                     <mat-icon>delete</mat-icon>
                                 </button>
@@ -36,7 +36,7 @@
                     <mat-progress-bar mode='indeterminate' *ngIf="(loading$ | async)==2"></mat-progress-bar>
                     <div class="row-category" style="justify-content: space-between; padding: 10px 0;">
                         <span style="font-weight: 700;">Ordenar posición</span>
-                        <button mat-raised-button color="PRIMARY" (click)="savePosition(images,2)"
+                        <button mat-raised-button color="primary" (click)="savePosition(images,2)"
                             [disabled]="(loading$ | async)==2">
                             <span>Guardar</span>
                         </button>
@@ -64,7 +64,7 @@
     <mat-divider></mat-divider>
     <div class=" w3-margin-top w3-margin-bottom">
         <h2 class="banner__title">Ofertas</h2>
-        <button mat-raised-button color="PRIMARY" (click)="openDialog('promo', false)">
+        <button mat-raised-button color="primary" (click)="openDialog('promo', false)">
             <span>Agregar</span>
             <mat-icon style="vertical-align: middle;margin-left: 5px;">add</mat-icon>
         </button>
@@ -77,10 +77,10 @@
                         style="justify-content: space-between; align-items: center;">
                         <p></p>
                         <div>
-                            <button mat-icon-button color="PRIMARY" (click)="editDialog('promo',true,image)">
+                            <button mat-icon-button color="primary" (click)="editDialog('promo',true,image)">
                                 <mat-icon>edit</mat-icon>
                             </button>
-                            <button mat-icon-button color="PRIMARY" style="margin-left: 10px;"
+                            <button mat-icon-button color="primary" style="margin-left: 10px;"
                                 (click)="deleteDialog(image.id)">
                                 <mat-icon>delete</mat-icon>
                             </button>
@@ -92,7 +92,7 @@
                 <mat-progress-bar mode='indeterminate' *ngIf="(loading$ | async)==3"></mat-progress-bar>
                 <div class="row-category" style="justify-content: space-between; padding: 10px 0;">
                     <span style="font-weight: 700;">Ordenar posición</span>
-                    <button mat-raised-button color="PRIMARY" (click)="savePosition(images,3)"
+                    <button mat-raised-button color="primary" (click)="savePosition(images,3)"
                         [disabled]="(loading$ | async)==3">
                         <span>Guardar</span>
                     </button>
@@ -106,7 +106,7 @@
     <mat-divider></mat-divider>
     <div>
         <h2 class="banner__title">Categorías</h2>
-        <button mat-raised-button color="PRIMARY" (click)="openDialog('category', false)">
+        <button mat-raised-button color="primary" (click)="openDialog('category', false)">
             <span>Agregar</span>
             <mat-icon style="vertical-align: middle;margin-left: 5px;">add</mat-icon>
         </button>
@@ -119,10 +119,10 @@
                         style="justify-content: space-between; align-items: center;">
                         <p></p>
                         <div>
-                            <button mat-icon-button color="PRIMARY" (click)="editDialog('category',true,image)">
+                            <button mat-icon-button color="primary" (click)="editDialog('category',true,image)">
                                 <mat-icon>edit</mat-icon>
                             </button>
-                            <button mat-icon-button color="PRIMARY" style="margin-left: 10px;"
+                            <button mat-icon-button color="primary" style="margin-left: 10px;"
                                 (click)="deleteDialog(image.id)">
                                 <mat-icon>delete</mat-icon>
                             </button>
@@ -143,7 +143,7 @@
                     <div style="width: 100%;max-width: 500px;">
                         <div class="row-category" style="justify-content: space-between; padding: 10px 0;">
                             <span style="font-weight: 700;">Ordenar posición</span>
-                            <button mat-raised-button color="PRIMARY" (click)="savePosition(images,4)"
+                            <button mat-raised-button color="primary" (click)="savePosition(images,4)"
                                 [disabled]="(loading$ | async)==4">
                                 <span>Guardar</span>
                             </button>

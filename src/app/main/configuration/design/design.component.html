@@ -4,7 +4,7 @@
     <div class="box">
         <div class="row-category" style="justify-content: space-between; padding: 10px 0;">
             <span style="font-weight: 700;">Logo</span>
-            <button mat-raised-button color="PRIMARY" (click)="save('logoURL',2)" [disabled]="(loading$ | async)==2">
+            <button mat-raised-button color="primary" (click)="save('logoURL',2)" [disabled]="(loading$ | async)==2">
                 <span style="font-family: Montserrat;">Guardar</span>
             </button>
         </div>
@@ -25,7 +25,7 @@
         <mat-progress-bar mode='indeterminate' *ngIf="(loading$ | async)==3"></mat-progress-bar>
         <div class="row-category" style="justify-content: space-between; padding: 10px 0;">
             <span style="font-weight: 700;">Logo Móvil</span>
-            <button mat-raised-button color="PRIMARY" (click)="save('logomovilURL',3)"
+            <button mat-raised-button color="primary" (click)="save('logomovilURL',3)"
                 [disabled]="(loading$ | async)==3">
                 <span style="font-family: Montserrat;">Guardar</span>
             </button>
@@ -47,7 +47,7 @@
         <mat-progress-bar mode='indeterminate' *ngIf="(loading$ | async)==4"></mat-progress-bar>
         <div class="row-category" style="justify-content: space-between; padding: 10px 0;">
             <span style="font-weight: 700;">Imagen Default</span>
-            <button mat-raised-button color="PRIMARY" (click)="save('defaultURL',4)" [disabled]="(loading$ | async)==4">
+            <button mat-raised-button color="primary" (click)="save('defaultURL',4)" [disabled]="(loading$ | async)==4">
                 <span style="font-family: Montserrat;">Guardar</span>
             </button>
         </div>
