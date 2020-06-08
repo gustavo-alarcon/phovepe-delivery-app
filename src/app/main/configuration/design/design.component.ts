@@ -56,14 +56,14 @@ export class DesignComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    /*this.init$ = this.dbs.getConfi().pipe(
+    this.init$ = this.dbs.getConfi().pipe(
       tap(res => {
         this.loading.next(5)
         this.logo = res['logoURL'] ? res['logoURL'] : null
         this.logomovil = res['logomovilURL'] ? res['logomovilURL'] : null
         this.default = res['defaultURL']
       })
-    )*/
+    )
   }
 
   uploadPhoto(id: string, file: File): Observable<string | number> {

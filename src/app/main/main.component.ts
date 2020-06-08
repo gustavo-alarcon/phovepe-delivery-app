@@ -41,7 +41,7 @@ export class MainComponent implements OnInit {
     AOS.init();
     
 
-    //this.init$ = this.dbs.getConfi()
+    this.init$ = this.dbs.getConfi()
 
     this.user$ = this.auth.user$.pipe(
       switchMap(
@@ -71,6 +71,7 @@ export class MainComponent implements OnInit {
       ),
       shareReplay(1)
     )
+
   }
 
 

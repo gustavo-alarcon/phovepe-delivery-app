@@ -2,7 +2,7 @@ import { AngularFirestore, DocumentReference } from '@angular/fire/firestore';
 import { tap, map } from 'rxjs/operators';
 import { DeleteBannerComponent } from './delete-banner/delete-banner.component';
 import { DatabaseService } from './../../../core/database.service';
-import { Observable, BehaviorSubject } from 'rxjs';
+import { Observable, BehaviorSubject, combineLatest } from 'rxjs';
 import { CreateBannerComponent } from './create-banner/create-banner.component';
 import { Component, OnInit } from '@angular/core';
 import { Banner } from 'src/app/core/models/banners.model';
@@ -50,8 +50,14 @@ export class BannersComponent implements OnInit {
     const galleryRef: GalleryRef = this.gallery.ref('mini');
     const gallerymovilRef: GalleryRef = this.gallery.ref('movil');
 
-    this.carousel$ = this.dbs.getBanners('carousel').pipe(
-      map(items => {
+    this.carousel$ = combineLatest(
+      this.dbs.getBanners('carousel'),
+      this.dbs.defaultImage$
+    ).pipe(
+      map(([items, image]) => {
+        if (image) {
+          this.defaultImage = image
+        }
         return items.sort((a, b) => a['position'] - b['position'])
       }),
       tap(res => {
@@ -103,7 +109,7 @@ export class BannersComponent implements OnInit {
     moveItemInArray(array, event.previousIndex, event.currentIndex);
   }
 
-  savePosition(array,number) {
+  savePosition(array, number) {
     this.loading.next(number)
     let batch = this.afs.firestore.batch();
 
@@ -114,13 +120,13 @@ export class BannersComponent implements OnInit {
       })
     })
 
-    batch.commit().then(()=>{
+    batch.commit().then(() => {
       this.loading.next(1)
       this.snackBar.open("Cambios Guardados", "Cerrar", {
         duration: 6000
       })
       console.log('done');
-      
+
     })
   }
 
