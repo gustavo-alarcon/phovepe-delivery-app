@@ -1,3 +1,4 @@
+import { SeoService } from './../core/seo.service';
 import { ContactDialogComponent } from './contact-dialog/contact-dialog.component';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
@@ -34,22 +35,34 @@ export class MainComponent implements OnInit {
   defaultThemes = new defaultThemes()
   themesSelection: Theme[] = [];
 
+  isDark:boolean = false
+  
   constructor(
     public router: Router,
     public auth: AuthService,
     public dbs: DatabaseService,
     public dialog: MatDialog,
-    private fb: FormBuilder
-
+    private fb: FormBuilder,
+    private seo: SeoService
   ) {
   }
 
   ngOnInit() {
     AOS.init();
-    
+
     this.initThemes();
 
-    this.init$ = this.dbs.getConfi()
+    this.init$ = this.dbs.getConfi().pipe(
+      tap(res => {
+        if (res['meta']) {
+          this.seo.updateDescription(res['meta']['description'])
+          this.seo.updateTitle(res['meta']['title'])
+          this.seo.updateOgTitle(res['meta']['title'])
+          this.seo.updateOgUrl(res['meta']['url'])
+          this.seo.updateOgImage(res['meta']['photoURL'])
+        }
+      })
+    )
 
     this.user$ = this.auth.user$.pipe(
       switchMap(
@@ -82,7 +95,7 @@ export class MainComponent implements OnInit {
 
   }
 
-  initThemes(){
+  initThemes() {
     this.themesSelection = Object.values(this.defaultThemes);
 
     this.themeFormGroup = this.fb.group({
@@ -98,7 +111,7 @@ export class MainComponent implements OnInit {
         startWith<Theme>(this.defaultThemes.gray)
       )
     ).pipe(
-      tap(([primary, accent])=> {
+      tap(([primary, accent]) => {
         this.dbs.setTheme(primary, accent)
       })
     )

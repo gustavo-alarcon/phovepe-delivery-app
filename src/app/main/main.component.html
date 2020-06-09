@@ -4,8 +4,8 @@
             class="mat-elevation-z8 main__sidenav">
             <div class="user ">
                 <div>
-                    <img *ngIf="user.photoURL else defaultPicture" class="user__image border--primary" [defaultImage]="defaultImage"
-                        [lazyLoad]="user.photoURL" [offset]="100">
+                    <img *ngIf="user.photoURL else defaultPicture" class="user__image border--primary"
+                        [defaultImage]="defaultImage" [lazyLoad]="user.photoURL" [offset]="100">
                     <ng-template #defaultPicture>
                         <img class="user__image" [src]="defaultImage">
                     </ng-template>
@@ -13,6 +13,11 @@
                 <div class="user__name">
                     {{user.displayName}}
                 </div>
+            </div>
+            <div class="w3-center">  
+                <mat-slide-toggle [(ngModel)]="isDark" color="primary" (click)="dbs.toggleDark(!isDark)">
+                    Modo Oscuro
+                </mat-slide-toggle>
             </div>
             <h2 class="menu__title font--primary">menu</h2>
             <div class="menu">
@@ -55,24 +60,23 @@
                     <mat-icon class="menu__icon">phone</mat-icon>
                     <span>Contacto</span>
                 </button>
-                <form [formGroup]="themeFormGroup" *ngIf="themeFormGroup$ | async"
-                    style="display: flex; flex-direction: column; justify-content: center;
+                <form [formGroup]="themeFormGroup" *ngIf="themeFormGroup$ | async" style="display: flex; flex-direction: column; justify-content: center;
                             padding: 16px">
-                    <mat-form-field  color="primary" appearance="outline">
-                      <mat-label>Color Primario</mat-label>
-                      <mat-select formControlName="primary">
-                        <mat-option *ngFor="let food of themesSelection" [value]="food">
-                          {{food.name |titlecase}}
-                        </mat-option>
-                      </mat-select>
+                    <mat-form-field color="primary" appearance="outline">
+                        <mat-label>Color Primario</mat-label>
+                        <mat-select formControlName="primary">
+                            <mat-option *ngFor="let food of themesSelection" [value]="food">
+                                {{food.name |titlecase}}
+                            </mat-option>
+                        </mat-select>
                     </mat-form-field>
-                    <mat-form-field  color="accent" appearance="outline">
-                      <mat-label>Color Secundario</mat-label>
-                      <mat-select formControlName="accent">
-                        <mat-option *ngFor="let food of themesSelection" [value]="food">
-                          {{food.name |titlecase}}
-                        </mat-option>
-                      </mat-select>
+                    <mat-form-field color="accent" appearance="outline">
+                        <mat-label>Color Secundario</mat-label>
+                        <mat-select formControlName="accent">
+                            <mat-option *ngFor="let food of themesSelection" [value]="food">
+                                {{food.name |titlecase}}
+                            </mat-option>
+                        </mat-select>
                     </mat-form-field>
                 </form>
                 <p class="w3-margin-bottom"></p>
@@ -94,7 +98,7 @@
         </mat-sidenav>
 
         <mat-sidenav-content cdkScrollable>
-            <mat-toolbar class="main__toolbar" color="primary"> 
+            <mat-toolbar class="main__toolbar" color="primary">
 
                 <div *ngIf="user$ | async else iniciarSesion">
                     <button mat-icon-button (click)="toggleSideMenu()">
@@ -122,10 +126,6 @@
                 </div>
             </mat-toolbar>
             <div style="padding-top: 64px;">
-                <div>
-                    <button mat-button (click)="dbs.toggleLight()">Default</button>
-                    <button mat-button (click)="dbs.toggleDark()">Dark</button>
-                </div>
                 <router-outlet></router-outlet>
             </div>
             <div class="contact w3-hide-small">

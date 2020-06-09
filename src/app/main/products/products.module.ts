@@ -23,6 +23,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule, MAT_DATE_LOCALE } from '@angular/material/core';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
+import {MatCardModule} from '@angular/material/card';
 
 @NgModule({
   declarations: [
@@ -44,6 +45,7 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
     MatSnackBarModule,
     MatCheckboxModule,
     MatSelectModule,
+    MatCardModule,
     FormsModule,
     ReactiveFormsModule,
     NgxPaginationModule,

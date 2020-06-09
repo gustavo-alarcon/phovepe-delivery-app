@@ -62,8 +62,10 @@ export class DatabaseService {
     this.materialCssVarsService.setAutoContrastEnabled(true);
   }
 
-  toggleDark() {
-    this.materialCssVarsService.setDarkTheme(true)
+  toggleDark(isDark:boolean) {
+    console.log(isDark);
+    
+    this.materialCssVarsService.setDarkTheme(isDark)
   }
 
   toggleLight() {
@@ -71,6 +73,10 @@ export class DatabaseService {
   }
 
   setTheme(primaryTheme: Theme, accentTheme: Theme) {
+    console.log(primaryTheme);
+    console.log(accentTheme);
+    
+    
     this.materialCssVarsService.setPrimaryColor(primaryTheme.color);
     this.materialCssVarsService.setAccentColor(accentTheme.color);
 
@@ -714,17 +720,19 @@ export class DatabaseService {
 
   getConfi(): Observable<any> {
     return this.afs.collection(`/db`).doc('mandaditos').valueChanges().pipe(
+      /*
       startWith({
         logoURL: localStorage.getItem('logoURL') ? localStorage.getItem('logoURL'): null,
-        logomovilURL: localStorage.getItem('logomovilURL') ? localStorage.getItem('logomovilURL') :null
-      }),
+        logomovilURL: localStorage.getItem('logomovilURL') ? localStorage.getItem('logomovilURL') :null,
+        meta: localStorage.getItem('meta') ? localStorage.getItem('meta') :null
+      }),*/
       tap(res => {
         if (res['logoURL']) {
           this.document.getElementById('appFavicon').setAttribute('href', res['logoURL'])
           this.logoURL = res['logoURL']
           this.logomovilURL = res['logomovilURL'] ? res['logomovilURL'] : null
-          localStorage.setItem('logoURL', res['logoURL'])
-          localStorage.setItem('logomovilURL', res['logomovilURL'])
+          /*localStorage.setItem('logoURL', res['logoURL'])
+          localStorage.setItem('logomovilURL', res['logomovilURL'])*/
         }
       }),
       shareReplay(1)
