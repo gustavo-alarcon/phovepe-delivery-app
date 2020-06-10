@@ -42,11 +42,11 @@
                         </button>
                     </div>
                     <div cdkDropList class="banner__list border--primary" (cdkDropListDropped)="drop(images,$event)">
-                        <div class="banner__box" *ngFor="let image of images" cdkDrag>{{image.category}}</div>
+                        <mat-card class="banner__box" *ngFor="let image of images" cdkDrag>{{image.category}}</mat-card>
                     </div>
                 </div>
 
-                <div class="w3-margin-top w3-margin-bottom">
+                <div class="w3-margin-top w3-margin-bottom" *ngIf="images.length">
                     <div class="w3-hide-small ">
                         <p>Versión Desktop</p>
                         <gallery id="mini" style="height: 21.5vw;" imageSize='contain' [loadingStrategy]="'lazy'"

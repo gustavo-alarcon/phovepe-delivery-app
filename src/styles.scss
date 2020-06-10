@@ -18,12 +18,7 @@ $mat-css-light-theme-selector: '.isLightTheme';
 
 @import './assets/css/animate.css';
 @import './assets/css/w3.css';
-:root {
-  --primary-color: #2EC4B6;
-  --secundary-color: #FF9F1C;
-  --third-color: #CBF3F0;
-  --forth-color: #FFBF69;
-}
+
 
 html, body {
   height: 100%;
@@ -152,6 +147,22 @@ a {
   font-family: Montserrat;
 }
 
+.mat-select-panel .mat-option {
+  font-family: 'Montserrat', sans-serif;
+}
+
+.mat-select-value-text {
+  font-family: 'Montserrat', sans-serif;
+}
+
+.mat-optgroup-label {
+  font-family: 'Montserrat', sans-serif;
+}
+
+.mat-slide-toggle-content{
+  font-family: 'Montserrat', sans-serif;
+}
+
 img.ng-lazyloaded {
   animation: fadein .5s;
 }
@@ -171,14 +182,22 @@ img.ng-lazyloaded {
   font-family: 'Montserrat', sans-serif;
 }
 
+.mat-button{
+  color: #2B2B2B;
+  font-size: 1em;
+  letter-spacing: 0.05em;
+}
+
+.mat-card{
+  font-family: 'Montserrat', sans-serif;
+  color: #4F4F4F;
+}
+
 
 /*ticket*/
 
 .ticket {
-  background: #FFFFFF;
   box-sizing: border-box;
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-  padding: 20px;
   position: relative;
 }
 
@@ -250,11 +269,12 @@ img.ng-lazyloaded {
 
 /*tabs*/
 
-.mat-tab-label {
+.mat-tab-label,.mat-tab-link, .mat-expansion-panel-header {
   background-color: transparent;
   font-family: Montserrat;
   font-weight: 700;
 }
+
 
 /*tables*/
 
@@ -311,4 +331,34 @@ img.ng-lazyloaded {
 
 .subtotal--big {
   font-size: 1.3em;
+}
+
+/*scroll bar*/
+
+.mat-drawer-inner-container::-webkit-scrollbar {
+  width: 8px;     /* Tamaño del scroll en vertical */
+  height: 8px;    /* Tamaño del scroll en horizontal */
+}
+
+.mat-drawer-inner-container::-webkit-scrollbar-thumb {
+  background: var(--primary-color);
+  border-radius: 4px;
+}
+
+.mat-drawer-inner-container::-webkit-scrollbar-thumb:hover {
+  background: #b3b3b3;
+  box-shadow: 0 0 2px 1px rgba(0, 0, 0, 0.2);
+}
+
+.mat-drawer-inner-container::-webkit-scrollbar-thumb:active {
+  background-color: #999999;
+}
+
+.mat-drawer-inner-container::-webkit-scrollbar-track {
+  background: #e1e1e1;
+}
+
+.mat-drawer-inner-container::-webkit-scrollbar-track:hover,
+.mat-drawer-inner-container::-webkit-scrollbar-track:active {
+background: #d4d4d4;
 }

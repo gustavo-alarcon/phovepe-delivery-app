@@ -20,12 +20,14 @@ export class SaleMasterComponent implements OnInit {
   @Input() detailSubject: BehaviorSubject<Sale>
 
   defaultImage = '../../../../assets/images/no-image.png'
+  noResultImage: string = ''
 
   p: number = 1;
 
   saleStateSubject: BehaviorSubject<string> = new BehaviorSubject('Total');
   saleState$: Observable<string> = this.saleStateSubject.asObservable().pipe(shareReplay(1));
   salesFiltered$: Observable<Sale[]>;
+  noResult$: Observable<string>;
 
   date: FormControl;
   driverForm: FormControl;
@@ -41,6 +43,13 @@ export class SaleMasterComponent implements OnInit {
 
 
   ngOnInit() {
+    this.noResult$ = this.dbs.noDataImage$.pipe(
+      tap(res=>{
+        this.noResultImage = '../../../../assets/images/no_data/no_data_' + res + '.svg'
+      })
+    )
+    
+   
     this.initForms();
     this.initObservables();
   }
@@ -63,7 +72,7 @@ export class SaleMasterComponent implements OnInit {
         return this.dbs.getSales(date.begin, endDate)/*.pipe(map(sales =>
           sales.filter(sale => sale.status != 'Cancelado')))*/
       })
-      );
+    );
 
     this.drivers$ = this.dbs.getDriverList();
 
@@ -201,9 +210,9 @@ export class SaleMasterComponent implements OnInit {
   downloadXlsUsers(sales: Sale[]): void {
     let table_xlsx: any[] = [];
     let headersXlsx = [
-      'Correlativo', 'Usuario', 'Estado', 'Teléfono', 'Dirección', 
+      'Correlativo', 'Usuario', 'Estado', 'Teléfono', 'Dirección',
       'Distrito', 'Referencia', 'Sub-Total', 'Delivery', 'Total', 'Tipo de pago',
-      'Fecha de Solicitud', 'Fecha de Envio Deseada', 'Fecha de Confirmación/Cancelación', 'Fecha de Despacho', 
+      'Fecha de Solicitud', 'Fecha de Envio Deseada', 'Fecha de Confirmación/Cancelación', 'Fecha de Despacho',
       'Fecha de Entrega']
 
     table_xlsx.push(headersXlsx);

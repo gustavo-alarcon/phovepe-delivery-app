@@ -14,14 +14,6 @@
     font-weight: 900;
 }
 
-.separate {
-    border-top: 2px solid #4F4F4F;
-    height: 3px;
-    width: 100%;
-    margin: 10px 0;
-}
-
-
 .products-div {
     width: 70%;
     padding-left: 25px;
@@ -31,7 +23,7 @@
 .search-form {
     display: flex;
     flex-wrap: wrap;
-    align-items: flex-start;
+    align-items: baseline;
 }
 
 .search-form .search-input {
@@ -88,6 +80,7 @@
     color: white;
     transform: rotate(-45deg);
     font-size: 0.9em;
+    z-index: 3;
 }
 
 .des-image img {
@@ -168,7 +161,6 @@
     border-radius: 20px;
     text-align: center;
     padding: 12px;
-
 }
 
 .shopping-button .mat-icon {
@@ -197,28 +189,21 @@
 }
 
 .movil-form {
-    z-index: 3;
-    background-color: #fafafa;
-    border-bottom: 1px solid silver;
+    z-index: 4;
 }
 
 .movil-form.shadow {
-    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-    padding-top: 15px;
     position: fixed;
     top: 64px;
-    border-radius: 5px;
-    padding: 15px 15px 5px 0px;
     width: 62%;
 }
-
 
 .title-category {
     background-image: url(../../../assets/images/Frame65.png);
     background-size: cover;
     padding: 0px 25px 5px;
     font-family: Montserrat;
-    line-height: normal;
+    line-height: 5vw;
     font-weight: 900;
     font-size: 3.5vw;
     text-transform: uppercase;
@@ -229,40 +214,32 @@
 .mini-card {
     width: 10vw;
     min-width: 210px;
-    padding: 15px 20px;
     margin: 10px;
-    background-color: white;
     font-weight: 500;
-    border-radius: 5px;
     position: relative;
     min-height: 380px;
-    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
     border: 1px solid #C4C4C4;
 }
 
-.mini-card img {
+.mini-card__image {
     width: 120px;
     height: 120px;
     object-fit: cover;
 }
 
-.mini-card .name {
-    /* color: #4F4F4F; */
-    font-family: Montserrat;
-    font-style: normal;
+.mini-card__name {
     font-weight: 900;
     font-size: 1em;
     letter-spacing: 0.05em;
 }
 
-.mini-card .price-container {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    align-items: flex-end;
+.mini-card__subprice {
+    font-size: 0.85em;
+    margin-bottom: 5px;
+    color: #828282;
 }
 
-.mini-card .price {
+.mini-card__price {
     border-radius: 5px;
     width: fit-content;
     padding: 6px 12px;
@@ -271,7 +248,7 @@
     letter-spacing: 0.05em;
 }
 
-.mini-card .square {
+.mini-card__square {
     left: 0;
     border-radius: 5px 0px;
     width: 85px;
@@ -282,29 +259,27 @@
     clip-path: polygon(0 0, 0% 100%, 100% 0);
 }
 
-.mini-card .promo {
-    top: 22px;
+.mini-card__promo {
+    position: absolute;
+    top: 20px;
     left: 0px;
-    font-size: 1em;
-    font-weight: 900;
+    color: white;
     z-index: 3;
+    transform: rotate(-45deg);
+    font-size: 0.9em;
 }
 
 .mini-card .oferta {
     margin-top: 10px;
 }
 
-.mini-card .add {
+.mini-card__add {
     position: absolute;
     bottom: 0;
     left: 0;
     width: 100%;
     display: flex;
     justify-content: center;
-}
-
-::ng-deep .mat-optgroup-label {
-    font-family: Montserrat;
 }
 
 @media(max-width: 600px) {

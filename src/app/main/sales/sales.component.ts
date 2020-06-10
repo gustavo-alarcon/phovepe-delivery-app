@@ -42,6 +42,10 @@ export class SalesComponent implements OnInit {
   progress: Array<Sale>
 
   sales$: Observable<Sale[]>
+  
+  //noResult
+  noResult$: Observable<string>;
+  noResultImage: string = ''
 
   constructor(
     public dbs: DatabaseService,
@@ -53,6 +57,12 @@ export class SalesComponent implements OnInit {
     const view = this.getCurrentMonthOfViewDate();
     this.date.setValue({ begin: view.from, end: new Date() })
 
+    this.noResult$ = this.dbs.noDataImage$.pipe(
+      tap(res=>{
+        this.noResultImage = '../../../../assets/images/no_data/no_data_' + res + '.svg'
+      })
+    )
+    
     this.sales$ =
       combineLatest(
         this.auth.user$,

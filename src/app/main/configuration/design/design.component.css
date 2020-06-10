@@ -29,13 +29,25 @@
     object-fit: contain;
 }
 
-.design__input{
-    margin-bottom: 8px; width: 100%;
+.design__input {
+    margin-bottom: 8px;
+    width: 100%;
+}
+
+.admin__input {
+    width: 100%;
+    max-width: 300px;
+    margin-right: 16px;
+    font-family: 'Montserrat', sans-serif
 }
 
 @media(max-width:600px) {
     .design__box {
         width: 100%;
         min-width: 100px;
+    }
+
+    .admin__input{
+        margin-right: 0;
     }
 }
