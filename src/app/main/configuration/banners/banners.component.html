@@ -46,7 +46,7 @@
                     </div>
                 </div>
 
-                <div class="w3-margin-top w3-margin-bottom">
+                <div class="w3-margin-top w3-margin-bottom" *ngIf="images.length">
                     <div class="w3-hide-small ">
                         <p>Versión Desktop</p>
                         <gallery id="mini" style="height: 21.5vw;" imageSize='contain' [loadingStrategy]="'lazy'"

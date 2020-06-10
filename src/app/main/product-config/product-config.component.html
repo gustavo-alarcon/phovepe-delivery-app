@@ -69,10 +69,11 @@
                   <td *matCellDef="let raw" class="w3-center" style="padding: 10px">
                     <a href="{{raw.photoURL}}" target="_blank" *ngIf="raw.photoURL; else defaultPicture">
                       <div class="reveal">
-                        <div class="w3-card-4 border--primary" style="height:120px;"
-                          [ngClass]="{triangleTopLeft: raw.promo}">
+                        <div [className]="raw.promo?'border--secondary triangleTopLeft w3-card-4':'border--primary triangleTopLeft w3-card-4'">
+                          <div class="slogan background--secondary" *ngIf="raw['promo']"></div>
+                          <div class="promo" *ngIf="raw['promo']">OFERTA</div>
                           <img [defaultImage]="defaultImage" [lazyLoad]="raw.photoURL" [offset]="100"
-                            style="object-fit:cover; width: 115px; height: 115px">
+                            style="object-fit:cover; width: 115px; height: 115px;">
                         </div>
                       </div>
                     </a>

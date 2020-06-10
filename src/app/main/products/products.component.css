@@ -80,6 +80,7 @@
     color: white;
     transform: rotate(-45deg);
     font-size: 0.9em;
+    z-index: 3;
 }
 
 .des-image img {
@@ -188,7 +189,7 @@
 }
 
 .movil-form {
-    z-index: 3;
+    z-index: 4;
 }
 
 .movil-form.shadow {
@@ -259,11 +260,13 @@
 }
 
 .mini-card__promo {
-    top: 22px;
+    position: absolute;
+    top: 20px;
     left: 0px;
-    font-size: 1em;
-    font-weight: 900;
+    color: white;
     z-index: 3;
+    transform: rotate(-45deg);
+    font-size: 0.9em;
 }
 
 .mini-card .oferta {
