@@ -25,7 +25,7 @@
                     <mat-icon>add</mat-icon>
                 </button>
 
-                <button mat-icon-button color="primary" class="w3-hide-small " (click)="addAdmin()"
+                <button mat-mini-fab color="primary" class="w3-hide-small " (click)="addAdmin()"
                     [disabled]="!userForm.value.uid">
                     <mat-icon>add</mat-icon>
                 </button>
@@ -126,7 +126,7 @@
                     <mat-icon>add</mat-icon>
                 </button>
 
-                <button mat-icon-button color="primary" class="w3-hide-small " (click)="addDriver()"
+                <button mat-mini-fab color="primary" class="w3-hide-small " (click)="addDriver()"
                     [disabled]="!driverForm.value['uid']">
                     <mat-icon>add</mat-icon>
                 </button>
@@ -228,7 +228,7 @@
                         <mat-icon>add</mat-icon>
                     </button>
 
-                    <button mat-icon-button color="primary" class="w3-hide-small " (click)="addDistrict()"
+                    <button mat-mini-fab color="primary" class="w3-hide-small " (click)="addDistrict()"
                         [disabled]="(repeat$ | async) || !districtForm.valid">
                         <mat-icon>add</mat-icon>
                     </button>
@@ -335,7 +335,7 @@
                 <mat-icon>save</mat-icon>
             </button>
 
-            <button mat-icon-button color="primary" class="w3-hide-small " [disabled]="!contactForm.valid"
+            <button mat-mini-fab color="primary" class="w3-hide-small " [disabled]="!contactForm.valid"
                 (click)="saveContact()">
                 <mat-icon>save</mat-icon>
             </button>

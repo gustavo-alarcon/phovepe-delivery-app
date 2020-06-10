@@ -161,4 +161,44 @@
             </form>
         </div>
     </mat-expansion-panel>
+    <mat-expansion-panel>
+        <mat-expansion-panel-header>
+            <mat-panel-title>
+                <h4 class="design__title">Colores</h4>
+            </mat-panel-title>
+        </mat-expansion-panel-header>
+        <mat-progress-bar mode='indeterminate' *ngIf="(loading$ | async)==8"></mat-progress-bar>
+        <mat-hint>
+            <mat-icon role="img" style="vertical-align: middle;" aria-hidden="true">info</mat-icon>
+            Guarde los colores para su página
+        </mat-hint>
+        <form [formGroup]="themeFormGroup" class="ms-flex w3-center w3-padding">
+            <mat-form-field color="primary" class="admin__input" appearance="outline">
+                <mat-label>Color Primario</mat-label>
+                <mat-select formControlName="primary" [compareWith]="compareObjects">
+                    <mat-option *ngFor="let food of themesSelection" [value]="food">
+                        {{food.name |titlecase}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+            <mat-form-field color="accent" class="admin__input" appearance="outline">
+                <mat-label>Color Secundario</mat-label>
+                <mat-select formControlName="accent" [compareWith]="compareObjects">
+                    <mat-option *ngFor="let food of themesSelection" [value]="food">
+                        {{food.name |titlecase}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+            <button mat-raised-button color="primary" class="w3-block w3-hide-large w3-hide-medium"
+                [disabled]="!themeFormGroup.valid" (click)="saveColor()">
+                <mat-icon>save</mat-icon>
+            </button>
+
+            <button mat-fab color="primary" class="w3-hide-small " [disabled]="!themeFormGroup.valid"
+                (click)="saveColor()">
+                <mat-icon>save</mat-icon>
+            </button>
+        </form>
+
+    </mat-expansion-panel>
 </mat-accordion>

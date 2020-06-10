@@ -54,6 +54,10 @@ export class MainComponent implements OnInit {
 
     this.init$ = this.dbs.getConfi().pipe(
       tap(res => {
+        if(res['colors']){
+          this.themeFormGroup.setValue(res['colors'])
+        }
+        
         if (res['meta']) {
           this.seo.updateDescription(res['meta']['description'])
           this.seo.updateTitle(res['meta']['title'])
@@ -115,6 +119,10 @@ export class MainComponent implements OnInit {
         this.dbs.setTheme(primary, accent)
       })
     )
+  }
+
+  compareObjects(o1: any, o2: any): boolean {
+    return o1.color === o2.color && o1.name === o2.name;
   }
 
 

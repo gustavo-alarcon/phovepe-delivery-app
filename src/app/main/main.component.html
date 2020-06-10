@@ -29,7 +29,7 @@
                 <form [formGroup]="themeFormGroup" *ngIf="themeFormGroup$ | async" class="ms-flex w3-center w3-padding">
                     <mat-form-field color="primary" appearance="outline">
                         <mat-label>Color Primario</mat-label>
-                        <mat-select formControlName="primary">
+                        <mat-select formControlName="primary"  [compareWith]="compareObjects">
                             <mat-option *ngFor="let food of themesSelection" [value]="food">
                                 {{food.name |titlecase}}
                             </mat-option>
@@ -37,7 +37,7 @@
                     </mat-form-field>
                     <mat-form-field color="accent" appearance="outline">
                         <mat-label>Color Secundario</mat-label>
-                        <mat-select formControlName="accent">
+                        <mat-select formControlName="accent"  [compareWith]="compareObjects">
                             <mat-option *ngFor="let food of themesSelection" [value]="food">
                                 {{food.name |titlecase}}
                             </mat-option>
