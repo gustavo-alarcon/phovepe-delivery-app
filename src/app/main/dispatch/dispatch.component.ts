@@ -1,6 +1,6 @@
 import { User } from 'src/app/core/models/user.model';
 import { DocumentReference, AngularFirestore } from '@angular/fire/firestore';
-import { startWith, switchMap, filter, map } from 'rxjs/operators';
+import { startWith, switchMap, filter, map, tap } from 'rxjs/operators';
 import { AuthService } from './../../core/auth.service';
 import { DatabaseService } from './../../core/database.service';
 import { Observable, combineLatest, of } from 'rxjs';
@@ -37,6 +37,10 @@ export class DispatchComponent implements OnInit {
   sales$: Observable<Sale[]>
   driver$: Observable<User[]>;
 
+  //noResult
+  noResult$: Observable<string>;
+  noResultImage: string = ''
+
   constructor(
     public dbs: DatabaseService,
     public auth: AuthService,
@@ -47,6 +51,12 @@ export class DispatchComponent implements OnInit {
     const view = this.getCurrentMonthOfViewDate();
     this.date.setValue({ begin: view.from, end: new Date() })
     this.driver$ = this.dbs.getDriverList();
+
+    this.noResult$ = this.dbs.noDataImage$.pipe(
+      tap(res=>{
+        this.noResultImage = '../../../../assets/images/no_data/no_data_' + res + '.svg'
+      })
+    )
 
     this.sales$ =
       combineLatest(

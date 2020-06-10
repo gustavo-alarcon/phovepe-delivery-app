@@ -97,7 +97,10 @@
                                     </div>
                                 </div>
                                 <ng-template #empty>
-                                    <div class="empty"> <i>Sin resultados</i></div>
+                                    <div *ngIf="noResult$ | async" class="w3-container w3-center w3-margin-top w3-margin-bottom">
+                                        <img [src]="noResultImage" alt="no data" style="width: 100%; max-width: 300px;">
+                                        <p>Sin Resultados</p>
+                                    </div>
                                 </ng-template>
                             </div>
                         </mat-tab>
@@ -163,7 +166,10 @@
                                     </div>
                                 </div>
                                 <ng-template #empty>
-                                    <div class="empty"> <i>Sin resultados</i></div>
+                                    <div *ngIf="noResult$ | async" class="w3-container w3-center w3-margin-top w3-margin-bottom">
+                                        <img [src]="noResultImage" alt="no data" style="width: 100%; max-width: 300px;">
+                                        <p>Sin Resultados</p>
+                                    </div>
                                 </ng-template>
                             </div>
                         </mat-tab>
@@ -172,89 +178,92 @@
 
 
                 </div>
-                <div class="ticket ticket--small w3-hide-small w3-hide-medium" *ngIf="choose.length">
-                    <h3 class="ticket__subtitle"
-                        style="display: flex; flex-wrap: wrap; justify-content: space-between;align-items: center;">
-                        CARRITO DE COMPRAS
-                        <button mat-icon-button (click)="choose = []">
-                            <mat-icon>close</mat-icon>
-                        </button>
-                    </h3>
-                    <mat-divider></mat-divider>
-                    <div style="margin-top: 20px;">
-                        <div style="display: flex; flex-wrap: wrap; margin-bottom: 16px;">
-                            <div style="width: 20%;">Cant.</div>
-                            <div style="width: 55%;">Descripción</div>
-                            <div style="width: 25%;">Precio</div>
-                        </div>
-                        <div *ngFor="let item of choose">
-                            <div style="display: flex; flex-wrap: wrap; align-items: center;">
-                                <div style="width: 20%;">{{item['quantity']}}
-                                    ({{item['product']['ref']?item['product']['refUnit']:item['product']['unit']}})
+                <mat-card class="ticket--small w3-hide-small w3-hide-medium" *ngIf="choose.length">
+                    <div class="ticket">
+                        <h3 class="ticket__subtitle"
+                            style="display: flex; flex-wrap: wrap; justify-content: space-between;align-items: center;">
+                            CARRITO DE COMPRAS
+                            <button mat-icon-button (click)="choose = []">
+                                <mat-icon>close</mat-icon>
+                            </button>
+                        </h3>
+                        <mat-divider></mat-divider>
+                        <div style="margin-top: 20px;">
+                            <div style="display: flex; flex-wrap: wrap; margin-bottom: 16px;">
+                                <div style="width: 20%;">Cant.</div>
+                                <div style="width: 55%;">Descripción</div>
+                                <div style="width: 25%;">Precio</div>
+                            </div>
+                            <div *ngFor="let item of choose">
+                                <div style="display: flex; flex-wrap: wrap; align-items: center;">
+                                    <div style="width: 20%;">{{item['quantity']}}
+                                        ({{item['product']['ref']?item['product']['refUnit']:item['product']['unit']}})
+                                    </div>
+                                    <div style="width: 55%;">{{item['product']['description']}}</div>
+                                    <div style="width: 25%;" *ngIf="!item['noRefQuantity']">S/.
+                                        {{giveProductPrice(item)|number: '.2'}}
+                                    </div>
+                                    <div style="width: 25%;" *ngIf="item['noRefQuantity']">S/.
+                                        {{item['price']|number: '.2'}}
+                                    </div>
                                 </div>
-                                <div style="width: 55%;">{{item['product']['description']}}</div>
-                                <div style="width: 25%;" *ngIf="!item['noRefQuantity']">S/.
-                                    {{giveProductPrice(item)|number: '.2'}}
+                                <div *ngIf="item['product']['promo'] && item['quantity']>=item['product']['promoData']['quantity']"
+                                    style="display: flex; flex-wrap: wrap; align-items: center;">
+                                    <div style="width: 20%;"></div>
+                                    <div style="width: 55%;">
+                                        <mat-hint>
+                                            {{roundNumber(item['quantity']/item['product']['promoData']['quantity']) }}
+                                            ({{item['product']['promoData']['quantity']}} {{item['product']['unit']}} x
+                                            S/.{{item['product']['promoData']['promoPrice'] | number: '.2'}} )
+                                        </mat-hint>
+                                    </div>
                                 </div>
-                                <div style="width: 25%;" *ngIf="item['noRefQuantity']">S/.
-                                    {{item['price']|number: '.2'}}
+                                <div *ngIf="item['product']['ref'] && !confirm"
+                                    style="display: flex; flex-wrap: wrap; align-items: center;">
+                                    <div style="width: 20%;"></div>
+                                    <div style="width: 45%;">
+                                        <mat-hint>1({{item['product']['refUnit']}})
+                                            <mat-icon style="vertical-align: middle;">arrow_right_alt</mat-icon>
+                                            aprox. {{round(item['product']['refPrice']/item['product']['price'])}}
+                                            {{item['product']['unit']}}
+                                        </mat-hint>
+                                    </div>
+                                </div>
+                                <div *ngIf="item['noRefQuantity']"
+                                    style="display: flex; flex-wrap: wrap; align-items: center;">
+                                    <div style="width: 20%;"></div>
+                                    <div style="width: 55%;">
+                                        <mat-hint>({{item['noRefQuantity']}} {{item['product']['unit']}} x
+                                            S/.{{item['product']['price'] | number: '.2'}}/{{item['product']['unit']}} )
+                                        </mat-hint>
+                                    </div>
+                                </div>
+    
+                            </div>
+                            <div class="ticket__separate"></div>
+                            <div>
+                                <div style="display: flex; flex-wrap: wrap; ">
+                                    <div style="width: 75%; text-align: right;padding: 0 20px;">Total</div>
+                                    <div style="width: 25%;">S/. {{total | number: '.2'}}</div>
                                 </div>
                             </div>
-                            <div *ngIf="item['product']['promo'] && item['quantity']>=item['product']['promoData']['quantity']"
-                                style="display: flex; flex-wrap: wrap; align-items: center;">
-                                <div style="width: 20%;"></div>
-                                <div style="width: 55%;">
-                                    <mat-hint>
-                                        {{roundNumber(item['quantity']/item['product']['promoData']['quantity']) }}
-                                        ({{item['product']['promoData']['quantity']}} {{item['product']['unit']}} x
-                                        S/.{{item['product']['promoData']['promoPrice'] | number: '.2'}} )
-                                    </mat-hint>
-                                </div>
-                            </div>
-                            <div *ngIf="item['product']['ref'] && !confirm"
-                                style="display: flex; flex-wrap: wrap; align-items: center;">
-                                <div style="width: 20%;"></div>
-                                <div style="width: 45%;">
-                                    <mat-hint>1({{item['product']['refUnit']}})
-                                        <mat-icon style="vertical-align: middle;">arrow_right_alt</mat-icon>
-                                        aprox. {{round(item['product']['refPrice']/item['product']['price'])}}
-                                        {{item['product']['unit']}}
-                                    </mat-hint>
-                                </div>
-                            </div>
-                            <div *ngIf="item['noRefQuantity']"
-                                style="display: flex; flex-wrap: wrap; align-items: center;">
-                                <div style="width: 20%;"></div>
-                                <div style="width: 55%;">
-                                    <mat-hint>({{item['noRefQuantity']}} {{item['product']['unit']}} x
-                                        S/.{{item['product']['price'] | number: '.2'}}/{{item['product']['unit']}} )
-                                    </mat-hint>
-                                </div>
-                            </div>
-
-                        </div>
-                        <div class="ticket__separate"></div>
-                        <div>
+                            <div class="ticket__separate"></div>
                             <div style="display: flex; flex-wrap: wrap; ">
-                                <div style="width: 75%; text-align: right;padding: 0 20px;">Total</div>
-                                <div style="width: 25%;">S/. {{total | number: '.2'}}</div>
+                                <div style="width: 75%; text-align: right;padding: 0 20px;">Delivery</div>
+                                <div style="width: 25%;">S/. {{delivery | number: '.2'}}</div>
                             </div>
                         </div>
-                        <div class="ticket__separate"></div>
-                        <div style="display: flex; flex-wrap: wrap; ">
-                            <div style="width: 75%; text-align: right;padding: 0 20px;">Delivery</div>
-                            <div style="width: 25%;">S/. {{delivery | number: '.2'}}</div>
-                        </div>
-                    </div>
-                    <div style="display: flex; flex-direction: row-reverse; margin-top: 20px;">
-                        <div>
-                            <div class="ticket__total">
-                                S/.{{delivery + total | number: '.2'}}
+                        <div style="display: flex; flex-direction: row-reverse; margin-top: 20px;">
+                            <div>
+                                <div class="ticket__total">
+                                    S/.{{delivery + total | number: '.2'}}
+                                </div>
+                                <mat-hint *ngIf="!confirm">*Precio estimado</mat-hint>
                             </div>
-                            <mat-hint *ngIf="!confirm">*Precio estimado</mat-hint>
                         </div>
                     </div>
-                </div>
+                </mat-card>
+                
 
             </div>
         </div>

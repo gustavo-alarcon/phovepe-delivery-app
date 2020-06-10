@@ -269,7 +269,7 @@ img.ng-lazyloaded {
 
 /*tabs*/
 
-.mat-tab-label {
+.mat-tab-label,.mat-tab-link, .mat-expansion-panel-header {
   background-color: transparent;
   font-family: Montserrat;
   font-weight: 700;
@@ -330,4 +330,34 @@ img.ng-lazyloaded {
 
 .subtotal--big {
   font-size: 1.3em;
+}
+
+/*scroll bar*/
+
+.mat-drawer-inner-container::-webkit-scrollbar {
+  width: 8px;     /* Tamaño del scroll en vertical */
+  height: 8px;    /* Tamaño del scroll en horizontal */
+}
+
+.mat-drawer-inner-container::-webkit-scrollbar-thumb {
+  background: var(--primary-color);
+  border-radius: 4px;
+}
+
+.mat-drawer-inner-container::-webkit-scrollbar-thumb:hover {
+  background: #b3b3b3;
+  box-shadow: 0 0 2px 1px rgba(0, 0, 0, 0.2);
+}
+
+.mat-drawer-inner-container::-webkit-scrollbar-thumb:active {
+  background-color: #999999;
+}
+
+.mat-drawer-inner-container::-webkit-scrollbar-track {
+  background: #e1e1e1;
+}
+
+.mat-drawer-inner-container::-webkit-scrollbar-track:hover,
+.mat-drawer-inner-container::-webkit-scrollbar-track:active {
+background: #d4d4d4;
 }

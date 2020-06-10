@@ -9,16 +9,15 @@
         <div>
             <mat-hint>
                 <mat-icon role="img" style="vertical-align: middle;" aria-hidden="true">info</mat-icon>
-                Recuerde si realiza un cambio, guardelo
+                Recuerde guardar si realiza algún cambio
             </mat-hint>
-
 
             <div class="ms-flex" *ngIf="init$ | async">
                 <div class="design__box">
                     <mat-progress-bar mode='indeterminate' *ngIf="(loading$ | async)==2"></mat-progress-bar>
                     <div class="ms-flex design__box-title">
                         <span class="design__boxTitle">Logo</span>
-                        <button mat-raised-button color="PRIMARY" (click)="save('logoURL',2)"
+                        <button mat-raised-button color="primary" (click)="save('logoURL',2)"
                             [disabled]="(loading$ | async)==2">
                             Guardar
                         </button>
@@ -40,7 +39,7 @@
                     <mat-progress-bar mode='indeterminate' *ngIf="(loading$ | async)==3"></mat-progress-bar>
                     <div class="ms-flex design__box-title">
                         <span class="design__boxTitle">Logo Móvil</span>
-                        <button mat-raised-button color="PRIMARY" (click)="save('logomovilURL',3)"
+                        <button mat-raised-button color="primary" (click)="save('logomovilURL',3)"
                             [disabled]="(loading$ | async)==3">
                             Guardar
                         </button>
@@ -62,7 +61,7 @@
                     <mat-progress-bar mode='indeterminate' *ngIf="(loading$ | async)==4"></mat-progress-bar>
                     <div class="ms-flex design__box-title">
                         <span class="design__boxTitle">Imagen Default</span>
-                        <button mat-raised-button color="PRIMARY" (click)="save('defaultURL',4)"
+                        <button mat-raised-button color="primary" (click)="save('defaultURL',4)"
                             [disabled]="(loading$ | async)==4">
                             Guardar
                         </button>
@@ -96,7 +95,7 @@
             <mat-progress-bar mode='indeterminate' *ngIf="(loading$ | async)==6"></mat-progress-bar>
             <div class="ms-flex design__box-title">
                 <span class="ms-fill"></span>
-                <button mat-raised-button color="PRIMARY" (click)="saveMeta('photoURL',6)"
+                <button mat-raised-button color="primary" (click)="saveMeta('photoURL',6)"
                     [disabled]="!pageForm.valid || (editForm$ | async)">
                     Guardar
                 </button>

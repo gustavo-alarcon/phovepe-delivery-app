@@ -42,7 +42,7 @@
                         </button>
                     </div>
                     <div cdkDropList class="banner__list border--primary" (cdkDropListDropped)="drop(images,$event)">
-                        <div class="banner__box" *ngFor="let image of images" cdkDrag>{{image.category}}</div>
+                        <mat-card class="banner__box" *ngFor="let image of images" cdkDrag>{{image.category}}</mat-card>
                     </div>
                 </div>
 

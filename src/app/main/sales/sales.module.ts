@@ -1,3 +1,4 @@
+import { MatCardModule } from '@angular/material/card';
 import { SalesComponent } from './sales.component';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -43,6 +44,7 @@ import { MatTabsModule } from '@angular/material/tabs';
     SatNativeDateModule,
     NgxPaginationModule,
     MatTabsModule,
+    MatCardModule,
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyA2tVXwzAQc5Ppj8-oTEuYBCFyJp39Hz7s'
     })

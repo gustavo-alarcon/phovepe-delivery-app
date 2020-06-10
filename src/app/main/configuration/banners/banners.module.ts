@@ -1,3 +1,4 @@
+import { MatCardModule } from '@angular/material/card';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {MatChipsModule} from '@angular/material/chips';
@@ -42,6 +43,7 @@ export class AppModule { }
     ReactiveFormsModule,
     FormsModule,
     MatChipsModule,
+    MatCardModule,
     LazyLoadImageModule.forRoot({
       preset: intersectionObserverPreset
     }),

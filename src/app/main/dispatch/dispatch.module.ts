@@ -1,3 +1,4 @@
+import { MatCardModule } from '@angular/material/card';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -38,6 +39,7 @@ import { MatRippleModule } from '@angular/material/core';
     SatDatepickerModule, 
     SatNativeDateModule,
     MatRippleModule,
+    MatCardModule,
     NgxPaginationModule
   ]
 })

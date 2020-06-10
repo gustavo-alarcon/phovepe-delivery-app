@@ -1,3 +1,4 @@
+import { MatCardModule } from '@angular/material/card';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SalesConfigComponent } from './sales-config.component';
@@ -47,6 +48,7 @@ import {MatRippleModule} from '@angular/material/core';
     MatSnackBarModule,
     MatCheckboxModule,
     MatSelectModule,
+    MatCardModule,
     FormsModule,
     ReactiveFormsModule,
     SatDatepickerModule, 

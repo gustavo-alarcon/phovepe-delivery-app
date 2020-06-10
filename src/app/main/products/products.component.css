@@ -23,7 +23,7 @@
 .search-form {
     display: flex;
     flex-wrap: wrap;
-    align-items: center;
+    align-items: baseline;
 }
 
 .search-form .search-input {

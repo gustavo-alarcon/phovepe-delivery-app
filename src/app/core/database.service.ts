@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestoreCollection, AngularFirestore, DocumentReference } from '@angular/fire/firestore';
 import * as firebase from 'firebase/app';
-import { Observable, of, concat, interval, from } from 'rxjs';
+import { Observable, of, concat, interval, BehaviorSubject } from 'rxjs';
 import { Product } from './models/product.model';
 import { map, tap, finalize, switchMap, take, takeLast, shareReplay, mapTo, startWith } from 'rxjs/operators';
 import { AngularFireStorage } from '@angular/fire/storage';
@@ -15,9 +15,9 @@ import { MaterialCssVarsService } from 'angular-material-css-vars';
 import { Theme } from './models/theme.model';
 
 interface theme {
-  'primary-color': string, 
-  'secundary-color': string, 
-  'third-color': string, 
+  'primary-color': string,
+  'secundary-color': string,
+  'third-color': string,
   'forth-color': string
 }
 
@@ -28,21 +28,6 @@ interface theme {
 export class DatabaseService {
   public document: any = null
 
-  
-  public darkTheme: theme = {
-    'primary-color': '#455363',
-    'secundary-color': '#1f2935',
-    'third-color': '#2d2d2d',
-    'forth-color': '#fff'
-  };
-
-  public lightTheme: theme = {
-    'primary-color': '#009688',
-    'secundary-color': '#FFC107',
-    'third-color': '#CBF3F0',
-    'forth-color': '#FFBF69'
-  };
-
   public order: {
     product: Product,
     quantity: number
@@ -51,6 +36,9 @@ export class DatabaseService {
   public logoURL: string = ''
   public logomovilURL: string = ''
   public defaultImage$: Observable<any>
+
+  public noDataImage = new BehaviorSubject('');
+  public noDataImage$ = this.noDataImage.asObservable();
 
   constructor(
     private afs: AngularFirestore,
@@ -62,9 +50,7 @@ export class DatabaseService {
     this.materialCssVarsService.setAutoContrastEnabled(true);
   }
 
-  toggleDark(isDark:boolean) {
-    console.log(isDark);
-    
+  toggleDark(isDark: boolean) {
     this.materialCssVarsService.setDarkTheme(isDark)
   }
 
@@ -73,18 +59,19 @@ export class DatabaseService {
   }
 
   setTheme(primaryTheme: Theme, accentTheme: Theme) {
-    console.log(primaryTheme);
-    console.log(accentTheme);
-    
-    
+
+    let color = primaryTheme.color.substring(1)
+    this.noDataImage.next(color)
+
+
     this.materialCssVarsService.setPrimaryColor(primaryTheme.color);
     this.materialCssVarsService.setAccentColor(accentTheme.color);
 
     document.documentElement.style.setProperty(`--primary-color`, primaryTheme.color);
     document.documentElement.style.setProperty(`--secundary-color`, accentTheme.color);
-    document.documentElement.style.setProperty(`--third-color`, 
+    document.documentElement.style.setProperty(`--third-color`,
       this.materialCssVarsService.getPaletteForColor(primaryTheme.color)[2].color.str);
-    document.documentElement.style.setProperty(`--forth-color`, 
+    document.documentElement.style.setProperty(`--forth-color`,
       this.materialCssVarsService.getPaletteForColor(accentTheme.color)[3].color.str);
   }
 
@@ -742,10 +729,10 @@ export class DatabaseService {
   getDefault(): Observable<any> {
     this.defaultImage$ = this.afs.collection(`/db`).doc('mandaditos').valueChanges().pipe(
       startWith({
-        logoURL: localStorage.getItem('defaultURL') ? localStorage.getItem('defaultURL'):null,
+        logoURL: localStorage.getItem('defaultURL') ? localStorage.getItem('defaultURL') : null,
       }),
       map(res => {
-        if(res['defaultURL']){
+        if (res['defaultURL']) {
           localStorage.setItem('defaultURL', res['defaultURL'])
         }
         return res['defaultURL']
