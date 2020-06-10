@@ -58,11 +58,9 @@
 }
 
 .banner__box {
-    padding: 20px 10px;
-    border-bottom: solid 1px #ccc;
     cursor: move;
-    background: white;
     font-size: 0.9em;
+    margin: 5px 0;
 }
 
 .cdk-drag-preview {
@@ -79,9 +77,6 @@
     transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
 }
 
-.banner__box:last-child {
-    border: none;
-}
 
 .banner__list.cdk-drop-list-dragging .banner__box:not(.cdk-drag-placeholder) {
     transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);

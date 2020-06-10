@@ -23,7 +23,8 @@ import { MAT_DATE_LOCALE } from '@angular/material/core';
 import {MatProgressBarModule} from '@angular/material/progress-bar';
 import {MatDividerModule} from '@angular/material/divider';
 import { MatSelectModule } from '@angular/material/select';
-
+import {MatSlideToggleModule} from '@angular/material/slide-toggle';
+import {MatExpansionModule} from '@angular/material/expansion';
 // import { CreateInputDialogComponent } from './create-input-dialog/create-input-dialog.component';
 
 @NgModule({
@@ -49,7 +50,9 @@ import { MatSelectModule } from '@angular/material/select';
     MatButtonModule,
     MatDialogModule,
     MatDividerModule,
+    MatSlideToggleModule,
     MatSelectModule,
+    MatExpansionModule,
     LazyLoadImageModule.forRoot({
       preset: intersectionObserverPreset
     })

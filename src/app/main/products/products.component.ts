@@ -9,7 +9,6 @@ import { DatabaseService } from 'src/app/core/database.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Component, OnInit, ViewChild, ElementRef, Renderer2 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { WindowRefService } from '../../core/window-ref.service';
 import { ScrollDispatcher, CdkScrollable } from '@angular/cdk/overlay';
 import { MatDialog } from '@angular/material/dialog';
 
@@ -77,7 +76,6 @@ export class ProductsComponent implements OnInit {
     private dialog: MatDialog,
     public auth: AuthService,
     private route: ActivatedRoute,
-    private window: WindowRefService,
     private renderer: Renderer2,
     public scroll: ScrollDispatcher
   ) { }
@@ -198,9 +196,7 @@ export class ProductsComponent implements OnInit {
         })
       )
     ).pipe(
-      map(([search, choose]) => {
-        console.log(choose);
-        
+      map(([search, choose]) => {      
         this.filter1 = choose ? choose != 'Todos' ? choose['category'] : 'Todos' : 'Todos'
         return this.products.filter(el => search ? el['product']['description'].toLowerCase().includes(search.toLowerCase()) : true)
           .filter(el => choose ? choose != 'Todos' ? this.filterCategory(el['product'], choose) : true : true)
@@ -217,10 +213,10 @@ export class ProductsComponent implements OnInit {
       tap(data => {
 
         const scrollTop = data.getElementRef().nativeElement.scrollTop || 0;
-
-        if (scrollTop >= 135) {
+        
+        if (scrollTop >= 100) {
           this.renderer.addClass(this.searchbar.nativeElement, 'shadow')
-          this.renderer.setStyle(this.slogan.nativeElement, 'margin-top', '95px')
+          this.renderer.setStyle(this.slogan.nativeElement, 'margin-top', '125px')
         } else {
           this.renderer.removeClass(this.searchbar.nativeElement, 'shadow')
           this.renderer.removeStyle(this.slogan.nativeElement, 'margin-top')

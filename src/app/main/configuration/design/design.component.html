@@ -9,16 +9,15 @@
         <div>
             <mat-hint>
                 <mat-icon role="img" style="vertical-align: middle;" aria-hidden="true">info</mat-icon>
-                Recuerde si realiza un cambio, guardelo
+                Recuerde guardar si realiza algún cambio
             </mat-hint>
-
 
             <div class="ms-flex" *ngIf="init$ | async">
                 <div class="design__box">
                     <mat-progress-bar mode='indeterminate' *ngIf="(loading$ | async)==2"></mat-progress-bar>
                     <div class="ms-flex design__box-title">
                         <span class="design__boxTitle">Logo</span>
-                        <button mat-raised-button color="PRIMARY" (click)="save('logoURL',2)"
+                        <button mat-raised-button color="primary" (click)="save('logoURL',2)"
                             [disabled]="(loading$ | async)==2">
                             Guardar
                         </button>
@@ -40,7 +39,7 @@
                     <mat-progress-bar mode='indeterminate' *ngIf="(loading$ | async)==3"></mat-progress-bar>
                     <div class="ms-flex design__box-title">
                         <span class="design__boxTitle">Logo Móvil</span>
-                        <button mat-raised-button color="PRIMARY" (click)="save('logomovilURL',3)"
+                        <button mat-raised-button color="primary" (click)="save('logomovilURL',3)"
                             [disabled]="(loading$ | async)==3">
                             Guardar
                         </button>
@@ -62,7 +61,7 @@
                     <mat-progress-bar mode='indeterminate' *ngIf="(loading$ | async)==4"></mat-progress-bar>
                     <div class="ms-flex design__box-title">
                         <span class="design__boxTitle">Imagen Default</span>
-                        <button mat-raised-button color="PRIMARY" (click)="save('defaultURL',4)"
+                        <button mat-raised-button color="primary" (click)="save('defaultURL',4)"
                             [disabled]="(loading$ | async)==4">
                             Guardar
                         </button>
@@ -96,7 +95,7 @@
             <mat-progress-bar mode='indeterminate' *ngIf="(loading$ | async)==6"></mat-progress-bar>
             <div class="ms-flex design__box-title">
                 <span class="ms-fill"></span>
-                <button mat-raised-button color="PRIMARY" (click)="saveMeta('photoURL',6)"
+                <button mat-raised-button color="primary" (click)="saveMeta('photoURL',6)"
                     [disabled]="!pageForm.valid || (editForm$ | async)">
                     Guardar
                 </button>
@@ -161,5 +160,45 @@
 
             </form>
         </div>
+    </mat-expansion-panel>
+    <mat-expansion-panel>
+        <mat-expansion-panel-header>
+            <mat-panel-title>
+                <h4 class="design__title">Colores</h4>
+            </mat-panel-title>
+        </mat-expansion-panel-header>
+        <mat-progress-bar mode='indeterminate' *ngIf="(loading$ | async)==8"></mat-progress-bar>
+        <mat-hint>
+            <mat-icon role="img" style="vertical-align: middle;" aria-hidden="true">info</mat-icon>
+            Guarde los colores para su página
+        </mat-hint>
+        <form [formGroup]="themeFormGroup" class="ms-flex w3-center w3-padding">
+            <mat-form-field color="primary" class="admin__input" appearance="outline">
+                <mat-label>Color Primario</mat-label>
+                <mat-select formControlName="primary" [compareWith]="compareObjects">
+                    <mat-option *ngFor="let food of themesSelection" [value]="food">
+                        {{food.name |titlecase}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+            <mat-form-field color="accent" class="admin__input" appearance="outline">
+                <mat-label>Color Secundario</mat-label>
+                <mat-select formControlName="accent" [compareWith]="compareObjects">
+                    <mat-option *ngFor="let food of themesSelection" [value]="food">
+                        {{food.name |titlecase}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+            <button mat-raised-button color="primary" class="w3-block w3-hide-large w3-hide-medium"
+                [disabled]="!themeFormGroup.valid" (click)="saveColor()">
+                <mat-icon>save</mat-icon>
+            </button>
+
+            <button mat-fab color="primary" class="w3-hide-small " [disabled]="!themeFormGroup.valid"
+                (click)="saveColor()">
+                <mat-icon>save</mat-icon>
+            </button>
+        </form>
+
     </mat-expansion-panel>
 </mat-accordion>

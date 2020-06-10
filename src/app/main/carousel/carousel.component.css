@@ -1,5 +1,5 @@
 .container {
-  min-height: 90vh;
+  min-height: 80vh;
   padding: 20px 0;
 }
 
@@ -58,8 +58,8 @@
   height: 64px;
   margin: 8px;
   border-radius: 50%;
-  border: 6px solid #2EC4B6;
-  border-color: #2EC4B6 transparent #2EC4B6 transparent;
+  border: 6px solid rgba(0, 0, 0, 0.25);
+  border-color: rgba(0, 0, 0, 0.25) transparent rgba(0, 0, 0, 0.25) transparent;
   animation: lds-dual-ring 1.2s linear infinite;
 }
 

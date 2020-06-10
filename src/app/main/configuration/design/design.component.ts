@@ -1,7 +1,8 @@
+import { Theme, defaultThemes } from './../../../core/models/theme.model';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { SeoService } from './../../../core/seo.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { take, switchMap, takeLast, tap, map } from 'rxjs/operators';
+import { take, switchMap, takeLast, tap, map, startWith } from 'rxjs/operators';
 import { Observable, BehaviorSubject, of, concat, combineLatest } from 'rxjs';
 import { AngularFireStorage } from '@angular/fire/storage';
 import { AngularFirestore, DocumentReference } from '@angular/fire/firestore';
@@ -27,6 +28,12 @@ export class DesignComponent implements OnInit {
   editForm$: Observable<boolean>
 
   pageForm: FormGroup
+
+  themeFormGroup: FormGroup;
+  themeFormGroup$: Observable<any>
+
+  defaultThemes = new defaultThemes()
+  themesSelection: Theme[] = [];
 
   photos: {
     resizing$: {
@@ -67,6 +74,7 @@ export class DesignComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.initThemes();
 
     this.pageForm = this.fb.group({
       title: [null, Validators.required],
@@ -84,6 +92,11 @@ export class DesignComponent implements OnInit {
         if (res['meta']) {
           this.pageForm.setValue(res['meta'])
         }
+        if (res['colors']) {
+          this.themeFormGroup.get('primary').setValue(res['colors']['primary'])
+          this.themeFormGroup.get('accent').setValue(res['colors']['accent'])
+
+        }
       })
     )
 
@@ -96,12 +109,39 @@ export class DesignComponent implements OnInit {
         for (let i in form) {
           change.push(form[i] === values['meta'][i])
         }
-        console.log(!change.reduce((a, b) => a && b, true));
-
         return change.reduce((a, b) => a && b, true)
 
       })
     )
+  }
+
+  initThemes() {
+    this.themesSelection = Object.values(this.defaultThemes);
+
+    this.themeFormGroup = this.fb.group({
+      primary: [this.defaultThemes.blueGray],
+      accent: [this.defaultThemes.gray]
+    })
+
+  }
+
+  compareObjects(o1: any, o2: any): boolean {
+    return o1.color === o2.color && o1.name === o2.name;
+  }
+
+  saveColor() {
+    this.loading.next(8)
+    this.themeFormGroup.markAsPending()
+    let batch = this.afs.firestore.batch();
+    let ref: DocumentReference = this.afs.firestore.collection(`/db`).doc('mandaditos');
+    batch.update(ref, {
+      colors: this.themeFormGroup.value
+    });
+
+    batch.commit().then(() => {
+      this.loading.next(5)
+    })
+
   }
 
   uploadPhoto(id: string, file: File): Observable<string | number> {

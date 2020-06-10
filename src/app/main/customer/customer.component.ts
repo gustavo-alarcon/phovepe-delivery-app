@@ -38,12 +38,20 @@ export class CustomerComponent implements OnInit {
     this.ratingDataSource.paginator = paginator;
   }
 
+  //noResult
+  noResult$: Observable<string>;
+  noResultImage: string = ''
+
   constructor(
     public dbs: DatabaseService
   ) { }
 
   ngOnInit() {
-
+    this.noResult$ = this.dbs.noDataImage$.pipe(
+      tap(res=>{
+        this.noResultImage = '../../../../assets/images/no_data/no_data_' + res + '.svg'
+      })
+    )
     //Clientes
     this.list$ = this.dbs.getCustomers().pipe(
       tap(res => {
