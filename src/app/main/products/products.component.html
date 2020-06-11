@@ -10,22 +10,21 @@
                         <div *ngIf="dbs.order.length" style="margin-top: 20px;">
                             <div style="display: flex; flex-wrap: wrap; margin-bottom: 16px;">
                                 <div style="width: 20%;">Cant.</div>
-                                <div style="width: 45%;">Descripción</div>
-                                <div style="width: 25%;">Precio</div>
+                                <div style="width: 50%;">Descripción</div>
+                                <div style="width: 20%;">Precio</div>
                             </div>
                             <div *ngFor="let item of dbs.order; let ind = index">
-                                <div style="display: flex; flex-wrap: wrap; align-items: center;">
+                                <div style="display: flex; flex-wrap: wrap; align-items: baseline;">
                                     <div style="width: 20%;">{{item['quantity']}}
                                         ({{item['product']['ref']?item['product']['refUnit']:item['product']['unit']}})
                                     </div>
-                                    <div style="width: 45%;">{{item['product']['description']}}</div>
-                                    <div style="width: 25%;">S/.
+                                    <div style="width: 50%;">{{item['product']['description']}}</div>
+                                    <div style="width: 20%;">S/.
                                         {{giveProductPrice(item)|number: '.2'}}
                                     </div>
                                     <div style="width: 10%;" *ngIf="!confirmView">
-                                        <button mat-icon-button color="accent" style="font-size: 1.8em;"
-                                            (click)="delete(ind, item)">
-                                            <mat-icon style="font-size: 1em;">remove_circle</mat-icon>
+                                        <button mat-icon-button color="accent" (click)="delete(ind, item)">
+                                            <mat-icon>remove_circle</mat-icon>
                                         </button>
                                     </div>
 
@@ -33,8 +32,8 @@
                                 <div *ngIf="item['product']['promo'] && item['quantity']>=item['product']['promoData']['quantity']"
                                     style="display: flex; flex-wrap: wrap; align-items: center;">
                                     <div style="width: 20%;"></div>
-                                    <div style="width: 45%;">
-                                        <mat-hint>
+                                    <div style="width: 50%;">
+                                        <mat-hint style="font-size:0.8em">
                                             {{round(item['quantity']/item['product']['promoData']['quantity']) }}
                                             ({{item['product']['promoData']['quantity']}} {{item['product']['unit']}} x
                                             S/.{{item['product']['promoData']['promoPrice'] | number: '.2'}} )
@@ -45,8 +44,8 @@
                                 <div *ngIf="item['product']['ref']"
                                     style="display: flex; flex-wrap: wrap; align-items: center;">
                                     <div style="width: 20%;"></div>
-                                    <div style="width: 45%;">
-                                        <mat-hint>1({{item['product']['refUnit']}})
+                                    <div style="width: 50%;">
+                                        <mat-hint style="font-size:0.8em">1({{item['product']['refUnit']}})
                                             <mat-icon style="vertical-align: middle;">arrow_right_alt</mat-icon>
                                             aprox. {{roundNumber(item['product']['refPrice']/item['product']['price'])}}
                                             {{item['product']['unit']}}
@@ -300,7 +299,7 @@
                                 <mat-datepicker-toggle matSuffix [for]="dateInit"></mat-datepicker-toggle>
                                 <mat-datepicker #dateInit disabled="false"></mat-datepicker>
                             </mat-form-field>
-                            <div class="detail-div w3-margin-left w3-hide-small">
+                            <div class="detail-div">
                                 <div class="label">Método de Pago</div>
                                 <mat-form-field class="detail-input" appearance="outline">
                                     <mat-select formControlName="pay" placeholder='Seleccionar'>
@@ -310,16 +309,6 @@
                                     </mat-select>
                                 </mat-form-field>
                             </div>
-                        </div>
-                        <div class="detail-div w3-hide-large w3-hide-medium">
-                            <div class="label">Método de Pago</div>
-                            <mat-form-field class="detail-input" appearance="outline">
-                                <mat-select formControlName="pay" placeholder='Seleccionar'>
-                                    <mat-option *ngFor="let type of payType" [value]="type">
-                                        {{type}}
-                                    </mat-option>
-                                </mat-select>
-                            </mat-form-field>
                         </div>
                         <div class="detail-div">
                             <div class="label">Dónde nos comunicamos:</div>
@@ -395,11 +384,11 @@
                 </div>
                 <div *ngFor="let item of dbs.order; let ind = index">
                     <div style="display: flex; flex-wrap: wrap; align-items: center;">
-                        <div style="width: 20%;">{{item['quantity']}}
+                        <div style="width: 25%;">{{item['quantity']}}
                             ({{item['product']['ref']?item['product']['refUnit']:item['product']['unit']}})
                         </div>
                         <div style="width: 45%;">{{item['product']['description']}}</div>
-                        <div style="width: 25%;">S/.
+                        <div style="width: 20%;">S/.
                             {{giveProductPrice(item)|number: '.2'}}
                         </div>
                         <div style="width: 10%;" *ngIf="!confirmView">
@@ -412,7 +401,7 @@
                     </div>
                     <div *ngIf="item['product']['promo'] && item['quantity']>=item['product']['promoData']['quantity']"
                         style="display: flex; flex-wrap: wrap; align-items: center;">
-                        <div style="width: 20%;"></div>
+                        <div style="width: 25%;"></div>
                         <div style="width: 45%;">
                             <mat-hint>
                                 {{round(item['quantity']/item['product']['promoData']['quantity']) }}
@@ -423,7 +412,7 @@
                     </div>
 
                     <div *ngIf="item['product']['ref']" style="display: flex; flex-wrap: wrap; align-items: center;">
-                        <div style="width: 20%;"></div>
+                        <div style="width: 25%;"></div>
                         <div style="width: 45%;">
                             <mat-hint>1({{item['product']['refUnit']}})
                                 <mat-icon style="vertical-align: middle;">arrow_right_alt</mat-icon>

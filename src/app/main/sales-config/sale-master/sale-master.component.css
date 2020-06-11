@@ -1,15 +1,12 @@
 .list-container {
-  background: #FFFFFF;
   max-width: 1400px;
   border-style: solid;
   border-width: 1px 1px 1px 12px;
+  border-radius: 10px;
   border-top-color: #c4c4c4;
   border-right-color: #c4c4c4;
   border-bottom-color: #c4c4c4;
   box-sizing: border-box;
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-  border-radius: 10px;
-  padding: 10px 25px;
   display: flex;
   flex-direction: column;
   margin-top: 16px;
@@ -26,7 +23,7 @@
 }
 
 .list-container--red {
-  border-color: red;
+  border-left-color: red;
 }
 
 .personal-data-container {
@@ -93,14 +90,12 @@
 .general {
   font-weight: 900;
   letter-spacing: 0.05em;
-  color: #2B2B2B;
   margin: 0 8px;
 }
 
 .date {
   font-weight: 500;
   letter-spacing: 0.05em;
-  color: #2B2B2B;
 }
 
 .userImage {

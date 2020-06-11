@@ -47,8 +47,6 @@ export class BannersComponent implements OnInit {
 
   ngOnInit() {
 
-
-
     this.carousel$ = combineLatest(
       this.dbs.getBanners('carousel'),
       this.dbs.defaultImage$

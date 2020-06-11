@@ -24,76 +24,80 @@
                         <div class="w3-hide-small w3-hide-medium">
                             <div *ngIf="sales.length; else empty">
                                 <div style="min-height: 54vh;">
-                                    <div class="dispatch__container"
+                                    <mat-card class="dispatch__container"
                                         *ngFor="let item of sales| paginate: { itemsPerPage: 5, currentPage: p1 }">
-                                        <div class="dispatch__driver background--primary  w3-margin-bottom">
-                                            <mat-icon style="margin-right: 10px; vertical-align: middle;">account_circle
-                                            </mat-icon>
-                                            <span> {{item['driver']['displayName']}}</span>
-                                        </div>
-                                        <div class="dispatch__descrip">
-                                            <div class="w3-center" style="width: 15%;">
-                                                <div>#{{("0000"+item['correlative']).slice(-5) }}</div>
-                                                <div class="dispatch__descrip--ligth">
-                                                    {{item['deliveryDate'].toMillis() | date: 'dd/MM/yyyy'}}
+                                        <div>
+                                            <div class="dispatch__driver background--primary  w3-margin-bottom">
+                                                <mat-icon style="margin-right: 10px; vertical-align: middle;">
+                                                    account_circle
+                                                </mat-icon>
+                                                <span> {{item['driver']['displayName']}}</span>
+                                            </div>
+                                            <div class="dispatch__descrip">
+                                                <div class="w3-center" style="width: 15%;">
+                                                    <div>#{{("0000"+item['correlative']).slice(-5) }}</div>
+                                                    <div class="dispatch__descrip--ligth">
+                                                        {{item['deliveryDate'].toMillis() | date: 'dd/MM/yyyy'}}
+                                                    </div>
+                                                </div>
+                                                <div class="w3-center" style="width: 10%;">
+                                                    <img class="dispatch__user border--primary"
+                                                        [src]="item['createdBy']['photoURL']" alt="">
+                                                </div>
+                                                <div class="w3-center" style="width: 30%;">
+                                                    {{item['createdBy']['displayName']}}</div>
+                                                <div class="w3-center" style="width: 20%;">
+                                                    {{item['location']['number']?item['location']['number']:''}}</div>
+                                                <div style="width: 25%; " class="dispatch__descrip w3-center">
+                                                    <button mat-icon-button color="primary"
+                                                        class="dispatch__buttonList border--primary"
+                                                        (click)="currentSale(item)">
+                                                        <mat-icon>list</mat-icon>
+                                                    </button>
+                                                    <div class="subtotal">S/.
+                                                        {{item['totalConfirmedPrice'] + item['deliveryConfirmedPrice'] | number: '.2'}}
+                                                    </div>
                                                 </div>
                                             </div>
-                                            <div class="w3-center" style="width: 10%;">
-                                                <img class="dispatch__user border--primary"
-                                                    [src]="item['createdBy']['photoURL']" alt="">
-                                            </div>
-                                            <div class="w3-center" style="width: 30%;">
-                                                {{item['createdBy']['displayName']}}</div>
-                                            <div class="w3-center" style="width: 20%;">
-                                                {{item['location']['number']?item['location']['number']:''}}</div>
-                                            <div style="width: 25%; " class="dispatch__descrip w3-center">
-                                                <button mat-icon-button color="primary"
-                                                    class="dispatch__buttonList border--primary"
-                                                    (click)="currentSale(item)">
-                                                    <mat-icon>list</mat-icon>
-                                                </button>
-                                                <div class="subtotal subtotal--big">S/.
-                                                    {{item['totalConfirmedPrice'] + item['deliveryConfirmedPrice'] | number: '.2'}}
+                                            <div class="dispatch__descrip dispatch__descrip--ligth">
+                                                <div class="w3-center" style="width: 15%;">
+                                                    <mat-icon class="font--secondary">place</mat-icon>
                                                 </div>
-                                            </div>
-                                        </div>
-                                        <div class="dispatch__descrip dispatch__descrip--ligth">
-                                            <div class="w3-center" style="width: 15%;">
-                                                <mat-icon class="font--secondary">place</mat-icon>
-                                            </div>
-                                            <div style="width: 65%;">
-                                                <div>{{item['location']['address']}}</div>
-                                                <mat-hint>Referencia: {{item['location']['reference']}}</mat-hint>
-                                            </div>
-                                            <div style="width: 20%;" class="ms-flex">
-                                                <a target="_blank"
-                                                    [href]="'https://www.waze.com/ul?ll='+item['location']['coord']['lat']+'%2C'+item['location']['coord']['lng']+'&navigate=yes&zoom=17'">
-                                                    <img style="width: 30px;" src="../../../assets/images/001-waze.png"
-                                                        alt="">
-                                                </a>
-                                                <span class="ms-fill"></span>
-                                                <a target="_blank"
-                                                    [href]="'https://maps.google.com/?q='+item['location']['coord']['lat']+','+item['location']['coord']['lng']">
-                                                    <img style="width: 30px;"
-                                                        src="../../../assets/images/002-mapas-de-google.png" alt="">
-                                                </a>
-                                            </div>
+                                                <div style="width: 65%;">
+                                                    <div>{{item['location']['address']}}</div>
+                                                    <mat-hint>Referencia: {{item['location']['reference']}}</mat-hint>
+                                                </div>
+                                                <div style="width: 20%;" class="ms-flex">
+                                                    <a target="_blank"
+                                                        [href]="'https://www.waze.com/ul?ll='+item['location']['coord']['lat']+'%2C'+item['location']['coord']['lng']+'&navigate=yes&zoom=17'">
+                                                        <img style="width: 30px;"
+                                                            src="../../../assets/images/001-waze.png" alt="">
+                                                    </a>
+                                                    <span class="ms-fill"></span>
+                                                    <a target="_blank"
+                                                        [href]="'https://maps.google.com/?q='+item['location']['coord']['lat']+','+item['location']['coord']['lng']">
+                                                        <img style="width: 30px;"
+                                                            src="../../../assets/images/002-mapas-de-google.png" alt="">
+                                                    </a>
+                                                </div>
 
-                                        </div>
-                                        <div class="ms-flex">
-                                            <div style="width: 65%; padding-left: 15px;">
-                                                Método de pago: {{item['payType']}}
                                             </div>
-                                            <span class="ms-fill"></span>
-                                            <button mat-raised-button color="accent"
-                                                *ngIf="item['status']=='En reparto'" class="dispatch__finalize"
-                                                (click)="deliver(item)">Finalizar</button>
-                                            <div *ngIf="item['status']=='Entregado'">
-                                                Entregado:
-                                                {{item['deliveryFinishedDate'].toMillis() | date: 'dd/MM/yyyy HH:mm'}}
+                                            <div class="ms-flex">
+                                                <div style="width: 65%; padding-left: 15px;">
+                                                    Método de pago: {{item['payType']}}
+                                                </div>
+                                                <span class="ms-fill"></span>
+                                                <button mat-raised-button color="accent"
+                                                    *ngIf="item['status']=='En reparto'" class="dispatch__finalize"
+                                                    (click)="deliver(item)">Finalizar</button>
+                                                <div *ngIf="item['status']=='Entregado'">
+                                                    Entregado:
+                                                    {{item['deliveryFinishedDate'].toMillis() | date: 'dd/MM/yyyy HH:mm'}}
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
+                                    </mat-card>
+
                                 </div>
                                 <div class="dispatch__paginator" *ngIf="sales.length">
                                     <pagination-controls (pageChange)="p1 = $event" previousLabel="" nextLabel=""
@@ -108,77 +112,82 @@
                         <div class="w3-hide-large ">
                             <div *ngIf="sales.length; else empty">
                                 <div style="min-height: 54vh;">
-                                    <div class="dispatch__container"
-                                        *ngFor="let item of sales| paginate: { itemsPerPage: 5, currentPage: p }">
-                                        <div class="dispatch__driver background--primary  w3-margin-bottom">
-                                            <mat-icon style="margin-right: 10px; vertical-align: middle;">account_circle
-                                            </mat-icon>
-                                            <span> {{item['driver']['displayName']}}</span>
-                                        </div>
-                                        <div class="dispatch__descrip">
-                                            <div>#{{("0000"+item['correlative']).slice(-5) }}</div>
-                                            <div class="date">{{item['deliveryDate'].toMillis() | date: 'dd/MM/yyyy'}}
+                                    <mat-card *ngFor="let item of sales| paginate: { itemsPerPage: 5, currentPage: p }">
+                                        <div>
+                                            <div class="dispatch__driver background--primary  w3-margin-bottom">
+                                                <mat-icon style="margin-right: 10px; vertical-align: middle;">
+                                                    account_circle
+                                                </mat-icon>
+                                                <span> {{item['driver']['displayName']}}</span>
                                             </div>
-                                        </div>
-                                        <div class="dispatch__descrip">
-                                            <div class="w3-center" style="width: 30%;">
-                                                <img class="dispatch__user border--primary"
-                                                    [src]="item['createdBy']['photoURL']" alt="">
+                                            <div class="dispatch__descrip">
+                                                <div>#{{("0000"+item['correlative']).slice(-5) }}</div>
+                                                <div class="date">
+                                                    {{item['deliveryDate'].toMillis() | date: 'dd/MM/yyyy'}}
+                                                </div>
                                             </div>
-                                            <div class="w3-center" style="width: 70%;">
-                                                <div>
-                                                    {{item['createdBy']['displayName']}}</div>
-                                                <div>
-                                                    {{item['location']['number']?item['location']['number']:''}}</div>
-                                            </div>
+                                            <div class="dispatch__descrip">
+                                                <div class="w3-center" style="width: 30%;">
+                                                    <img class="dispatch__user border--primary"
+                                                        [src]="item['createdBy']['photoURL']" alt="">
+                                                </div>
+                                                <div class="w3-center" style="width: 70%;">
+                                                    <div>
+                                                        {{item['createdBy']['displayName']}}</div>
+                                                    <div>
+                                                        {{item['location']['number']?item['location']['number']:''}}
+                                                    </div>
+                                                </div>
 
-                                        </div>
-                                        <div class="dispatch__descrip dispatch__descrip--ligth">
-                                            <div class="dispatch__pay"> {{item['payType']}}</div>
-                                            <div class="dispatch__descrip ">
-                                                <button mat-icon-button color='primary'
-                                                    class="dispatch__buttonList border--primary"
-                                                    (click)="listview=false;currentSale(item)">
-                                                    <mat-icon>list</mat-icon>
-                                                </button>
-                                                <div class="subtotal w3-margin-left">
-                                                    S/.{{item['totalConfirmedPrice'] + item['deliveryConfirmedPrice'] | number: '.2'}}
+                                            </div>
+                                            <div class="dispatch__descrip dispatch__descrip--ligth">
+                                                <div class="dispatch__pay background--third"> {{item['payType']}}</div>
+                                                <div class="dispatch__descrip ">
+                                                    <button mat-icon-button color='primary'
+                                                        class="dispatch__buttonList border--primary"
+                                                        (click)="listview=false;currentSale(item)">
+                                                        <mat-icon>list</mat-icon>
+                                                    </button>
+                                                    <div class="subtotal w3-margin-left">
+                                                        S/.{{item['totalConfirmedPrice'] + item['deliveryConfirmedPrice'] | number: '.2'}}
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                            <div class="dispatch__descrip dispatch__descrip--ligth">
+                                                <div style="width: 75%;">
+                                                    <div>{{item['location']['address']}}</div>
+                                                    <mat-hint>Referencia: {{item['location']['reference']}}</mat-hint>
+                                                </div>
+                                                <div style="width: 20%;" class="ms-flex">
+                                                    <a target="_blank"
+                                                        [href]="'https://www.waze.com/ul?ll='+item['location']['coord']['lat']+'%2C'+item['location']['coord']['lng']+'&navigate=yes&zoom=17'">
+                                                        <img style="width: 30px; margin-bottom: 10px;"
+                                                            src="../../../assets/images/001-waze.png" alt="">
+                                                    </a>
+                                                    <span class="ms-fill"></span>
+                                                    <a target="_blank"
+                                                        [href]="'https://maps.google.com/?q='+item['location']['coord']['lat']+','+item['location']['coord']['lng']">
+                                                        <img style="width: 30px; margin-bottom: 10px;"
+                                                            src="../../../assets/images/002-mapas-de-google.png" alt="">
+                                                    </a>
+                                                </div>
+                                            </div>
+                                            <div class="ms-flex">
+                                                <div style="width: 10%;"></div>
+                                                <span class="ms-fill"></span>
+                                                <button mat-raised-button color="accent" class="dispatch__finalize"
+                                                    (click)="deliver(item)"
+                                                    *ngIf="item['status']=='En reparto'">Finalizar</button>
+                                                <div *ngIf="item['status']=='Entregado'">
+                                                    Entregado:
+                                                    {{item['deliveryFinishedDate'].toMillis() | date: 'dd/MM/yyyy HH:mm'}}
                                                 </div>
                                             </div>
 
                                         </div>
-                                        <div class="dispatch__descrip dispatch__descrip--ligth">
-                                            <div style="width: 75%;">
-                                                <div>{{item['location']['address']}}</div>
-                                                <mat-hint>Referencia: {{item['location']['reference']}}</mat-hint>
-                                            </div>
-                                            <div style="width: 20%;" class="ms-flex">
-                                                <a target="_blank"
-                                                    [href]="'https://www.waze.com/ul?ll='+item['location']['coord']['lat']+'%2C'+item['location']['coord']['lng']+'&navigate=yes&zoom=17'">
-                                                    <img style="width: 30px; margin-bottom: 10px;"
-                                                        src="../../../assets/images/001-waze.png" alt="">
-                                                </a>
-                                                <span class="ms-fill"></span>
-                                                <a target="_blank"
-                                                    [href]="'https://maps.google.com/?q='+item['location']['coord']['lat']+','+item['location']['coord']['lng']">
-                                                    <img style="width: 30px; margin-bottom: 10px;"
-                                                        src="../../../assets/images/002-mapas-de-google.png" alt="">
-                                                </a>
-                                            </div>
-                                        </div>
-                                        <div class="ms-flex">
-                                            <div style="width: 10%;"></div>
-                                            <span class="ms-fill"></span>
-                                            <button mat-raised-button color="accent" class="dispatch__finalize"
-                                                (click)="deliver(item)"
-                                                *ngIf="item['status']=='En reparto'">Finalizar</button>
-                                            <div *ngIf="item['status']=='Entregado'">
-                                                Entregado:
-                                                {{item['deliveryFinishedDate'].toMillis() | date: 'dd/MM/yyyy HH:mm'}}
-                                            </div>
-                                        </div>
+                                    </mat-card>
 
-                                    </div>
                                 </div>
                                 <div class="dispatch__paginator" *ngIf="sales.length">
                                     <pagination-controls (pageChange)="p = $event" previousLabel="" nextLabel=""
@@ -187,7 +196,8 @@
                                 </div>
                             </div>
                             <ng-template #empty>
-                                <div *ngIf="noResult$ | async" class="w3-container w3-center w3-margin-top w3-margin-bottom">
+                                <div *ngIf="noResult$ | async"
+                                    class="w3-container w3-center w3-margin-top w3-margin-bottom">
                                     <img [src]="noResultImage" alt="no data" style="width: 100%; max-width: 300px;">
                                     <p>Sin Resultados</p>
                                 </div>

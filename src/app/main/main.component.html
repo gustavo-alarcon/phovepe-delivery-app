@@ -136,7 +136,7 @@
             <div style="padding-top: 64px;">
                 <router-outlet></router-outlet>
             </div>
-            <div class="contact w3-hide-small">
+            <div class="contact w3-hide-small" *ngIf="colors$ | async">
                 <button mat-fab class="contact__button" color="primary" (click)="openContact()">
                     <mat-icon class="contact__icon">phone</mat-icon>
                 </button>

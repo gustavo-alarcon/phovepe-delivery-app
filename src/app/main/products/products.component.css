@@ -177,6 +177,10 @@
     flex-wrap: wrap;
 }
 
+.detail-input{
+    margin-right: 16px;
+}
+
 .label {
     font-weight: 500;
     width: 30%;

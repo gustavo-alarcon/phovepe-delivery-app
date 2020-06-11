@@ -39,49 +39,53 @@
             {{sales.length}}</button>
     </div>
 
-    <ng-container *ngIf="salesFiltered$ | async as salesFiltered">
-        <ng-container *ngIf="salesFiltered.length else noSales">
-            <div matRipple [className]="getBorderColor(el, sales, salesFiltered)"
-                *ngFor="let el of salesFiltered | paginate: { itemsPerPage: 10, currentPage: p }"
-                (click)="onSelectDetail(el)">
-                <div class="personal-data-container">
-                    <div class="personal-data-sub-container">
-                        <div class="element1">
-                            <img *ngIf="el.createdBy.photoURL else defaultPicture" class="userImage border--primary "
-                                [defaultImage]="defaultImage" [lazyLoad]="el.createdBy.photoURL" [offset]="100">
-                            <ng-template #defaultPicture>
-                                <img class="userImage border--primary " [src]="defaultImage">
-                            </ng-template>
+    <div *ngIf="salesFiltered$ | async as salesFiltered">
+        <div>
+            <mat-card matRipple [ngClass]="getBorderColor(el, sales, salesFiltered)"
+                *ngFor="let el of salesFiltered | paginate: { itemsPerPage: 10, currentPage: p }">
+                <div (click)="onSelectDetail(el)" >
+                    <div class="personal-data-container">
+                        <div class="personal-data-sub-container">
+                            <div class="element1">
+                                <img *ngIf="el.createdBy.photoURL else defaultPicture"
+                                    class="userImage border--primary " [defaultImage]="defaultImage"
+                                    [lazyLoad]="el.createdBy.photoURL" [offset]="100">
+                                <ng-template #defaultPicture>
+                                    <img class="userImage border--primary " [src]="defaultImage">
+                                </ng-template>
+                            </div>
+                            <div class="general element2">{{getName(el.createdBy.displayName)}}</div>
+                            <div class="general element3">{{el.location.number}}</div>
                         </div>
-                        <div class="general element2">{{getName(el.createdBy.displayName)}}</div>
-                        <div class="general element3">{{el.location.number}}</div>
-                    </div>
 
-                    <div *ngIf="el.status == 'En reparto'" class="general element4">{{getName(el.driver.displayName)}}
+                        <div *ngIf="el.status == 'En reparto'" class="general element4">
+                            {{getName(el.driver.displayName)}}
+                        </div>
+                    </div>
+                    <div class="sale-data-container">
+                        <div class="general element1">#{{el.correlative | number:'3.0-3'}}</div>
+                        <div class="date element2">{{el.createdAt['seconds']*1000 | date:'dd/MM/yyyy HH:mm'}}</div>
+                        <div class="date element3">{{el.deliveryDate['seconds']*1000 | date:'dd/MM/yyyy HH:mm'}}</div>
+                        <div class="element4">
+                            <button (click)="onCheckDirection(el, $event)" color="accent" mat-icon-button type="button">
+                                <mat-icon>place</mat-icon>
+                            </button>
+                        </div>
+                        <div class="subtotal element5">
+                            {{((el.status == 'Solicitado' || el.status == 'Cancelado') ? (el.total + el.deliveryPrice) : (el.totalConfirmedPrice + el. deliveryConfirmedPrice))  | currency:'S/. '}}
+                        </div>
                     </div>
                 </div>
-                <div class="sale-data-container">
-                    <div class="general element1">#{{el.correlative | number:'3.0-3'}}</div>
-                    <div class="date element2">{{el.createdAt['seconds']*1000 | date:'dd/MM/yyyy HH:mm'}}</div>
-                    <div class="date element3">{{el.deliveryDate['seconds']*1000 | date:'dd/MM/yyyy HH:mm'}}</div>
-                    <div class="element4">
-                        <button (click)="onCheckDirection(el, $event)" color="accent" mat-icon-button type="button">
-                            <mat-icon>place</mat-icon>
-                        </button>
-                    </div>
-                    <div class="subtotal element5">
-                        {{((el.status == 'Solicitado' || el.status == 'Cancelado') ? (el.total + el.deliveryPrice) : (el.totalConfirmedPrice + el. deliveryConfirmedPrice))  | currency:'S/. '}}
-                    </div>
-                </div>
-            </div>
+            </mat-card>
+
 
             <div style="display:flex; flex-direction: row; justify-content: center;">
                 <pagination-controls (pageChange)="p = $event" previousLabel="" nextLabel="" maxSize="6">
                 </pagination-controls>
             </div>
-        </ng-container>
+        </div>
+    </div>
 
-    </ng-container>
 
 </div>
 

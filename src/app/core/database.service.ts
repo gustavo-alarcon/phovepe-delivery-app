@@ -35,6 +35,7 @@ export class DatabaseService {
 
   public logoURL: string = ''
   public logomovilURL: string = ''
+  public defaultImage: string = ''
   public defaultImage$: Observable<any>
 
   public noDataImage = new BehaviorSubject('');
@@ -705,29 +706,31 @@ export class DatabaseService {
       );
   }
 
-  getConfi(): Observable<any> {
-    return this.afs.collection(`/db`).doc('mandaditos').valueChanges().pipe(
-      /*
-      startWith({
-        logoURL: localStorage.getItem('logoURL') ? localStorage.getItem('logoURL'): null,
-        logomovilURL: localStorage.getItem('logomovilURL') ? localStorage.getItem('logomovilURL') :null,
-        meta: localStorage.getItem('meta') ? localStorage.getItem('meta') :null
-      }),*/
-      tap(res => {
+  getLogos(){
+    return this.afs.collection(`/db/mandaditos/config`).doc('logos').valueChanges().pipe(
+      shareReplay(1),
+      tap(res=>{
         if (res['logoURL']) {
           this.document.getElementById('appFavicon').setAttribute('href', res['logoURL'])
           this.logoURL = res['logoURL']
           this.logomovilURL = res['logomovilURL'] ? res['logomovilURL'] : null
+          this.defaultImage = res['defaultURL']
           /*localStorage.setItem('logoURL', res['logoURL'])
           localStorage.setItem('logomovilURL', res['logomovilURL'])*/
         }
-      }),
-      shareReplay(1)
+      })
     );
   }
 
+  getMetaTag(){
+    return this.afs.collection(`/db/mandaditos/config`).doc('meta').valueChanges().pipe(
+      shareReplay(1)
+    );
+  }
+  
+
   getDefault(): Observable<any> {
-    this.defaultImage$ = this.afs.collection(`/db`).doc('mandaditos').valueChanges().pipe(
+    this.defaultImage$ = this.afs.collection(`/db/mandaditos/config`).doc('logos').valueChanges().pipe(
       startWith({
         logoURL: localStorage.getItem('defaultURL') ? localStorage.getItem('defaultURL') : null,
       }),
@@ -740,5 +743,11 @@ export class DatabaseService {
       shareReplay(1)
     );
     return this.defaultImage$
+  }
+
+  getColors():Observable<any>{
+    return this.afs.collection(`/db/mandaditos/config`).doc('colors').valueChanges().pipe(
+      shareReplay(1)
+    );
   }
 }

@@ -19,20 +19,19 @@
                                 <button (click)="filterSaleData('Confirmado')" mat-raised-button
                                     class="filter-button background--fourth" type="button">Confirmados:
                                     {{getNumber(progress, 'Confirmado')}}</button>
-                                <button (click)="filterSaleData('En reparto')" mat-raised-button
-                                    class="filter-button" color="accent" type="button">En ruta:
+                                <button (click)="filterSaleData('En reparto')" mat-raised-button class="filter-button"
+                                    color="accent" type="button">En ruta:
                                     {{getNumber(progress, 'En reparto')}}</button>
-                                <button (click)="filterSaleData('Todos')" class="filter-button"
-                                    style="background-color: #FFFFFF;color: #2B2B2B;" mat-raised-button
+                                <button (click)="filterSaleData('Todos')" class="filter-button" mat-raised-button
                                     type="button">Todos: {{allSales}}</button>
                             </div>
                             <div class="w3-hide-small w3-hide-medium w3-margin-top">
                                 <div *ngIf="progress.length; else empty">
                                     <div style="min-height: 37vh;">
-                                        <div class="list-container" [ngStyle]="{borderLeft: getBorderColor(item)}"
-                                            (click)="currentSale(item)"
+                                        <mat-card [ngClass]="getBorderColor(item)" (click)="currentSale(item)"
                                             *ngFor="let item of progress| paginate: { itemsPerPage: 6, currentPage: p2 }">
-                                            <div class="correlative">#{{("0000"+item['correlative']).slice(-5) }}</div>
+                                            <div class="correlative">#{{("0000"+item['correlative']).slice(-5) }}
+                                            </div>
                                             <div class="date">
                                                 {{item['createdAt'].toMillis() | date: 'dd/MM/yyyy HH:mm'}}
                                             </div>
@@ -49,7 +48,8 @@
                                             <div class="subtotal" *ngIf="item['totalConfirmedPrice']">S/.
                                                 {{item['totalConfirmedPrice'] + item['deliveryConfirmedPrice'] | number: '.2'}}
                                             </div>
-                                        </div>
+                                        </mat-card>
+
                                     </div>
                                     <div style="display: flex; width: 100%; justify-content: flex-end;"
                                         *ngIf="progress.length">
@@ -62,11 +62,12 @@
                             <div class="w3-hide-large w3-margin-top">
                                 <div *ngIf="progress.length; else empty">
                                     <div style="min-height: 37vh;">
-                                        <div [className]="getBorderColor(item)"
+                                        <mat-card [ngClass]="getBorderColor(item)"
                                             (click)="listview=false;currentSale(item)"
                                             *ngFor="let item of progress| paginate: { itemsPerPage: 6, currentPage: p3 }">
                                             <div style="text-align: center;">
-                                                <div class="correlative">#{{("0000"+item['correlative']).slice(-5) }}
+                                                <div class="correlative">
+                                                    #{{("0000"+item['correlative']).slice(-5) }}
                                                 </div>
                                                 <button mat-icon-button color="accent" (click)="openMap(item)">
                                                     <mat-icon>place</mat-icon>
@@ -86,8 +87,8 @@
                                             <div class="subtotal" *ngIf="item['totalConfirmedPrice']">S/.
                                                 {{item['totalConfirmedPrice'] + item['deliveryConfirmedPrice'] | number: '.2'}}
                                             </div>
+                                        </mat-card>
 
-                                        </div>
                                     </div>
                                     <div style="display: flex; width: 100%; justify-content: flex-end;"
                                         *ngIf="progress.length">
@@ -97,7 +98,8 @@
                                     </div>
                                 </div>
                                 <ng-template #empty>
-                                    <div *ngIf="noResult$ | async" class="w3-container w3-center w3-margin-top w3-margin-bottom">
+                                    <div *ngIf="noResult$ | async"
+                                        class="w3-container w3-center w3-margin-top w3-margin-bottom">
                                         <img [src]="noResultImage" alt="no data" style="width: 100%; max-width: 300px;">
                                         <p>Sin Resultados</p>
                                     </div>
@@ -108,9 +110,11 @@
                             <div class="w3-hide-small w3-hide-medium w3-margin-top">
                                 <div *ngIf="entry.length; else empty">
                                     <div style="min-height: 47vh;">
-                                        <div class="list-container" (click)="currentSale(item)"
+                                        <mat-card class="list-container list-container--gray"
+                                            (click)="currentSale(item)"
                                             *ngFor="let item of entry| paginate: { itemsPerPage: 6, currentPage: p1 }">
-                                            <div class="correlative">#{{("0000"+item['correlative']).slice(-5) }}</div>
+                                            <div class="correlative">#{{("0000"+item['correlative']).slice(-5) }}
+                                            </div>
                                             <div class="date">
                                                 {{item['createdAt'].toMillis() | date: 'dd/MM/yyyy HH:mm'}}
                                             </div>
@@ -123,7 +127,8 @@
                                             <div class="subtotal">S/.
                                                 {{item['totalConfirmedPrice'] + item['deliveryConfirmedPrice'] | number: '.2'}}
                                             </div>
-                                        </div>
+                                        </mat-card>
+
                                     </div>
                                     <div style="display: flex; width: 100%; justify-content: flex-end;"
                                         *ngIf="entry.length">
@@ -136,10 +141,12 @@
                             <div class="w3-hide-large w3-margin-top">
                                 <div *ngIf="entry.length; else empty">
                                     <div style="min-height: 47vh;">
-                                        <div class="list-container" (click)="listview=false;currentSale(item)"
+                                        <mat-card class="list-container list-container--gray"
+                                            (click)="listview=false;currentSale(item)"
                                             *ngFor="let item of entry| paginate: { itemsPerPage: 6, currentPage: p }">
                                             <div style="text-align: center;">
-                                                <div class="correlative">#{{("0000"+item['correlative']).slice(-5) }}
+                                                <div class="correlative">
+                                                    #{{("0000"+item['correlative']).slice(-5) }}
                                                 </div>
                                                 <button mat-icon-button color="accent" (click)="openMap(item)">
                                                     <mat-icon>place</mat-icon>
@@ -156,7 +163,8 @@
                                             <div class="subtotal">S/.
                                                 {{item['totalConfirmedPrice'] + item['deliveryConfirmedPrice'] | number: '.2'}}
                                             </div>
-                                        </div>
+                                        </mat-card>
+
                                     </div>
                                     <div style="display: flex; width: 100%; justify-content: flex-end;"
                                         *ngIf="entry.length">
@@ -166,7 +174,8 @@
                                     </div>
                                 </div>
                                 <ng-template #empty>
-                                    <div *ngIf="noResult$ | async" class="w3-container w3-center w3-margin-top w3-margin-bottom">
+                                    <div *ngIf="noResult$ | async"
+                                        class="w3-container w3-center w3-margin-top w3-margin-bottom">
                                         <img [src]="noResultImage" alt="no data" style="width: 100%; max-width: 300px;">
                                         <p>Sin Resultados</p>
                                     </div>
@@ -238,7 +247,7 @@
                                         </mat-hint>
                                     </div>
                                 </div>
-    
+
                             </div>
                             <div class="ticket__separate"></div>
                             <div>
@@ -263,7 +272,7 @@
                         </div>
                     </div>
                 </mat-card>
-                
+
 
             </div>
         </div>

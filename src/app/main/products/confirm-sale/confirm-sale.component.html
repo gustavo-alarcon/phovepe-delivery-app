@@ -1,15 +1,14 @@
 <div style="max-width: 320px;">
     <div mat-dialog-title>
         <h2 class="title-dialog">
-            Confirma tu mandadito
+            Confirma tu pedido
         </h2>
         <mat-divider></mat-divider>
         <mat-progress-bar *ngIf="(loading$ | async) === 2" mode="indeterminate"></mat-progress-bar>
     </div>
 
     <div mat-dialog-content>
-        <p>Tu mandadito tiene un precio estimado de S/. {{data['total'] + data['deliveryPrice'] | number: '.2'}}</p>
-        <p>El precio del delivery varia de S/.4 a S/.10 según tu zona</p>
+        <p>Tu pedido tiene un precio estimado de S/. {{data['total'] + data['deliveryPrice'] | number: '.2'}}</p>
         <p>¿Desea continuar?</p>
     </div>
 
@@ -18,4 +17,4 @@
         <button class="w3-margin-left" mat-raised-button color="accent" [disabled]="(loading$ | async) === 2"
             (click)="save()">Continuar</button>
     </div>
-</div>
+</div> 

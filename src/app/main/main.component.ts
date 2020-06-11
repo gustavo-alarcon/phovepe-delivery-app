@@ -5,7 +5,7 @@ import { Router } from '@angular/router';
 import { AuthService } from '../core/auth.service';
 import { Observable, of, combineLatest } from 'rxjs';
 import { User } from '../core/models/user.model';
-import { switchMap, shareReplay, tap, startWith } from 'rxjs/operators';
+import { switchMap, shareReplay, tap, startWith, map } from 'rxjs/operators';
 import { DatabaseService } from '../core/database.service';
 import { RateDialogComponent } from './rate-dialog/rate-dialog.component';
 import { Sale } from '../core/models/sale.model';
@@ -24,6 +24,7 @@ import { FormGroup, FormBuilder } from '@angular/forms';
 export class MainComponent implements OnInit {
   user$: Observable<User>
   init$: Observable<any>
+  colors$: Observable<any>
   openedMenu: boolean = false;
 
   logo: string
@@ -52,18 +53,29 @@ export class MainComponent implements OnInit {
 
     this.initThemes();
 
-    this.init$ = this.dbs.getConfi().pipe(
-      tap(res => {
-        if(res['colors']){
-          this.themeFormGroup.setValue(res['colors'])
+    this.colors$ = this.dbs.getColors().pipe(
+      tap(res=>{
+        if(res){
+          this.themeFormGroup.setValue(res)
+          this.dbs.setTheme(res['primary'], res['accent'])
         }
-        
-        if (res['meta']) {
-          this.seo.updateDescription(res['meta']['description'])
-          this.seo.updateTitle(res['meta']['title'])
-          this.seo.updateOgTitle(res['meta']['title'])
-          this.seo.updateOgUrl(res['meta']['url'])
-          this.seo.updateOgImage(res['meta']['photoURL'])
+      })
+    )
+
+    this.init$ = combineLatest(
+      this.dbs.getLogos(),
+      this.dbs.getMetaTag()
+      ).pipe(
+        map(([logos,meta])=>{
+          return meta
+        }),
+      tap(res => {
+        if (res) {
+          this.seo.updateDescription(res['description'])
+          this.seo.updateTitle(res['title'])
+          this.seo.updateOgTitle(res['title'])
+          this.seo.updateOgUrl(res['url'])
+          this.seo.updateOgImage(res['photoURL'])
         }
       })
     )

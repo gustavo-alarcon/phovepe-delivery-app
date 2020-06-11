@@ -60,7 +60,11 @@ export class ConfirmSaleComponent implements OnInit {
 
             //sales
             ////generalCounter
-            let newCorr = sfDoc.data().salesCounter + 1;
+            let newCorr = 1
+            if(sfDoc.data().salesCounter){
+              newCorr = sfDoc.data().salesCounter + 1;
+            }
+          
             transaction.update(sale, { salesCounter: newCorr });
 
             ////specificSale

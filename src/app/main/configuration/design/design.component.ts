@@ -3,7 +3,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { SeoService } from './../../../core/seo.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { take, switchMap, takeLast, tap, map, startWith } from 'rxjs/operators';
-import { Observable, BehaviorSubject, of, concat, combineLatest } from 'rxjs';
+import { Observable, BehaviorSubject, of, concat, combineLatest, forkJoin } from 'rxjs';
 import { AngularFireStorage } from '@angular/fire/storage';
 import { AngularFirestore, DocumentReference } from '@angular/fire/firestore';
 import { Ng2ImgMaxService } from 'ng2-img-max';
@@ -26,6 +26,10 @@ export class DesignComponent implements OnInit {
 
   init$: Observable<any>
   editForm$: Observable<boolean>
+
+  logos$: Observable<any>
+  meta$: Observable<any>
+  colors$: Observable<any>
 
   pageForm: FormGroup
 
@@ -83,20 +87,33 @@ export class DesignComponent implements OnInit {
       photoURL: [null, Validators.required]
     })
 
-    this.init$ = this.dbs.getConfi().pipe(
+    this.logos$ = this.dbs.getLogos().pipe(
       tap(res => {
         this.loading.next(5)
         this.logo = res['logoURL'] ? res['logoURL'] : null
         this.logomovil = res['logomovilURL'] ? res['logomovilURL'] : null
         this.default = res['defaultURL']
-        if (res['meta']) {
-          this.pageForm.setValue(res['meta'])
-        }
-        if (res['colors']) {
-          this.themeFormGroup.get('primary').setValue(res['colors']['primary'])
-          this.themeFormGroup.get('accent').setValue(res['colors']['accent'])
+      })
+    )
 
-        }
+    this.meta$ = this.dbs.getMetaTag().pipe(
+      tap(res => {
+        console.log(res);
+
+        this.pageForm.setValue({
+          title: res['title'] ? res['title'] : null,
+          description: res['description'] ? res['description'] : null,
+          url: res['url'] ? res['url'] : null,
+          photoURL: res['photoURL'] ? res['photoURL'] : null
+        })
+
+      })
+    )
+
+    this.colors$ = this.dbs.getColors().pipe(
+      tap(res => {
+        this.themeFormGroup.get('primary').setValue(res['primary'])
+        this.themeFormGroup.get('accent').setValue(res['accent'])
       })
     )
 
@@ -133,10 +150,8 @@ export class DesignComponent implements OnInit {
     this.loading.next(8)
     this.themeFormGroup.markAsPending()
     let batch = this.afs.firestore.batch();
-    let ref: DocumentReference = this.afs.firestore.collection(`/db`).doc('mandaditos');
-    batch.update(ref, {
-      colors: this.themeFormGroup.value
-    });
+    let ref: DocumentReference = this.afs.firestore.collection(`/db/mandaditos/config`).doc('colors')
+    batch.update(ref, this.themeFormGroup.value);
 
     batch.commit().then(() => {
       this.loading.next(5)
@@ -145,7 +160,7 @@ export class DesignComponent implements OnInit {
   }
 
   uploadPhoto(id: string, file: File): Observable<string | number> {
-    const path = `/brand/pictures/${id}-${file.name}`;
+    const path = `/logo/pictures/${id}-${file.name}`;
 
     // Reference to storage bucket
     const ref = this.storage.ref(path);
@@ -228,11 +243,36 @@ export class DesignComponent implements OnInit {
     this.loading.next(inx)
     let data: object = {}
     let batch = this.afs.firestore.batch();
-    let ref: DocumentReference = this.afs.firestore.collection(`/db`).doc('mandaditos');
-    this.uploadPhoto(name, this.photos.data[name]).pipe(
+    let ref: DocumentReference = this.afs.firestore.collection(`/db/mandaditos/config`).doc('logos')
+
+    let logo$ = of(null)
+    let movil$ = of(null)
+    let def$ = of(null)
+
+    if (this.photos.data.logoURL) {
+      logo$ = this.uploadPhoto('logoURL', this.photos.data.logoURL)
+    }
+
+    if (this.photos.data.logomovilURL) {
+      movil$ = this.uploadPhoto('logomovilURL', this.photos.data.logomovilURL)
+    }
+
+    if (this.photos.data.defaultURL) {
+      def$ = this.uploadPhoto('defaultURL', this.photos.data.defaultURL)
+    }
+
+    forkJoin(logo$, movil$, def$).pipe(
       takeLast(1),
-    ).subscribe((res: string) => {
-      data[name] = res
+    ).subscribe(([logoUrl, movilUrl, defaulUrl]) => {
+      if (logoUrl) {
+        data['logoURL'] = logoUrl
+      }
+      if (movilUrl) {
+        data['logomovilURL'] = movilUrl
+      }
+      if (defaulUrl) {
+        data['defaultURL'] = defaulUrl
+      }
       batch.update(ref, data);
 
       batch.commit().then(() => {
@@ -247,7 +287,7 @@ export class DesignComponent implements OnInit {
     this.pageForm.markAsPending()
     let data: object = this.pageForm.value
     let batch = this.afs.firestore.batch();
-    let ref: DocumentReference = this.afs.firestore.collection(`/db`).doc('mandaditos');
+    let ref: DocumentReference = this.afs.firestore.collection(`/db/mandaditos/config`).doc('meta')
     this.seo.updateDescription(this.pageForm.get('description').value)
     this.seo.updateTitle(this.pageForm.get('title').value)
     this.seo.updateOgTitle(this.pageForm.get('title').value)
@@ -266,9 +306,7 @@ export class DesignComponent implements OnInit {
         })
       })
     } else {
-      batch.update(ref, {
-        meta: data
-      });
+      batch.update(ref, data);
 
       batch.commit().then(() => {
         this.loading.next(5)
