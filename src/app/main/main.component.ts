@@ -36,8 +36,8 @@ export class MainComponent implements OnInit {
   defaultThemes = new defaultThemes()
   themesSelection: Theme[] = [];
 
-  isDark:boolean = false
-  
+  isDark: boolean = false
+
   constructor(
     public router: Router,
     public auth: AuthService,
@@ -54,10 +54,10 @@ export class MainComponent implements OnInit {
     this.initThemes();
 
     this.colors$ = this.dbs.getColors().pipe(
-      tap(res=>{
-        if(res){
-          this.themeFormGroup.setValue(res)
+      tap(res => {
+        if (res) {
           this.dbs.setTheme(res['primary'], res['accent'])
+          this.themeFormGroup.setValue(res)
         }
       })
     )
@@ -65,10 +65,10 @@ export class MainComponent implements OnInit {
     this.init$ = combineLatest(
       this.dbs.getLogos(),
       this.dbs.getMetaTag()
-      ).pipe(
-        map(([logos,meta])=>{
-          return meta
-        }),
+    ).pipe(
+      map(([logos, meta]) => {
+        return meta
+      }),
       tap(res => {
         if (res) {
           this.seo.updateDescription(res['description'])
@@ -113,22 +113,26 @@ export class MainComponent implements OnInit {
 
   initThemes() {
     this.themesSelection = Object.values(this.defaultThemes);
-
+    
     this.themeFormGroup = this.fb.group({
       primary: [this.defaultThemes.blueGray],
       accent: [this.defaultThemes.gray]
     })
 
-    this.themeFormGroup$ = combineLatest(
-      <Observable<Theme>>this.themeFormGroup.get('primary').valueChanges.pipe(
-        startWith<Theme>(this.defaultThemes.blueGray)
-      ),
-      <Observable<Theme>>this.themeFormGroup.get('accent').valueChanges.pipe(
-        startWith<Theme>(this.defaultThemes.gray)
-      )
-    ).pipe(
-      tap(([primary, accent]) => {
-        this.dbs.setTheme(primary, accent)
+    this.themeFormGroup$ = this.dbs.getColors().pipe(
+      switchMap(colors=>{
+        return combineLatest(
+          <Observable<Theme>>this.themeFormGroup.get('primary').valueChanges.pipe(
+            startWith<Theme>(colors['primary'] ? colors['primary'] : this.defaultThemes.blueGray)
+          ),
+          <Observable<Theme>>this.themeFormGroup.get('accent').valueChanges.pipe(
+            startWith<Theme>(colors['accent'] ? colors['accent'] : this.defaultThemes.gray)
+          )
+        ).pipe(
+          tap(([primary, accent]) => {
+            this.dbs.setTheme(primary, accent)
+          })
+        )
       })
     )
   }

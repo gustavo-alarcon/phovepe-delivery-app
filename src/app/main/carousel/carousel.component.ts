@@ -12,11 +12,12 @@ import { Gallery, GalleryRef } from '@ngx-gallery/core';
   styleUrls: ['./carousel.component.css']
 })
 export class CarouselComponent implements OnInit {
-  imagesArray: Array<string> = ["../../../assets/images/Frame64.png", "../../../assets/images/Frame64.png", "../../../assets/images/Frame64.png"]
   currentImage: string
   inx: number = 0;
 
   defaultImage = null;
+
+  emptyCategories = [0, 1, 2, 3]
 
   carousel$: Observable<Banner[]>
   promo$: Observable<Banner[]>
@@ -36,7 +37,7 @@ export class CarouselComponent implements OnInit {
       this.dbs.defaultImage$
     ).pipe(
       map(([items, image]) => {
-        this.defaultImage = image?image:null
+        this.defaultImage = image ? image : null
         return items.sort((a, b) => a['position'] - b['position'])
       }),
       tap(res => {

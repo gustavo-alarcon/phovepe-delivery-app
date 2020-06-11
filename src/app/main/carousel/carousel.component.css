@@ -33,6 +33,14 @@
   transform: scale(1.05);
 }
 
+.frame--empty {
+  width: 100%;
+  background: rgba(27, 26, 26, 0.6);
+  border-radius: 10px;
+  border: 1px dashed white;
+  color: white;
+}
+
 @media(max-width:600px) {
   .frame--right {
     padding-right: 0px;
