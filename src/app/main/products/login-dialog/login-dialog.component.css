@@ -1,0 +1,16 @@
+
+.social{
+    color: white;
+    letter-spacing: 0.05em;
+    font-weight: 500;
+    font-size: 0.95em;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.social--google{
+    background:#ee3037
+}
+
+.social--facebook{
+    background:#1243c0
+}

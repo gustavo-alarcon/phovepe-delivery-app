@@ -1,0 +1,170 @@
+<div>
+    <span class="w3-small w3-text-gray">
+        <mat-icon role="img" style="vertical-align: middle;" aria-hidden="true">info</mat-icon> Recuerde que utilizar
+        imágenes de alta resolución, reducen la velocidad de carga de la página. (recomiendo HD)
+    </span>
+    <div class="w3-margin-bottom w3-margin-top">
+        <h2 class="banner__title">Promociones</h2>
+        <div>
+            <button mat-raised-button color="primary" (click)="openDialog('carousel', false)">
+                <span>Agregar</span>
+                <mat-icon style="vertical-align: middle;margin-left: 5px;">add</mat-icon>
+            </button>
+            <div *ngIf="carousel$ |async as images">
+
+                <div class="w3-margin-top row-category w3-margin-bottom">
+                    <div *ngFor="let image of carousel" class="banner__category border--primary">
+                        <img [defaultImage]="defaultImage" [lazyLoad]="image.photoURL" [offset]="100" class="banner__image">
+                        <p><strong>{{image.category}}</strong></p>
+                        <div class="row-category w3-margin-top"
+                            style="justify-content: space-between; align-items: center;">
+                            <p></p>
+                            <div>
+                                <button mat-icon-button color="primary" (click)="editDialog('carousel',true,image)">
+                                    <mat-icon>edit</mat-icon>
+                                </button>
+                                <button mat-icon-button color="primary" style="margin-left: 10px;"
+                                    (click)="deleteDialog(image.id)">
+                                    <mat-icon>delete</mat-icon>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div *ngIf="images.length"  style="width: 100%;max-width: 500px;" class="w3-margin-top w3-margin-bottom">
+                    <mat-progress-bar mode='indeterminate' *ngIf="(loading$ | async)==2"></mat-progress-bar>
+                    <div class="row-category" style="justify-content: space-between; padding: 10px 0;">
+                        <span style="font-weight: 700;">Ordenar posición</span>
+                        <button mat-raised-button color="primary" (click)="savePosition(images,2)"
+                            [disabled]="(loading$ | async)==2">
+                            <span>Guardar</span>
+                        </button>
+                    </div>
+                    <div cdkDropList class="banner__list border--primary" (cdkDropListDropped)="drop(images,$event)">
+                        <mat-card class="banner__box" *ngFor="let image of images" cdkDrag>{{image.category}}</mat-card>
+                    </div>
+                </div>
+
+                <div class="w3-margin-top w3-margin-bottom" *ngIf="images.length">
+                    <div class="w3-hide-small ">
+                        <p>Versión Desktop</p>
+                        <gallery id="mini" style="height: 21.5vw;" imageSize='contain' [loadingStrategy]="'lazy'"
+                            [counter]="false" [dots]="true" [thumb]="false"></gallery>
+                    </div>
+                    <p>Versión Movil</p>
+                    <gallery id="movil" class="banner__mini-gallery"
+                        imageSize='contain' [loadingStrategy]="'lazy'" [counter]="false" [dots]="true" [thumb]="false">
+                    </gallery>
+                </div>
+
+            </div>
+           
+        </div>
+
+    </div>
+    <mat-divider></mat-divider>
+    <div class=" w3-margin-top w3-margin-bottom">
+        <h2 class="banner__title">Ofertas</h2>
+        <button mat-raised-button color="primary" (click)="openDialog('promo', false)">
+            <span>Agregar</span>
+            <mat-icon style="vertical-align: middle;margin-left: 5px;">add</mat-icon>
+        </button>
+        <div *ngIf="promo$ |async as images">
+            <div class="w3-margin-top row-category w3-margin-bottom">
+                <div *ngFor="let image of promo" class="banner__category border--primary">
+                    <img [defaultImage]="defaultImage" [lazyLoad]="image.photoURL" [offset]="100" class="banner__image">
+                    <p><strong>{{image.category}}</strong></p>
+                    <div class="row-category w3-margin-top"
+                        style="justify-content: space-between; align-items: center;">
+                        <p></p>
+                        <div>
+                            <button mat-icon-button color="primary" (click)="editDialog('promo',true,image)">
+                                <mat-icon>edit</mat-icon>
+                            </button>
+                            <button mat-icon-button color="primary" style="margin-left: 10px;"
+                                (click)="deleteDialog(image.id)">
+                                <mat-icon>delete</mat-icon>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div style="width: 100%;max-width: 500px;" *ngIf="images.length"  class="w3-margin-top w3-margin-bottom">
+                <mat-progress-bar mode='indeterminate' *ngIf="(loading$ | async)==3"></mat-progress-bar>
+                <div class="row-category" style="justify-content: space-between; padding: 10px 0;">
+                    <span style="font-weight: 700;">Ordenar posición</span>
+                    <button mat-raised-button color="primary" (click)="savePosition(images,3)"
+                        [disabled]="(loading$ | async)==3">
+                        <span>Guardar</span>
+                    </button>
+                </div>
+                <div cdkDropList class="banner__list border--primary" (cdkDropListDropped)="drop(images,$event)">
+                    <div class="banner__box" *ngFor="let image of images" cdkDrag>{{image.category}}</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <mat-divider></mat-divider>
+    <div>
+        <h2 class="banner__title">Categorías</h2>
+        <button mat-raised-button color="primary" (click)="openDialog('category', false)">
+            <span>Agregar</span>
+            <mat-icon style="vertical-align: middle;margin-left: 5px;">add</mat-icon>
+        </button>
+
+        <div *ngIf="categories$ |async as images">
+            <div class="w3-margin-top row-category">
+                <div *ngFor="let image of categories" class="banner__category border--primary">
+                    <img [defaultImage]="defaultImage" [lazyLoad]="image.photoURL" [offset]="100" class="banner__image">
+                    <div class="row-category w3-margin-top"
+                        style="justify-content: space-between; align-items: center;">
+                        <p></p>
+                        <div>
+                            <button mat-icon-button color="primary" (click)="editDialog('category',true,image)">
+                                <mat-icon>edit</mat-icon>
+                            </button>
+                            <button mat-icon-button color="primary" style="margin-left: 10px;"
+                                (click)="deleteDialog(image.id)">
+                                <mat-icon>delete</mat-icon>
+                            </button>
+                        </div>
+                    </div>
+                    <p><strong>Categoría: </strong>{{image.category}}</p>
+                    <div>
+                        <strong>Subcategorías:</strong>
+                        <ul>
+                            <li *ngFor="let item of image.subCategories">{{item}}</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div *ngIf="images.length" class="w3-margin-top w3-margin-bottom">
+                <mat-progress-bar mode='indeterminate' *ngIf="(loading$ | async)==4"></mat-progress-bar>
+                <div class="row-category" style="justify-content: space-between;">
+                    <div style="width: 100%;max-width: 500px;">
+                        <div class="row-category" style="justify-content: space-between; padding: 10px 0;">
+                            <span style="font-weight: 700;">Ordenar posición</span>
+                            <button mat-raised-button color="primary" (click)="savePosition(images,4)"
+                                [disabled]="(loading$ | async)==4">
+                                <span>Guardar</span>
+                            </button>
+                        </div>
+                        <div cdkDropList class="banner__list border--primary" (cdkDropListDropped)="drop(images,$event)">
+                            <div class="banner__box" *ngFor="let image of images" cdkDrag>{{image.category}}</div>
+                        </div>
+                    </div>
+                    <div class="w3-row w3-margin-top" style="width: 100%; max-width: 600px; padding: 0 16px;">
+                        <div *ngFor="let image of images; let i=index"
+                            [className]="i%2?'w3-col l6 m6 s12 banner__frame--left':'w3-col l6 m6 s12 banner__frame--right'">
+                            <div class="banner__frame">
+                                <img [src]="image.photoURL" style="width: 100%;" alt="">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

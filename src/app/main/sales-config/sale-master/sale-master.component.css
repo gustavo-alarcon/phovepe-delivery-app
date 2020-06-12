@@ -1,0 +1,154 @@
+.list-container {
+  max-width: 1400px;
+  border-style: solid;
+  border-width: 1px 1px 1px 12px;
+  border-radius: 10px;
+  border-top-color: #c4c4c4;
+  border-right-color: #c4c4c4;
+  border-bottom-color: #c4c4c4;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  margin-top: 16px;
+  margin-bottom: 16px;
+}
+
+.list-container--gray{
+  border-width: 1px !important;
+  border-color: #c4c4c4;
+}
+
+.list-container--black {
+  border-left-color: black;
+}
+
+.list-container--red {
+  border-left-color: red;
+}
+
+.personal-data-container {
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+  align-items: center;
+  white-space: nowrap;
+  padding-bottom: 8px;
+}
+
+.personal-data-sub-container {
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+  align-items: center;
+  white-space: nowrap;
+}
+
+.personal-data-container .personal-data-sub-container .element1 {
+  grid-area: element1;
+}
+
+.personal-data-container .personal-data-sub-container .element2 {
+  grid-area: element2;
+}
+
+.personal-data-container .personal-data-sub-container .element3 {
+  grid-area: element3;
+}
+
+.personal-data-container .element4 {
+  grid-area: element4;
+}
+
+.sale-data-container {
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+  align-items: center;
+  white-space: nowrap;
+}
+
+.sale-data-container .element1 {
+  grid-area: element1;
+}
+
+.sale-data-container .element2 {
+  grid-area: element2;
+}
+
+.sale-data-container .element3 {
+  grid-area: element3;
+}
+
+.sale-data-container .element4 {
+  grid-area: element4;
+}
+
+.sale-data-container .element5 {
+  grid-area: element5;
+}
+
+.general {
+  font-weight: 900;
+  letter-spacing: 0.05em;
+  margin: 0 8px;
+}
+
+.date {
+  font-weight: 500;
+  letter-spacing: 0.05em;
+}
+
+.userImage {
+  border-width: 2.5757px;
+  border-style: solid;
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+  border-radius: 50%;
+  margin: 0 8px;
+}
+
+.buttonContainer {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.filter-button {
+  font-weight: 900;
+  letter-spacing: 0.05em;
+  margin: 8px 0;
+}
+
+@media(max-width: 615px) {
+  .personal-data-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr;
+    width: 100%;
+    grid-template-areas: "element1 element2 element2" "element1 element3 element3" "element1 element4 element4";
+    justify-items: center;
+  }
+  .sale-data-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr;
+    grid-gap: 10px;
+    width: 100%;
+    grid-template-areas: "element1 element2 element2" "element4 element3 element3" ". element5 .";
+    justify-items: center;
+  }
+  .personal-data-sub-container {
+    display: contents
+  }
+  .list-container {
+    padding: 10px;
+  }
+  .buttonContainer {
+    flex-direction: column;
+  }
+  .marginTotal {
+    margin: 15px auto 5px;
+  }
+}

@@ -1,0 +1,25 @@
+<div class="w3-section w3-margin-left w3-margin-right animated fadeInUp delay-2">
+  <div class="w3-row">
+    <div class="w3-col s0 m1 l1">
+      <p></p>
+    </div>
+    <div class="w3-col s12 m10 l10" style="min-height:86vh">
+      <h2 class="title">CONFIGURACIÓN</h2>
+
+      <!-- Faltan Permits -->
+      <nav mat-tab-nav-bar>
+        <a mat-tab-link *ngFor="let link of links" [routerLink]="link['route']"
+          routerLinkActive #rla="routerLinkActive" [active]="rla.isActive">
+          {{link['name']}}
+        </a>
+      </nav>
+      <div class="w3-padding">
+        <router-outlet></router-outlet>
+      </div>
+
+    </div>
+    <div class="w3-col s0 m1 l1">
+      <p></p>
+    </div>
+  </div>
+</div>

@@ -1,54 +1,24 @@
-import { Component } from '@angular/core';
-import { ThemeService } from './core/theme.service';
+import { Component, Renderer2, ViewChild, ElementRef, Inject } from '@angular/core';
 import { Observable, combineLatest } from 'rxjs';
-import { ThemeModel, ThemeModelSelect } from './core/models/theme.model';
-import { FormControl, FormGroup, FormBuilder } from '@angular/forms';
-import { tap, startWith, map } from 'rxjs/operators'
-
+import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { tap, startWith, map, pairwise } from 'rxjs/operators'
+import { MaterialCssVarsService } from 'angular-material-css-vars';
+import { DOCUMENT } from '@angular/common';
+import { DatabaseService } from './core/database.service';
+ 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
+
   title = 'meraki-delivery-app';
-
-  theme$: Observable<string>;
-
-  themeModelSelect = Object.keys(ThemeModelSelect);
-
-  themeFormGroup: FormGroup;
-  themeFormGroup$: Observable<[ThemeModel, ThemeModel]>
-
   constructor(
-    private themeService: ThemeService,
-    private fb: FormBuilder
-    ){}
-
-  ngOnInit(){
-    this.themeFormGroup = this.fb.group({
-      primary: [ThemeModelSelect.mandaditosPalette],
-      accent: [ThemeModelSelect.mandaditosAccentPalette]
-    })
-
-    this.themeFormGroup$ = combineLatest(
-      this.themeFormGroup.get('primary').valueChanges.pipe(startWith(this.themeFormGroup.get('primary').value)),
-      this.themeFormGroup.get('accent').valueChanges.pipe(startWith(this.themeFormGroup.get('accent').value))
-    ).pipe(
-      tap((res: [ThemeModel, ThemeModel]) => {
-        this.themeService.setTheme(res)
-      })
-    )
-
-    this.theme$ = this.themeService.theme$.pipe(map(res => {
-      console.log(res[0]+'-'+res[1]);
-      return res[0]+'-'+res[1]
-    }));
-
-    for (var i=0; i<document.styleSheets.length; i++) {
-      var sheet = document.styleSheets[i];
-      console.log(sheet)
-    }
+    @Inject(DOCUMENT) private _document: HTMLDocument,
+    private dbs: DatabaseService,
+  ) {
+    this.dbs.document = this._document
   }
-
 }
+

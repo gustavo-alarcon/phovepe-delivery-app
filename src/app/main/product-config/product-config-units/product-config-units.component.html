@@ -1,0 +1,48 @@
+<div mat-dialog-title>
+  <h2 class="ms-font-rubik ms-color-2b" style="font-size:1.2em">
+      <mat-icon style="vertical-align:middle">add_circle</mat-icon>
+      Editando Unidades
+  </h2>
+  <mat-divider></mat-divider>
+</div>
+<mat-dialog-content>
+  <div style="width: 100%" *ngIf="units$ | async else cargando">
+    <mat-form-field style="margin-bottom: 8px; display:block"
+      appearance="outline">
+        <mat-label>Ingrese nueva Unidad</mat-label>
+        <input [formControl]="unitForm" type="text" autocomplete="off"
+            matInput placeholder="Ingrese nueva categoria">
+        <mat-error>
+            <span *ngIf="unitForm.errors?.required">Campo requerido</span>
+            <span *ngIf="unitForm.errors?.repeated">Este elemento ya existe.</span>
+            <span *ngIf="unitForm.errors?.maxlength">Máximo 3 carácteres.</span>
+        </mat-error>
+        <mat-hint>Utilizar abreviatura de unidades</mat-hint>
+    </mat-form-field>
+    <button mat-raised-button style="display:block; width: 100%; margin-bottom: 16px"
+      [disabled]="unitForm.status != 'VALID'"
+      (click)="addUnit()">
+        <mat-icon>add_circle</mat-icon>
+    </button>
+
+    <div *ngFor="let unit of units"
+      style="display:flex; flex-direction: row; justify-content: space-between;
+      margin-bottom: 8px; margin-top: 8px">
+        <span>{{unit}}</span>
+        <button mat-icon-button (click)="deleteUnit(unit)">
+          <mat-icon>delete</mat-icon>
+        </button>
+    </div>
+  </div>
+
+  <ng-template #cargando>
+    Cargando contenido...
+  </ng-template>
+  <mat-divider></mat-divider>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-stroked-button type="button" class="w3-margin-right" mat-dialog-close>Cancelar</button>
+  <button mat-raised-button color="primary" (click)="onSubmitForm()" type="button"
+      [disabled]="!units.length">Guardar</button>
+</mat-dialog-actions>

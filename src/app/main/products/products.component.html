@@ -1,0 +1,467 @@
+<div class="w3-section w3-margin-left w3-margin-right" *ngIf="init$ | async">
+    <div style="padding: 0 3vw;">
+        <h2 *ngIf="listview" class="title">PRODUCTOS</h2>
+        <div *ngIf="listview" style="display: flex; margin-top: 2em;">
+            <mat-card class="ticket--small w3-hide-small">
+                <div class="ticket ">
+                    <h3 class="ticket__subtitle w3-margin-left">Carrito de compras</h3>
+                    <mat-divider></mat-divider>
+                    <div style="min-height: 52vh;">
+                        <div *ngIf="dbs.order.length" style="margin-top: 20px;">
+                            <div style="display: flex; flex-wrap: wrap; margin-bottom: 16px;">
+                                <div style="width: 20%;">Cant.</div>
+                                <div style="width: 50%;">Descripción</div>
+                                <div style="width: 20%;">Precio</div>
+                            </div>
+                            <div *ngFor="let item of dbs.order; let ind = index">
+                                <div style="display: flex; flex-wrap: wrap; align-items: baseline;">
+                                    <div style="width: 20%;">{{item['quantity']}}
+                                        ({{item['product']['ref']?item['product']['refUnit']:item['product']['unit']}})
+                                    </div>
+                                    <div style="width: 50%;">{{item['product']['description']}}</div>
+                                    <div style="width: 20%;">S/.
+                                        {{giveProductPrice(item)|number: '.2'}}
+                                    </div>
+                                    <div style="width: 10%;" *ngIf="!confirmView">
+                                        <button mat-icon-button color="accent" (click)="delete(ind, item)">
+                                            <mat-icon>remove_circle</mat-icon>
+                                        </button>
+                                    </div>
+
+                                </div>
+                                <div *ngIf="item['product']['promo'] && item['quantity']>=item['product']['promoData']['quantity']"
+                                    style="display: flex; flex-wrap: wrap; align-items: center;">
+                                    <div style="width: 20%;"></div>
+                                    <div style="width: 50%;">
+                                        <mat-hint style="font-size:0.8em">
+                                            {{round(item['quantity']/item['product']['promoData']['quantity']) }}
+                                            ({{item['product']['promoData']['quantity']}} {{item['product']['unit']}} x
+                                            S/.{{item['product']['promoData']['promoPrice'] | number: '.2'}} )
+                                        </mat-hint>
+                                    </div>
+                                </div>
+
+                                <div *ngIf="item['product']['ref']"
+                                    style="display: flex; flex-wrap: wrap; align-items: center;">
+                                    <div style="width: 20%;"></div>
+                                    <div style="width: 50%;">
+                                        <mat-hint style="font-size:0.8em">1({{item['product']['refUnit']}})
+                                            <mat-icon style="vertical-align: middle;">arrow_right_alt</mat-icon>
+                                            aprox. {{roundNumber(item['product']['refPrice']/item['product']['price'])}}
+                                            {{item['product']['unit']}}
+                                        </mat-hint>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="ticket__separate"></div>
+                            <div>
+                                <div style="display: flex; flex-wrap: wrap; ">
+                                    <div style="width: 70%; text-align: right;padding: 0 20px;">Total</div>
+                                    <div style="width: 30%;">S/. {{total | number: '.2'}}</div>
+                                </div>
+                            </div>
+                            <div class="ticket__separate"></div>
+                            <div style="display: flex; flex-wrap: wrap; ">
+                                <div style="width: 70%; text-align: right;padding: 0 20px;">Delivery</div>
+                                <div style="width: 30%;">S/. {{delivery | number: '.2'}}</div>
+                            </div>
+                        </div>
+                        <div *ngIf="total > 0" style="display: flex; flex-direction: row-reverse; margin-top: 20px;">
+                            <div>
+                                <div class="ticket__total">
+                                    S/. {{total + delivery | number: '.2'}}
+                                </div>
+                                <mat-hint>*Precio estimado</mat-hint>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="button-container" *ngIf="!confirmView">
+                        <button mat-raised-button color="accent" class="button-man"
+                            *ngIf="(info$|async); else otherButton" (click)="maps()"
+                            [disabled]="!dbs.order.length">Hacer
+                            pedido!</button>
+                        <ng-template #otherButton>
+                            <button mat-raised-button color="accent" class="button-man" (click)="login()"
+                                [disabled]="!dbs.order.length">Hacer
+                                pedido!</button>
+                        </ng-template>
+
+                    </div>
+                </div>
+            </mat-card>
+
+            <div class="products-div" *ngIf="!confirmView">
+                <div #movilForm class="movil-form w3-margin-bottom">
+                    <mat-card>
+                        <mat-card-actions>
+                            <form [formGroup]="search" class="search-form">
+                                <mat-form-field appearance="outline" class="search-input">
+                                    <mat-label>CATEGORÍA</mat-label>
+                                    <mat-select formControlName="category">
+                                        <mat-option *ngIf="categories.length == 0">--</mat-option>
+                                        <mat-option [value]="'Todos'">-- Todos --</mat-option>
+                                        <mat-option *ngFor="let item of onlycategories" [value]="item">
+                                            {{item.name | titlecase}}
+                                        </mat-option>
+                                        <mat-optgroup *ngFor="let group of categories" [label]="group.name">
+                                            <mat-option *ngFor="let item of group.categories" [value]="item">
+                                                {{item.name | titlecase}}
+                                            </mat-option>
+                                        </mat-optgroup>
+                                    </mat-select>
+                                </mat-form-field>
+
+                                <mat-form-field appearance="outline" class="search-input">
+                                    <mat-label>BUSCAR</mat-label>
+                                    <input formControlName="input" matInput placeholder="Buscar" autocomplete="off">
+                                    <mat-icon matPrefix>search</mat-icon>
+                                </mat-form-field>
+
+                                <button mat-raised-button color="primary"
+                                    class="filter-button w3-margin-left w3-hide-small" type="button" (click)="clean()">
+                                    LIMPIAR FILTRO
+                                </button>
+                            </form>
+                        </mat-card-actions>
+                    </mat-card>
+                </div>
+
+                <div *ngIf="search$ | async as search">
+                    <div style="position: relative;" class="w3-hide-small" #slogan>
+                        <div class="title-category font--primary">
+                            {{filter1}}
+                        </div>
+
+                    </div>
+                    <div class="content-div">
+                        <strong>{{search.length}}</strong> productos encontrados
+                    </div>
+                    <div *ngIf="scroll$ | async"></div>
+                    <div class="w3-hide-small ">
+                        <div class="w3-margin-top" *ngIf="search.length; else empty"
+                            style="min-height: 42vh; display: flex; flex-wrap: wrap;">
+                            <mat-card class="mini-card"
+                                *ngFor="let item of search | paginate: { itemsPerPage: 12, currentPage: p }">
+                                <div class="mini-card__square  background--secondary " *ngIf="item['product']['promo']">
+                                </div>
+                                <div class="mini-card__promo" *ngIf="item['product']['promo']">OFERTA</div>
+                                <div style="text-align: center;">
+                                    <img class="mini-card__image" [defaultImage]="defaultImage"
+                                        [lazyLoad]="item['product']['photoURL']" alt="producto">
+                                </div>
+                                <p class="mini-card__name">{{item['product']['description'] | titlecase}}</p>
+
+                                <div class="mini-card__subprice">Precio x
+                                    {{item['product']['unit']}}
+                                </div>
+                                <div class="ms-flex ms-flex--center">
+                                    <div class="mini-card__price background--primary ">
+                                        S/.{{item['product']['price']|number: '.2'}}</div>
+                                    <span class="ms-fill"></span>
+                                    <div style="color: #FC2525;text-decoration-line: line-through;">
+                                        S/.{{getStrikePrice(item['product']['price']) | number: '.2'}}
+                                    </div>
+                                </div>
+                                <div *ngIf="item['product']['ref']" class="w3-margin-top">
+                                    <div style="color: #828282;font-size: 0.75em;">
+                                        Peso aprox
+                                        {{roundNumber(item['product']['refPrice']/item['product']['price'])}}
+                                        {{item['product']['unit']}}
+                                        <mat-icon style="font-size: 16px;
+                                        vertical-align: middle;
+                                        width: 1em;
+                                        height: 1.1em;">arrow_forward</mat-icon>
+                                        S/. {{item['product']['refPrice'] | number: '.2'}}
+
+                                    </div>
+                                </div>
+                                <div class="oferta font--secondary" *ngIf="item['product']['promo']"
+                                    style="font-size: 0.75em;">
+                                    Oferta:
+                                    {{item['product']['promoData']['quantity']}}
+                                    {{item['product']['ref']?item['product']['refUnit']:item['product']['unit']}}
+                                    por S/.{{item['product']['promoData']['promoPrice'] | number: '.2'}}
+                                </div>
+                                <div class="mini-card__add">
+                                    <div class="ms-flex ms-flex--center">
+                                        <button mat-icon-button color="primary"
+                                            style="font-size: 1.8em; margin-right: 7px;" (click)="increse(item)">
+                                            <mat-icon style="font-size: 1em;">add_circle</mat-icon>
+                                        </button>
+                                        <mat-form-field style="width: 40px;">
+                                            <input matInput type="number" autocomplete="off" min="0"
+                                                [(ngModel)]="item['quantity']" (change)="view(item) ">
+                                        </mat-form-field>
+                                        <button mat-icon-button color="accent" style="font-size: 1.8em;"
+                                            (click)="decrease(item)">
+                                            <mat-icon style="font-size: 1em;">remove_circle
+                                            </mat-icon>
+                                        </button>
+                                    </div>
+                                </div>
+
+
+                            </mat-card>
+
+
+                        </div>
+
+                        <ng-template #empty>
+                            <div class="empty"> <i>Sin resultados</i></div>
+                        </ng-template>
+                        <div style="display: flex; width: 100%; justify-content: flex-end;" *ngIf="search.length">
+                            <pagination-controls (pageChange)="p = $event" previousLabel="" nextLabel="" maxSize="6">
+                            </pagination-controls>
+                        </div>
+
+                    </div>
+                    <!-- MOBIL VERSION-->
+                    <div class="w3-hide-large  w3-hide-medium">
+                        <div *ngIf="search.length; else empty">
+                            <div class="box-mobile"
+                                *ngFor="let item of search| paginate: { itemsPerPage: 10, currentPage: p1 } ">
+                                <div class="box">
+                                    <div style="position: relative;">
+                                        <div class="slogan background--secondary" *ngIf="item['product']['promo']">
+                                        </div>
+                                        <div class="promo" *ngIf="item['product']['promo']">OFERTA</div>
+                                        <img class="box-img" alt="producto" [defaultImage]="defaultImage"
+                                            [lazyLoad]="item['product']['photoURL']">
+                                    </div>
+                                    <div style="width: 100%;">
+                                        <div class="descrip background--primary">
+                                            <div>
+                                                <p>{{item['product']['description'] | titlecase}}</p>
+                                                <p> S/.
+                                                    {{item['product']['price']|number: '.2'}}/{{item['product']['unit']}}<span
+                                                        *ngIf="item['product']['ref']">*</span></p>
+                                            </div>
+
+                                        </div>
+
+                                        <div style="display: flex; flex-wrap: wrap; align-items: center;">
+                                            <button mat-icon-button color="primary"
+                                                style="font-size: 1.8em; margin-right: 7px;" (click)="increse(item)">
+                                                <mat-icon style="font-size: 1em;">add_circle</mat-icon>
+                                            </button>
+                                            <mat-form-field style="width: 40px;">
+                                                <input matInput type="number" autocomplete="off" min="0"
+                                                    [(ngModel)]="item['quantity']" (change)="view(item) ">
+                                            </mat-form-field>
+                                            <button mat-icon-button color="accent" style="font-size: 1.8em;"
+                                                (click)="decrease(item)">
+                                                <mat-icon style="font-size: 1em;">remove_circle
+                                                </mat-icon>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="box-promo background--third" *ngIf="item['product']['ref']">
+                                    * Venta por peso: S/. {{item['product']['refPrice'] | number: '.2'}} /
+                                    {{item['product']['refUnit']}}
+                                </div>
+                                <div class="box-promo background--secondary" *ngIf="item['product']['promo']">
+                                    {{item['product']['promoData']['quantity']}} {{item['product']['unit']}} de
+                                    {{item['product']['description']}}
+                                    por S/.{{item['product']['promoData']['promoPrice'] | number: '.2'}}
+                                </div>
+
+                            </div>
+                            <div style="display: flex; width: 100%; justify-content: flex-end;">
+                                <pagination-controls (pageChange)="p1 = $event" previousLabel="" nextLabel=""
+                                    maxSize="6">
+                                </pagination-controls>
+                            </div>
+                        </div>
+
+                        <ng-template #empty>
+                            <div class="empty"> <i>Sin resultados</i></div>
+                        </ng-template>
+
+                    </div>
+                </div>
+
+            </div>
+            <div class="products-div" *ngIf="confirmView">
+                <div style="display: flex; flex-wrap: wrap; align-items: center;">
+                    <button mat-icon-button color="accent" (click)="listview=true; confirmView=false">
+                        <mat-icon>arrow_back</mat-icon>
+                    </button>
+                    <span>Tu pedido casi listo</span>
+                </div>
+                <div *ngIf="info$ |async">
+                    <form class="detail-form" [formGroup]="formGroup">
+                        <div class="detail-div">
+                            <div class="label">Para cuando lo deseas</div>
+                            <mat-form-field class="detail-input" appearance="outline">
+                                <input matInput [matDatepicker]="dateInit" [min]="now" formControlName="date"
+                                    placeholder="Fecha" autocomplete="off">
+                                <mat-datepicker-toggle matSuffix [for]="dateInit"></mat-datepicker-toggle>
+                                <mat-datepicker #dateInit disabled="false"></mat-datepicker>
+                            </mat-form-field>
+                            <div class="detail-div">
+                                <div class="label">Método de Pago</div>
+                                <mat-form-field class="detail-input" appearance="outline">
+                                    <mat-select formControlName="pay" placeholder='Seleccionar'>
+                                        <mat-option *ngFor="let type of payType" [value]="type">
+                                            {{type}}
+                                        </mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        <div class="detail-div">
+                            <div class="label">Dónde nos comunicamos:</div>
+                            <mat-form-field class="detail-input" appearance="outline" style="min-width: 240px;">
+                                <input matInput placeholder="999999999" type="phone" formControlName="number"
+                                    autocomplete="off">
+                                <mat-hint>*Importante para comunicarnos</mat-hint>
+                                <mat-error
+                                    *ngIf="formGroup.get('number').hasError('minlength') || formGroup.get('number').hasError('maxlength')">
+                                    Número inválido (debe tener de 6 a 9 dígitos)
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+                        <div class="detail-div">
+                            <div class="label">A dónde lo llevamos:</div>
+                            <mat-form-field class="detail-input destiny" appearance="outline">
+                                <input matInput placeholder="Dirección" formControlName="destiny" autocomplete="off">
+                            </mat-form-field>
+                        </div>
+                        <div class="detail-div">
+                            <div class="label">Distrito:</div>
+                            <mat-form-field class="detail-input destiny" appearance="outline">
+                                <mat-select [compareWith]="compareObjects" formControlName="district"
+                                    placeholder="Distrito">
+                                    <mat-option *ngFor="let district of districts$|async" [value]="district"
+                                        (click)="changeDelivery(district)">
+                                        {{district['name']}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <div class="detail-div">
+                            <div class="label">Referencia:</div>
+                            <mat-form-field class="detail-input destiny" appearance="outline">
+                                <input matInput placeholder="Escribe aquí.." formControlName="ref" autocomplete="off">
+                                <mat-hint>*Opcional</mat-hint>
+                            </mat-form-field>
+                        </div>
+                    </form>
+                </div>
+                <div *ngIf="mapsView" style="max-width: 450px; margin-bottom: 15px;">
+                    <div style="display: flex; flex-wrap: wrap;justify-content: space-between;">
+                        <div style="width: 80%;">Especifica tu dirección en el mapa (Opcional)</div>
+                        <button mat-icon-button color="accent" (click)="findMe()">
+                            <mat-icon>gps_fixed</mat-icon>
+                        </button>
+                    </div>
+                    <br>
+                    <agm-map style="height: 250px;" [latitude]="latitud" [longitude]="longitud" [zoom]="16"
+                        (mapClick)="mapClicked($event)">
+                        <agm-marker [latitude]="latitud" [longitude]="longitud"></agm-marker>
+                    </agm-map>
+                </div>
+                <div style="display: flex;justify-content: flex-end;">
+                    <button mat-raised-button color="accent" class="button-man" (click)="save()"
+                        [disabled]="!formGroup.valid">Finalizar</button>
+                </div>
+            </div>
+
+        </div>
+        <div *ngIf="!listview && !confirmView" style="height: 86vh;">
+            <div style="display: flex; flex-wrap: wrap; align-items: center;">
+                <button mat-icon-button color="accent" (click)="listview=true; confirmView=false">
+                    <mat-icon>arrow_back</mat-icon>
+                </button>
+                <h2 class="title w3-margin-left">TU PEDIDO</h2>
+            </div>
+            <div style="margin-top: 20px;">
+                <div style="display: flex; flex-wrap: wrap; margin-bottom: 16px;">
+                    <div style="width: 25%;">Cant.</div>
+                    <div style="width: 45%;">Descripción</div>
+                    <div style="width: 20%;">Precio</div>
+                </div>
+                <div *ngFor="let item of dbs.order; let ind = index">
+                    <div style="display: flex; flex-wrap: wrap; align-items: center;">
+                        <div style="width: 25%;">{{item['quantity']}}
+                            ({{item['product']['ref']?item['product']['refUnit']:item['product']['unit']}})
+                        </div>
+                        <div style="width: 45%;">{{item['product']['description']}}</div>
+                        <div style="width: 20%;">S/.
+                            {{giveProductPrice(item)|number: '.2'}}
+                        </div>
+                        <div style="width: 10%;" *ngIf="!confirmView">
+                            <button mat-icon-button style="font-size: 1.8em;" color="accent"
+                                (click)="delete(ind, item)">
+                                <mat-icon style="font-size: 1em;">remove_circle</mat-icon>
+                            </button>
+                        </div>
+
+                    </div>
+                    <div *ngIf="item['product']['promo'] && item['quantity']>=item['product']['promoData']['quantity']"
+                        style="display: flex; flex-wrap: wrap; align-items: center;">
+                        <div style="width: 25%;"></div>
+                        <div style="width: 45%;">
+                            <mat-hint>
+                                {{round(item['quantity']/item['product']['promoData']['quantity']) }}
+                                ({{item['product']['promoData']['quantity']}} {{item['product']['unit']}} x
+                                S/.{{item['product']['promoData']['promoPrice'] | number: '.2'}} )
+                            </mat-hint>
+                        </div>
+                    </div>
+
+                    <div *ngIf="item['product']['ref']" style="display: flex; flex-wrap: wrap; align-items: center;">
+                        <div style="width: 25%;"></div>
+                        <div style="width: 45%;">
+                            <mat-hint>1({{item['product']['refUnit']}})
+                                <mat-icon style="vertical-align: middle;">arrow_right_alt</mat-icon>
+                                aprox. {{roundNumber(item['product']['refPrice']/item['product']['price'])}}
+                                {{item['product']['unit']}}
+                            </mat-hint>
+                        </div>
+                    </div>
+                </div>
+                <div class="ticket__separate"></div>
+                <div>
+                    <div style="display: flex; flex-wrap: wrap; ">
+                        <div style="width: 70%; text-align: right;padding: 0 20px;">Total</div>
+                        <div style="width: 30%;">S/. {{total | number: '.2'}}</div>
+                    </div>
+                </div>
+                <div class="ticket__separate"></div>
+                <div style="display: flex; flex-wrap: wrap; ">
+                    <div style="width: 70%; text-align: right;padding: 0 20px;">Delivery</div>
+                    <div style="width: 30%;">S/. {{delivery | number: '.2'}}</div>
+                </div>
+            </div>
+            <div *ngIf="total > 0" style="display: flex; flex-direction: row-reverse; margin-top: 20px;">
+                <div>
+                    <div class="ticket__total">
+                        S/. {{total + delivery | number: '.2'}}
+                    </div>
+                    <mat-hint>*Precio estimado</mat-hint>
+                </div>
+            </div>
+            <div class="button-container">
+
+                <button mat-raised-button color="accent" class="button-man" *ngIf="(info$|async); else otherButton2"
+                    (click)="confirmView=true; listview=true;mapsView=true" [disabled]="!dbs.order.length">Hacer
+                    pedido!</button>
+                <ng-template #otherButton2>
+                    <button mat-raised-button color="accent" class="button-man" (click)="login()"
+                        [disabled]="!dbs.order.length">Hacer
+                        pedido!</button>
+                </ng-template>
+            </div>
+        </div>
+    </div>
+
+</div>
+<div *ngIf="listview" class="fly-button w3-margin-left w3-hide-large w3-hide-medium">
+    <div class="shopping-button background--secondary" *ngIf="dbs.order.length"
+        (click)="listview=false; confirmView=false">
+        <mat-icon>shopping_basket</mat-icon>
+        <div>S/. {{total | number: '.2'}}</div>
+    </div>
+</div>

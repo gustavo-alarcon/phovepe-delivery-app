@@ -1,11 +1,363 @@
 /* You can add global styles to this file, and also import other style files */
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+@import '~angular-material-css-vars/main';
+@import './assets/css/w3.css';
+// optional 
+$mat-css-dark-theme-selector: '.isDarkTheme';
+$mat-css-light-theme-selector: '.isLightTheme';
+ 
+// init theme 
+@include init-material-css-vars();
 
-@import './styles/material-theme';
+@include mat-css-set-palette-defaults($mat-blue-gray, 'primary');
+@include mat-css-set-palette-defaults($mat-gray, 'accent');
+@include mat-css-set-palette-defaults($mat-red, 'warn');
+
+//app
+/* You can add global styles to this file, and also import other style files */
+
+@import './assets/css/animate.css';
+@import './assets/css/w3.css';
 
 
+html, body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: Montserrat, sans-serif;
+}
+
+a {
+  text-decoration: none;
+}
+
+/*display flex*/
+
+.ms-flex {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.ms-flex--center {
+  align-items: center;
+}
+
+.ms-fill {
+  flex: 1 1 auto;
+}
+
+/*general*/
+
+.background--primary {
+  color: rgb(255, 255, 255);
+  background: var(--primary-color);
+}
+
+.background--secondary {
+  color: rgb(255, 255, 255);
+  background: var(--secundary-color);
+}
+
+.background--third {
+  background-color: var(--third-color);
+}
+
+.background--fourth {
+  background-color: var(--forth-color);
+  color: white;
+}
+
+.font--primary {
+  color: var(--primary-color);
+}
+
+.font--secondary {
+  color: var(--secundary-color);
+}
+
+.border--primary {
+  border-color: var(--primary-color);
+}
+
+.border--secondary {
+  border-color: var(--secundary-color);
+}
+
+.border--third {
+  border-color: var(--third-color);
+}
+
+.border--fourth {
+  border-color: var(--forth-color);
+}
+
+/*Title*/
+
+.title {
+  font-family: Montserrat, sans-serif !important;
+  font-weight: 800 !important;
+  font-size: 2.2em !important;
+  letter-spacing: 0.05em !important;
+  color: var(--primary-color) !important;
+  width: fit-content !important;
+  border-bottom: 5px solid var(--secundary-color) !important;
+}
+
+@media(max-width: 600px) {
+  .title {
+    font-size: 1.5em;
+  }
+}
+
+.title-dialog {
+  font-size: 0.8em !important;
+  letter-spacing: 0.05em !important;
+  font-weight: 900 !important;
+  text-transform: uppercase !important;
+  font-family: 'Montserrat', sans-serif !important;
+  color: #828282 !important;
+}
+
+/*Inputs*/
+
+.mat-form-field-appearance-outline .mat-form-field-label, .mat-form-field-appearance-outline.mat-focused .mat-form-field-label {
+  font-family: 'Montserrat', sans-serif;
+}
+
+.mat-form-field .mat-input-element {
+  font-family: Montserrat;
+}
+
+.mat-form-field-label {
+  font-family: Montserrat;
+}
+
+.mat-form-field-underline {
+  font-family: Montserrat;
+}
+
+.mat-form-field-ripple {
+  font-family: Montserrat;
+}
+
+.mat-form-field-required-marker {
+  font-family: Montserrat;
+}
+
+.mat-select-panel .mat-option {
+  font-family: 'Montserrat', sans-serif;
+}
+
+.mat-select-value-text {
+  font-family: 'Montserrat', sans-serif;
+}
+
+.mat-optgroup-label {
+  font-family: 'Montserrat', sans-serif;
+}
+
+.mat-slide-toggle-content{
+  font-family: 'Montserrat', sans-serif;
+}
+
+img.ng-lazyloaded {
+  animation: fadein .5s;
+}
+
+@keyframes fadein {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* PRIMARY */
+
+.mat-button, .mat-raised-button, .mat-stroked-button {
+  font-family: 'Montserrat', sans-serif;
+}
+
+.mat-button{
+  color: #2B2B2B;
+  font-size: 1em;
+  letter-spacing: 0.05em;
+}
+
+.mat-card{
+  font-family: 'Montserrat', sans-serif;
+  color: #2B2B2B;
+}
 
 
+/*ticket*/
 
+.ticket {
+  box-sizing: border-box;
+  position: relative;
+}
+
+.ticket--big {
+  width: 100%;
+  max-width: 700px;
+}
+
+.ticket--small {
+  width: 30%;
+  max-width: 400px;
+  min-width: 350px;
+  height: fit-content;
+  min-height: 75vh;
+}
+
+.ticket__subtitle {
+  font-size: 1em;
+  font-family: Montserrat;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: #828282;
+  font-weight: 900;
+}
+
+.ticket__divTotal {
+  display: flex;
+  flex-direction: row-reverse;
+  margin-top: 20px;
+}
+
+.ticket__total {
+  background: var(--primary-color);
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  border-radius: 5px;
+  font-size: 1.5em;
+  text-align: center;
+  letter-spacing: 0.05em;
+  color: white;
+  width: fit-content;
+  padding: 7px 17px;
+  font-weight: 900;
+  margin-bottom: 7px;
+}
+
+.ticket__separate {
+  border-top: 2px solid #4F4F4F;
+  height: 3px;
+  width: 100%;
+  margin: 10px 0;
+}
+
+.ticket__delivery {
+  width: 75%;
+  text-align: right;
+  padding: 0 20px;
+}
+
+/*paginator*/
+
+.ngx-pagination .current {
+  background: var(--primary-color) !important;
+}
+
+.ngx-pagination li {
+  border-radius: 3px !important;
+  font-weight: 500;
+}
+
+/*tabs*/
+
+.mat-tab-label,.mat-tab-link, .mat-expansion-panel-header {
+  background-color: transparent;
+  font-family: Montserrat;
+  font-weight: 700;
+}
+
+
+/*tables*/
+
+.ms-table {
+  width: 100%;
+  background: transparent;
+}
+
+.ms-table__th {
+  color: #828282;
+  font-weight: 500;
+}
+
+.ms-table__th, .ms-table__td {
+  font-family: 'Montserrat', sans-serif;
+  letter-spacing: 0.05em;
+}
+
+.ms-table__td {
+  color: #2b2b2b;
+  font-weight: 900;
+}
+
+.ms-table__td.mat-cell {
+  padding: 0.5em 0 0.5em 1em;
+}
+
+.ms-table__td.mat-cell:first-of-type {
+  padding-left: 0 !important;
+}
+
+.ms-table__td.mat-cell:last-of-type {
+  padding-right: 0 !important
+}
+
+.ms-table__td.mat-cell {
+  border-bottom: none !important;
+}
+
+.ms-paginator {
+  background: transparent;
+}
+
+/*sales*/
+
+.subtotal {
+  background: var(--primary-color);
+  border-radius: 5px;
+  font-weight: 900;
+  padding: 3px 10px;
+  letter-spacing: 0.05em;
+  color: #FFFFFF;
+}
+
+.subtotal--big {
+  font-size: 1.3em;
+}
+
+/*scroll bar*/
+
+.mat-drawer-inner-container::-webkit-scrollbar {
+  width: 8px;     /* Tamaño del scroll en vertical */
+  height: 8px;    /* Tamaño del scroll en horizontal */
+}
+
+.mat-drawer-inner-container::-webkit-scrollbar-thumb {
+  background: var(--primary-color);
+  border-radius: 4px;
+}
+
+.mat-drawer-inner-container::-webkit-scrollbar-thumb:hover {
+  background: #b3b3b3;
+  box-shadow: 0 0 2px 1px rgba(0, 0, 0, 0.2);
+}
+
+.mat-drawer-inner-container::-webkit-scrollbar-thumb:active {
+  background-color: #999999;
+}
+
+.mat-drawer-inner-container::-webkit-scrollbar-track {
+  background: #e1e1e1;
+}
+
+.mat-drawer-inner-container::-webkit-scrollbar-track:hover,
+.mat-drawer-inner-container::-webkit-scrollbar-track:active {
+background: #d4d4d4;
+}

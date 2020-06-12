@@ -1,0 +1,29 @@
+<div class="w3-row">
+  <div class="w3-half w3-hide-small">
+    <div class="w3-display-container loginImage">
+      <img [attr.lazyLoad]="loginImage" [attr.offset]="100" alt="super mercado" style="height:100vh; width: 100%;">
+      <div class="w3-display-middle">
+        <img src="../assets/images/logo.png" alt="mandaditos logo" style="width:20vw">
+      </div>
+      <div class="w3-display-bottommiddle">
+        <p style="font-weight: 900;">#YoMeQuedoEnCasa</p>
+      </div>
+    </div>
+  </div>
+  <div class="w3-half ms-login-half">
+    <div class="w3-display-container fadeInUp delay-4" style="height: 100vh;">
+      <div class="w3-display-topmiddle w3-hide-medium w3-hide-large">
+        <img src="../../assets/images/logo.png" alt="mandaditos logo" style="width: 40vw; margin-top: 20vh;">
+      </div>
+      <div class="w3-display-middle mat-elevation-z8 w3-center ms-login-card">
+        <div>
+          <mat-icon>touch_app</mat-icon>
+          <h3>Estás a un clic de hacer tus mandaditos</h3>
+        </div>
+        <button mat-raised-button color="secondary" style="font-family: Montserrat;letter-spacing: 0.05em;" routerLink="/main/productos">
+          Iniciar
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

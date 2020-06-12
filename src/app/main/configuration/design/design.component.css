@@ -1,0 +1,53 @@
+.design__title {
+    font-family: Montserrat;
+    font-size: 1.2em;
+    font-weight: 900;
+}
+
+.design__box {
+    padding: 0 16px;
+    margin-top: 16px;
+    margin-right: 16px;
+    max-width: 350px;
+    min-width: 300px;
+}
+
+.design__box-title {
+    justify-content: space-between;
+    padding: 10px 0;
+}
+
+.design__boxTitle {
+    font-family: Montserrat;
+    font-size: 1em;
+    font-weight: 900;
+}
+
+.design__image {
+    max-width: 100%;
+    max-height: 200px;
+    object-fit: contain;
+}
+
+.design__input {
+    margin-bottom: 8px;
+    width: 100%;
+}
+
+.admin__input {
+    width: 100%;
+    max-width: 300px;
+    margin-right: 16px;
+    font-family: 'Montserrat', sans-serif
+}
+
+@media(max-width:600px) {
+    .design__box {
+        width: 100%;
+        min-width: 100px;
+    }
+
+    .admin__input{
+        margin-right: 0;
+    }
+}
