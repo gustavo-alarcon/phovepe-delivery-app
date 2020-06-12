@@ -1,14 +1,14 @@
 {
   "targets": {
-    "meraki-delivery-app": {
+    "phovepe-delivery-app": {
       "hosting": {
-        "meraki-delivery-app": [
-          "meraki-delivery-app"
+        "phovepe-delivery-app": [
+          "phovepe-delivery-app"
         ]
       }
     }
   },
   "projects": {
-    "default": "meraki-delivery-app"
+    "default": "phovepe-delivery-app"
   }
 }
