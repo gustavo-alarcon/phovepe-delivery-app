@@ -112,13 +112,15 @@
                     <button mat-icon-button (click)="toggleSideMenu()">
                         <mat-icon style="transform: scale(1.5);">menu</mat-icon>
                     </button>
-                    <a *ngIf="init$ | async" mat-icon-button class="w3-margin-left w3-hide-small" routerLink="/main">
-                        <img [src]="dbs.logoURL" class="main__logo" alt="logo">
+                    <a *ngIf="init$ | async" mat-button class=" w3-hide-small" routerLink="/main">
+                        <img [src]="dbs.logoURL" *ngIf="dbs.logoURL" class="main__logo" alt="logo">
+                        <mat-icon *ngIf="!dbs.logoURL" style="color: white;">home</mat-icon>
                     </a>
                 </div>
                 <ng-template #iniciarSesion>
-                    <a *ngIf="init$ | async" mat-icon-button class="w3-hide-small" routerLink="/main">
-                        <img [src]="dbs.logoURL" class="main__logo" alt="logo">
+                    <a *ngIf="init$ | async" mat-button class="w3-hide-small" routerLink="/main">
+                        <img [src]="dbs.logoURL" *ngIf="dbs.logoURL" class="main__logo" alt="logo">
+                        <mat-icon *ngIf="!dbs.logoURL" style="color: white;">home</mat-icon>
                     </a>
                     <span class="w3-hide-small" style="flex: 1 1 auto;"></span>
                     <button mat-raised-button class="w3-margin-right" color="accent" (click)="login()">

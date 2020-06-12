@@ -1,4 +1,4 @@
-<div *ngIf="sales$ | async as sales else noSales" style="width:-webkit-fill-available; ">
+<div *ngIf="sales$ | async as sales" style="width:-webkit-fill-available; ">
     <div
         style="display: flex; flex-direction:row; flex-wrap: wrap; justify-content: space-between; align-items: center;">
         <mat-form-field class="w3-margin-right" appearance="outline">
@@ -40,7 +40,7 @@
     </div>
 
     <div *ngIf="salesFiltered$ | async as salesFiltered">
-        <div>
+        <div *ngIf="salesFiltered.length; else noSales">
             <mat-card matRipple [ngClass]="getBorderColor(el, sales, salesFiltered)"
                 *ngFor="let el of salesFiltered | paginate: { itemsPerPage: 10, currentPage: p }">
                 <div (click)="onSelectDetail(el)" >

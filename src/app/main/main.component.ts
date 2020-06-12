@@ -56,8 +56,10 @@ export class MainComponent implements OnInit {
     this.colors$ = this.dbs.getColors().pipe(
       tap(res => {
         if (res) {
-          this.dbs.setTheme(res['primary'], res['accent'])
-          this.themeFormGroup.setValue(res)
+          if (res['primary']) {
+            this.dbs.setTheme(res['primary'], res['accent'])
+            this.themeFormGroup.setValue(res)
+          }
         }
       })
     )
@@ -113,14 +115,14 @@ export class MainComponent implements OnInit {
 
   initThemes() {
     this.themesSelection = Object.values(this.defaultThemes);
-    
+
     this.themeFormGroup = this.fb.group({
       primary: [this.defaultThemes.blueGray],
       accent: [this.defaultThemes.gray]
     })
 
     this.themeFormGroup$ = this.dbs.getColors().pipe(
-      switchMap(colors=>{
+      switchMap(colors => {
         return combineLatest(
           <Observable<Theme>>this.themeFormGroup.get('primary').valueChanges.pipe(
             startWith<Theme>(colors['primary'] ? colors['primary'] : this.defaultThemes.blueGray)

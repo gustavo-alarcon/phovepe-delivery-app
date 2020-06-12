@@ -98,22 +98,23 @@ export class DesignComponent implements OnInit {
 
     this.meta$ = this.dbs.getMetaTag().pipe(
       tap(res => {
-        console.log(res);
-
-        this.pageForm.setValue({
-          title: res['title'] ? res['title'] : null,
-          description: res['description'] ? res['description'] : null,
-          url: res['url'] ? res['url'] : null,
-          photoURL: res['photoURL'] ? res['photoURL'] : null
-        })
-
+        if (res) {
+          this.pageForm.setValue({
+            title: res['title'] ? res['title'] : null,
+            description: res['description'] ? res['description'] : null,
+            url: res['url'] ? res['url'] : null,
+            photoURL: res['photoURL'] ? res['photoURL'] : null
+          })
+        }
       })
     )
 
     this.colors$ = this.dbs.getColors().pipe(
       tap(res => {
-        this.themeFormGroup.get('primary').setValue(res['primary'])
-        this.themeFormGroup.get('accent').setValue(res['accent'])
+        if (res) {
+          this.themeFormGroup.get('primary').setValue(res['primary'])
+          this.themeFormGroup.get('accent').setValue(res['accent'])
+        }
       })
     )
 
