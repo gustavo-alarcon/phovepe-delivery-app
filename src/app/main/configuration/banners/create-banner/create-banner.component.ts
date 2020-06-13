@@ -1,7 +1,7 @@
 import { Banner } from './../../../../core/models/banners.model';
 import { AngularFirestore, DocumentReference } from '@angular/fire/firestore';
 import { AngularFireStorage } from '@angular/fire/storage';
-import { startWith, map, take, takeLast, switchMap, filter, ignoreElements } from 'rxjs/operators';
+import { startWith, map, take, takeLast, switchMap, filter } from 'rxjs/operators';
 import { Ng2ImgMaxService } from 'ng2-img-max';
 import { DatabaseService } from './../../../../core/database.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
@@ -203,7 +203,7 @@ export class CreateBannerComponent implements OnInit {
       return;
     //this.tempImage = image[0];
     let reader = new FileReader();
-    const URL = window.URL;
+    //const URL = this.window.nativeWindow.URL;
     this.photos.resizing$[formControlName].next(true);
 
     this.ng2ImgMax.resizeImage(image[0], 10000, 426)
@@ -212,7 +212,8 @@ export class CreateBannerComponent implements OnInit {
       ).subscribe(result => {
         this.photos.data[formControlName] = new File([result], formControlName + result.name.match(/\..*$/));
         reader.readAsDataURL(image[0]);
-        reader.onload = (_event) => {
+        reader.onload = e => {
+          /*
           const Img = new Image();
 
           Img.src = URL.createObjectURL(this.photos.data[formControlName]);
@@ -221,10 +222,10 @@ export class CreateBannerComponent implements OnInit {
             const height = e.path[0].height;
             const width = e.path[0].width;
             this.verifiedSize(width, height, formControlName);
-          }
-
+          }*/
           this.createForm.get(formControlName).setValue(reader.result);
           this.photos.resizing$[formControlName].next(false);
+          
         }
       },
         error => {
@@ -237,9 +238,13 @@ export class CreateBannerComponent implements OnInit {
   }
 
   verifiedSize(width, height, movil) {
+    console.log(width);
+    console.log(height);
+    
     let number = width / height
     let size = Number(parseFloat(number.toString()).toFixed(1))
-
+    console.log(size);
+    
     switch (this.data.type) {
       case 'carousel': {
         if (movil == 'photomovilURL') {

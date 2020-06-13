@@ -38,6 +38,8 @@ import { AuthService } from './core/auth.service';
 import { DatabaseService } from './core/database.service';
 import { LoginComponent } from './login/login.component';
 import { ServiceWorkerModule } from '@angular/service-worker';
+import { SeoService } from './core/seo.service';
+
 
 @NgModule({
   declarations: [
@@ -80,7 +82,8 @@ import { ServiceWorkerModule } from '@angular/service-worker';
   ],
   providers: [
     AuthService,
-    DatabaseService
+    DatabaseService,
+    SeoService
   ],
   bootstrap: [AppComponent]
 })

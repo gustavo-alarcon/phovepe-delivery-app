@@ -27,7 +27,7 @@
         </mat-form-field>
 
         <div *ngIf="data.type=='category'">
-           
+
             <mat-form-field *ngIf="category$ | async as categories" style="margin-bottom: 8px; display:block"
                 appearance="outline">
                 <mat-label>SubCategorías</mat-label>
@@ -65,12 +65,9 @@
         </mat-hint>
         <!-- Photo  -->
         <div style="margin: 16px 0;text-align: center; ">
-            <img class="w3-card-4" (click)="photoURL.click()" *ngIf="createForm.get('photoURL').value!=null"
-                style="max-width:100%;max-height: 200px; object-fit: contain;" [src]="createForm.get('photoURL').value"
-                alt="fotografía">
-            <img class="w3-card-4" (click)="photoURL.click()" *ngIf="createForm.get('photoURL').value==null"
-                style="max-width:100%;max-height: 200px; object-fit: contain;" [src]="noImage" alt="sin fotografía">
-
+            <img class="w3-card-4" (click)="photoURL.click()"
+                style="max-width:100%;max-height: 200px; object-fit: contain;"
+                [src]="createForm.get('photoURL').value?createForm.get('photoURL').value:noImage" alt="fotografía">
             <mat-progress-bar *ngIf="photos?.resizing$.photoURL | async" style="width:100%" mode="indeterminate">
             </mat-progress-bar>
             <span *ngIf="photos.resizing$.photoURL | async" class="w3-small ms-color-11 ms-font-montserrat"
@@ -151,15 +148,15 @@
     <button mat-stroked-button class="w3-margin-right" mat-dialog-close>Cancelar</button>
     <div *ngIf="data.edit">
         <button mat-raised-button color="primary" *ngIf="data.type=='category'" (click)="editSubmit()" type="button"
-        [disabled]="createForm.status != 'VALID' || !subcategories.length || (imageSize$ | async)">Editar</button>
+            [disabled]="createForm.status != 'VALID' || !subcategories.length || (imageSize$ | async)">Editar</button>
         <button mat-raised-button color="primary" *ngIf="data.type != 'category'" (click)="editSubmit()" type="button"
-        [disabled]="createForm.status != 'VALID' || !products.length || (validImage$ | async) ">Editar</button>
+            [disabled]="createForm.status != 'VALID' || !products.length || (validImage$ | async) ">Editar</button>
     </div>
     <div *ngIf="!data.edit">
         <button mat-raised-button color="primary" *ngIf="data.type=='category'" (click)="onSubmitForm()" type="button"
-        [disabled]="createForm.status != 'VALID' || !subcategories.length || (imageSize$ | async)">Guardar</button>
+            [disabled]="createForm.status != 'VALID' || !subcategories.length || (imageSize$ | async)">Guardar</button>
         <button mat-raised-button color="primary" *ngIf="data.type != 'category'" (click)="onSubmitForm()" type="button"
-        [disabled]="createForm.status != 'VALID' || !products.length || (validImage$ | async)">Guardar</button>
+            [disabled]="createForm.status != 'VALID' || !products.length || (validImage$ | async)">Guardar</button>
     </div>
-    
+
 </mat-dialog-actions>

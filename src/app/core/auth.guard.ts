@@ -38,7 +38,7 @@ export class AuthGuard implements CanActivate {
           case 'despacho': 
             return user ? (!!user.driver || !!user.admin) : false;
           case 'configuracion': 
-            return user ? !!user.admin : false;
+            return true
           case 'contacto': 
             return true
           case 'clientes': 

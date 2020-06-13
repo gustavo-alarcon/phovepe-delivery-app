@@ -187,7 +187,6 @@ export class DesignComponent implements OnInit {
       return;
     //this.tempImage = image[0];
     let reader = new FileReader();
-    const URL = window.URL;
     this.photos.resizing$[name].next(true);
 
     this.ng2ImgMax.resizeImage(image[0], 10000, 426)
@@ -197,15 +196,7 @@ export class DesignComponent implements OnInit {
         this.photos.data[name] = new File([result], name + result.name.match(/\..*$/));
         reader.readAsDataURL(image[0]);
         reader.onload = (_event) => {
-          const Img = new Image();
 
-          Img.src = URL.createObjectURL(this.photos.data[name]);
-
-          Img.onload = (e: any) => {
-            const height = e.path[0].height;
-            const width = e.path[0].width;
-            this.verifiedSize(width, height, name);
-          }
           switch (name) {
             case 'logoURL':
               this.logo = reader.result
@@ -234,11 +225,6 @@ export class DesignComponent implements OnInit {
       );
   }
 
-  verifiedSize(width, height, movil) {
-    let number = width / height
-    let size = Number(parseFloat(number.toString()).toFixed(1))
-
-  }
 
   save(name, inx) {
     this.loading.next(inx)
