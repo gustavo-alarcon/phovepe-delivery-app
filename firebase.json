@@ -1,6 +1,6 @@
 {
   "hosting": {
-    "public": "dist/meraki-delivery-app",
+    "public": "dist/phovepe-delivery-app",
     "ignore": [
       "firebase.json",
       "**/.*",

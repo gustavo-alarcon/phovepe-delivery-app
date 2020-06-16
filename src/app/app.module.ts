@@ -48,7 +48,7 @@ import { ServiceWorkerModule } from '@angular/service-worker';
     AppRoutingModule,
     BrowserModule,
     BrowserAnimationsModule,
-    AngularFireModule.initializeApp(environment.firebaseConfig, "meraki-delivery-app"),
+    AngularFireModule.initializeApp(environment.firebaseConfig, "phovepe-delivery-app"),
     AngularFirestoreModule,
     AngularFireAuthModule, 
     AngularFireStorageModule,

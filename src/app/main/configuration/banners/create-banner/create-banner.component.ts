@@ -1,3 +1,4 @@
+import { WindowRefService } from './../../../../core/window-ref.service';
 import { Banner } from './../../../../core/models/banners.model';
 import { AngularFirestore, DocumentReference } from '@angular/fire/firestore';
 import { AngularFireStorage } from '@angular/fire/storage';
@@ -70,7 +71,8 @@ export class CreateBannerComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: { type: string, edit: boolean, index?: number, data?: Banner },
     private dialogRef: MatDialogRef<CreateBannerComponent>,
     private afs: AngularFirestore,
-    private storage: AngularFireStorage
+    private storage: AngularFireStorage,
+    private window: WindowRefService
   ) { }
 
   ngOnInit() {
@@ -203,7 +205,7 @@ export class CreateBannerComponent implements OnInit {
       return;
     //this.tempImage = image[0];
     let reader = new FileReader();
-    const URL = window.URL;
+    const URL = this.window.nativeWindow.URL;
     this.photos.resizing$[formControlName].next(true);
 
     this.ng2ImgMax.resizeImage(image[0], 10000, 426)

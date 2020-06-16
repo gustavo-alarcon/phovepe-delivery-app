@@ -13,7 +13,7 @@ import { DatabaseService } from './core/database.service';
 })
 export class AppComponent {
 
-  title = 'meraki-delivery-app';
+  title = 'phovepe-delivery-app';
   constructor(
     @Inject(DOCUMENT) private _document: HTMLDocument,
     private dbs: DatabaseService,
