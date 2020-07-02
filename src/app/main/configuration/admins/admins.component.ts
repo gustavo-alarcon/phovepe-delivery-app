@@ -1,8 +1,8 @@
 import { AngularFirestore } from '@angular/fire/firestore';
-import { FormControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormControl, FormBuilder, FormGroup, Validators, AbstractControl } from '@angular/forms';
 import { tap, filter, startWith, map } from 'rxjs/operators';
 import { User } from './../../../core/models/user.model';
-import { Observable, combineLatest, BehaviorSubject } from 'rxjs';
+import { Observable, combineLatest, BehaviorSubject, of } from 'rxjs';
 import { DatabaseService } from 'src/app/core/database.service';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
@@ -59,7 +59,6 @@ export class AdminsComponent implements OnInit {
   existDistrict: Array<any> = []
   districtForm: FormGroup
 
-  repeat$: Observable<boolean>
 
   contactForm: FormGroup
   contact$: Observable<any>
@@ -79,8 +78,8 @@ export class AdminsComponent implements OnInit {
 
   ngOnInit() {
     this.districtForm = this.fb.group({
-      name: ['', Validators.required],
-      delivery: ['', Validators.required]
+      name: ['', [Validators.required], [this.repeatedValidator()]],
+      delivery: ['', [Validators.required]]
     })
 
     this.contactForm = this.fb.group({
@@ -146,22 +145,6 @@ export class AdminsComponent implements OnInit {
       })
     );
 
-    this.repeat$ = combineLatest(
-      this.dbs.getDistricts(),
-      this.districtForm.get('name').valueChanges.pipe(
-        startWith(''))
-    )
-      .pipe(
-        map(([array, district]) => {
-          if (array) {
-            return district ? array.map(el => el['name'].toLowerCase()).includes(district.toLowerCase()) : false
-          } else {
-            return false
-          }
-
-        })
-      )
-
     this.contact$ = this.dbs.getContact().pipe(
       tap(res => {
         if (res) {
@@ -207,6 +190,8 @@ export class AdminsComponent implements OnInit {
     })
   }
 
+  
+
   addDriver() {
     let user = this.driverForm.value
     if (user.uid) {
@@ -235,15 +220,30 @@ export class AdminsComponent implements OnInit {
     })
   }
 
+  
+  repeatedValidator() {
+    return (control: AbstractControl) => {
+      const value = control.value.toLowerCase();
+      return of(this.existDistrict).pipe(
+        map(res => {
+          return res.findIndex(el => el['name'].toLowerCase() == value) >= 0 ? { repeatedValidator: true } : null
+        }))
+    }
+  }
+
   addDistrict() {
     let district = this.districtForm.value
-    this.existDistrict.push(district)
+    let min = [district]
+    let before = [...this.existDistrict]
+    this.existDistrict = min.concat(before)
     this.loadingDistrict.next(true)
     this.updateDistrict()
-    this.districtForm.setValue({
-      name: '',
-      delivery: null
+
+    this.districtForm = this.fb.group({
+      name: ['', [Validators.required], [this.repeatedValidator()]],
+      delivery: ['', [Validators.required]]
     })
+
   }
 
   deleteDistrict(district) {
@@ -258,7 +258,9 @@ export class AdminsComponent implements OnInit {
     this.deleteDistrict(district)
   }
 
+
   updateDistrict() {
+    this.districtForm.disable()
     const batch = this.af.firestore.batch()
     const ref = this.af.firestore.collection(`/db`).doc('mandaditos')
     batch.update(ref, {
@@ -266,7 +268,7 @@ export class AdminsComponent implements OnInit {
     })
     batch.commit().then(() => {
       this.loadingDistrict.next(false)
-
+      this.districtForm.enable()
     })
   }
 
