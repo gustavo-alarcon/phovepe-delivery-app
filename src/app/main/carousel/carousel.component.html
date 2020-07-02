@@ -67,7 +67,7 @@
             </div>
             <div *ngIf="categories$ |async as images">
                 <div *ngIf="images.length; else emptyCategory">
-                    <div class="w3-row w3-margin-top">
+                    <div class="w3-row ms-flex w3-margin-top">
                         <div *ngFor="let image of images; let i=index"
                             [className]="i%2?'w3-col l6 m6 s12 frame--left':'w3-col l6 m6 s12 frame--right'">
                             <div class="frame" (click)="navigate(image.category)">
